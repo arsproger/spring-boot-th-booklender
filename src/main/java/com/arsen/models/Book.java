@@ -20,6 +20,7 @@ public class Book {
     private Long id;
     private String name;
     private String author;
+    @Lob
     private byte[] image;
     @Enumerated(EnumType.STRING)
     private BookStatus status;
