@@ -27,7 +27,9 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> books;
+    private List<Book> currentBooks; // текущие книги
 
+    @OneToMany(mappedBy = "user")
+    private List<Book> pastBooks; // книги которые он брал ранее
 }
 
