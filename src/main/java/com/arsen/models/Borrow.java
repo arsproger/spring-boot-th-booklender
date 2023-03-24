@@ -27,6 +27,5 @@ public class Borrow {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    
-    // constructors, getters and setters
+
 }

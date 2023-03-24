@@ -31,5 +31,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Book> pastBooks; // книги которые он брал ранее
+
+    @OneToMany(mappedBy = "user")
+    private List<Borrow> borrows;
 }
 
