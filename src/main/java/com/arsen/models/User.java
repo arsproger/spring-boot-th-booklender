@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,6 +24,10 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "date_of_birth")
+    private LocalDateTime dateOfBirth;
+
     private String email;
 
     private String password;
@@ -33,6 +39,6 @@ public class User {
     private List<Book> pastBooks; // книги которые он брал ранее
 
     @OneToMany(mappedBy = "user")
-    private List<Borrow> borrows;
+    private List<Record> records; // записи книг которые он брал
 }
 

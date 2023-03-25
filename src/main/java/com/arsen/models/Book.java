@@ -24,6 +24,7 @@ public class Book {
 
     @Lob
     private byte[] image;
+
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
@@ -32,5 +33,5 @@ public class Book {
     private User user;
 
     @OneToMany(mappedBy = "book")
-    private List<Borrow> borrows;
+    private List<Record> records;
 }

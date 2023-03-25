@@ -6,26 +6,26 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "borrows")
-public class Borrow {
+@Table(name = "records")
+public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime borrowedAt;
+    @Column(name = "loan_date")
+    private LocalDateTime loanDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime returnedAt;
-    
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
-    
+    @Column(name = "return_date")
+    private LocalDateTime returnDate;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
 }
