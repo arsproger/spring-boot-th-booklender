@@ -17,14 +17,5 @@ public class RecordDTO {
     private LocalDateTime loanDate;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "return_date")
     private LocalDateTime returnDate;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
 }

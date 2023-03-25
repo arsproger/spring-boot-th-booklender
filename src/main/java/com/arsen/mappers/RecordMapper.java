@@ -1,6 +1,7 @@
 package com.arsen.mappers;
 
 import com.arsen.dto.RecordDTO;
+import com.arsen.models.Record;
 import org.mapstruct.Mapper;
 
 import java.util.List;

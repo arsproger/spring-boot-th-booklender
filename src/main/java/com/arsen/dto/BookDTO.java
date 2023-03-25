@@ -20,10 +20,4 @@ public class BookDTO {
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @OneToMany(mappedBy = "book")
-    private List<Record> records;
 }
