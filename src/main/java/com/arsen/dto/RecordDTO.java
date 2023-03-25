@@ -1,25 +1,17 @@
-package com.arsen.models;
+package com.arsen.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.arsen.models.Book;
+import com.arsen.models.User;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "records")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class Record {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Data
+public class RecordDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "loan_date")
     private LocalDateTime loanDate;
@@ -35,5 +27,4 @@ public class Record {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
-
 }
