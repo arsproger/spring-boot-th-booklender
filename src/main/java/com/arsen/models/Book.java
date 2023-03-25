@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -20,8 +21,10 @@ public class Book {
     private Long id;
     private String name;
     private String author;
+
     @Lob
     private byte[] image;
+
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
@@ -29,5 +32,6 @@ public class Book {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-
+    @OneToMany(mappedBy = "book")
+    private List<Record> records;
 }
