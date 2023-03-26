@@ -43,6 +43,7 @@ public class BookService {
         updatedBook.setRecords(book.getRecords());
         updatedBook.setImage(book.getImage());
         updatedBook.setUser(book.getUser());
+        updatedBook.setDescription(book.getDescription());
         return bookRepository.save(updatedBook);
     }
 
@@ -82,6 +83,7 @@ public class BookService {
             return;
         }
         book.setStatus(BookStatus.AVAILABLE); // статус книги "доступен"
+        book.setUser(null);
         List<Book> books = new ArrayList<>();
         books.add(book);
         user.setPastBooks(books); // присваиваем юзеру список прошлых книг с возвращенной книгой

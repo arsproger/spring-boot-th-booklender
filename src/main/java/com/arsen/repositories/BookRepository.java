@@ -9,9 +9,8 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query(value = "select Books.name, Users.full_name as borrower, books.status\n" +
-            "from books join users on books.user_id = users.id " , nativeQuery = true)
+    @Query(value = "select Books.name as book_name, Users.full_name as borrower, books.status as book_status\n" +
+            "from books join users on books.user_id = users.id" , nativeQuery = true)
     List<Book> showAll();
-
 }
 
