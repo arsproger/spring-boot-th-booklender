@@ -5,18 +5,11 @@ import lombok.Data;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Lob;
 
 @Data
-public class BookDTO {
+public class BookListDTO {
     private String name;
-
-    private String author;
-
-    @Lob
-    private byte[] image;
 
     @Enumerated(EnumType.STRING)
     private BookStatus status;
-
 }
