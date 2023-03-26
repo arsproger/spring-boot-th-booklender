@@ -1,12 +1,11 @@
 package com.arsen.dto;
 
 import com.arsen.enums.BookStatus;
-import com.arsen.models.Record;
-import com.arsen.models.User;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 
 @Data
 public class BookDTO {

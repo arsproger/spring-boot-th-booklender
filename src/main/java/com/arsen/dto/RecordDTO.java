@@ -1,13 +1,9 @@
 package com.arsen.dto;
 
-import com.arsen.models.Book;
-import com.arsen.models.User;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Data
