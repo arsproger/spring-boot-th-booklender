@@ -43,7 +43,7 @@ public class BookController {
 
     @PutMapping("/update/{id}")
     public BookDTO updateBook(@PathVariable Long id, @RequestBody BookDTO bookDTO){
-        Book book = bookService.getBookById(id);
+        Book book = bookMapper.bookDTOtoBook(bookDTO);
         Book updatedBook = bookService.updateBook(id, book);
         return bookMapper.convertToDTO(updatedBook);
     }
@@ -52,14 +52,21 @@ public class BookController {
     public void deleteBook(@PathVariable Long id){
         bookService.deleteBook(id);
     }
-    @GetMapping("/lend/{bookId}/{userId}") // выдача книги
-    public void lendBook(@PathVariable Long bookId, @PathVariable Long userId){
+
+    @GetMapping("/lend/{userId}/{bookId}") // выдача книги
+    public void lendBook(@PathVariable Long userId, @PathVariable Long bookId){
         bookService.lendBook(userId, bookId);
     }
 
-    @GetMapping("/return/{bookId}/{userId}") // возврат книги
-    public void returnBook(@PathVariable Long bookId, @PathVariable Long userId){
+    @GetMapping("/return/{userId}/{bookId}") // возврат книги
+    public void returnBook(@PathVariable Long userId, @PathVariable Long bookId){
         bookService.returnBook(userId, bookId);
+    }
+
+    @GetMapping("/list")
+    public List<Book> getAllBooksAndOwners(){
+        List<Book> books = bookService.showAllBooksAndOwners();
+        return books;//bookMapper.bookListToBookListDTO(books);
     }
 
 }
