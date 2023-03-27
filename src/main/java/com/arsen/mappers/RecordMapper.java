@@ -2,27 +2,13 @@ package com.arsen.mappers;
 
 import com.arsen.dto.RecordDTO;
 import com.arsen.models.Record;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Component
-public class RecordMapper {
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public RecordMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
-    public RecordDTO convertToDTO(Record record) {
-        return modelMapper.map(record, RecordDTO.class);
-    }
-
-    public Record convertToEntity(RecordDTO recordDTO) {
-        return modelMapper.map(recordDTO, Record.class);
-    }
-
+@Mapper(componentModel = "spring")
+public interface RecordMapper {
+    RecordDTO recordToRecordDTO(Record record);
+    Record recordDTOtoRecord(RecordDTO recordDTO);
+    List<RecordDTO> recordListToRecordDTOList(List<Record> recordList);
 }

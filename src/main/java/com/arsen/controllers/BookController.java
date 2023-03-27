@@ -4,48 +4,44 @@ import com.arsen.dto.BookDTO;
 import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
 import com.arsen.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.arsen.services.RecordService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/book")
 public class BookController {
-    private final BookMapper bookMapper;
-    private final BookService bookService;
-
-    @Autowired
-    public BookController(BookMapper bookMapper, BookService bookService) {
-        this.bookMapper = bookMapper;
-        this.bookService = bookService;
-    }
+    BookMapper bookMapper;
+    BookService bookService;
+    RecordService recordService;
 
     @PostMapping("/create")
     public BookDTO createBook(@RequestBody BookDTO bookDTO){
-        Book book = bookMapper.convertToEntity(bookDTO);
+        Book book = bookMapper.bookDTOtoBook(bookDTO);
         bookService.saveBook(book);
-        return bookMapper.convertToDTO(book);
+        return bookMapper.bookToBookDTO(book);
     }
 
     @GetMapping("/{id}")
     public BookDTO getBook(@PathVariable Long id){
         Book book = bookService.getBookById(id);
-        return bookMapper.convertToDTO(book);
+        return bookMapper.bookToBookDTO(book);
     }
 
     @GetMapping("/all")
     public List<BookDTO> getAllBooks(){
-        return bookService.getAllBooks().stream().map(
-                bookMapper::convertToDTO).collect(Collectors.toList());
+        List<Book> books = bookService.getAllBooks();
+        return bookMapper.bookListToBookDTOList(books);
     }
 
     @PutMapping("/update/{id}")
     public BookDTO updateBook(@PathVariable Long id, @RequestBody BookDTO bookDTO){
-        Book book = bookMapper.convertToEntity(bookDTO);
+        Book book = bookMapper.bookDTOtoBook(bookDTO);
         Book updatedBook = bookService.updateBook(id, book);
-        return bookMapper.convertToDTO(updatedBook);
+        return bookMapper.bookToBookDTO(updatedBook);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -64,14 +60,9 @@ public class BookController {
     }
 
     @GetMapping("/list")
-    public StringBuilder getAllBooksAndOwners(){
-        return bookService.showAllBooksAndOwners();
-        //bookMapper.bookListToBookListDTO(books);
-    }
-
-    @GetMapping("/show/{id}")
-    public Book getDescriptionAndImageById(@PathVariable Long id){
-        return bookService.showDescriptionAndImage(id);
+    public List<Book> getAllBooksAndOwners(){
+        List<Book> books = bookService.showAllBooksAndOwners();
+        return books;//bookMapper.bookListToBookListDTO(books);
     }
 
 }
