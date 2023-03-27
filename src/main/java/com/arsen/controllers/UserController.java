@@ -2,8 +2,6 @@ package com.arsen.controllers;
 
 import com.arsen.dto.UserDTO;
 import com.arsen.mappers.UserMapper;
-import com.arsen.models.User;
-import com.arsen.services.RecordService;
 import com.arsen.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,38 +12,31 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-    UserMapper userMapper;
-    UserService userService;
-    RecordService recordService;
+    private UserMapper userMapper;
+    private UserService userService;
 
     @PostMapping("/create")
-    public UserDTO createUser(@RequestBody UserDTO userDTO){
-        User user = userMapper.userDTOtoUser(userDTO);
-        userService.saveUser(user);
-        return userMapper.userToUserDTO(user);
+    public UserDTO createUser(@RequestBody UserDTO userDTO) {
+        return userMapper.userToUserDTO(userService.saveUser(userMapper.userDTOtoUser(userDTO)));
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUser(@PathVariable Long id){
-        User user = userService.getUserById(id);
-        return userMapper.userToUserDTO(user);
+    public UserDTO getUser(@PathVariable Long id) {
+        return userMapper.userToUserDTO(userService.getUserById(id));
     }
 
     @GetMapping("/all")
-    public List<UserDTO> getAllUsers(){
-        List<User> users = userService.getAllUsers();
-        return userMapper.userListToUserDTOList(users);
+    public List<UserDTO> getAllUsers() {
+        return userMapper.userListToUserDTOList(userService.getAllUsers());
     }
 
     @PutMapping("/update/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
-        User user = userMapper.userDTOtoUser(userDTO);
-        User updatedBook = userService.updateUser(id, user);
-        return userMapper.userToUserDTO(updatedBook);
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return userMapper.userToUserDTO(userService.updateUser(id, userMapper.userDTOtoUser(userDTO)));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteBook(@PathVariable Long id){
-        userService.deleteUser(id);
+    public Long deleteBook(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 }

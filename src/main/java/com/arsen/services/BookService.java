@@ -47,13 +47,14 @@ public class BookService {
         return bookRepository.save(updatedBook);
     }
 
-    public void saveBook(Book book) {
+    public Book saveBook(Book book) {
         book.setStatus(BookStatus.AVAILABLE);
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
-    public void deleteBook(Long id) {
+    public Long deleteBook(Long id) {
         bookRepository.deleteById(id);
+        return id;
     }
 
     public void lendBook(Long userId, Long bookId) {
