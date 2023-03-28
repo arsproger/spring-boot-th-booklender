@@ -1,21 +1,25 @@
 package com.arsen.mappers;
 
 import com.arsen.dto.BookDTO;
-import com.arsen.dto.BookListDTO;
 import com.arsen.models.Book;
-import org.mapstruct.Mapper;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+@Component
+public class BookMapper {
+    private final ModelMapper modelMapper;
 
-@Mapper(componentModel = "spring")
-public interface BookMapper {
+    @Autowired
+    public BookMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
-    BookDTO bookToBookDTO(Book book);
+    public BookDTO convertToDTO(Book book) {
+        return modelMapper.map(book, BookDTO.class);
+    }
 
-    Book bookDTOtoBook(BookDTO bookDTO);
-
-    List<BookDTO> bookListToBookDTOList(List<Book> bookList);
-
-    List<BookListDTO> bookListToBookListDTO(List<Book> bookList);
-
+    public Book convertToEntity(BookDTO bookDTO) {
+        return modelMapper.map(bookDTO, Book.class);
+    }
 }

@@ -4,44 +4,48 @@ import com.arsen.dto.BookDTO;
 import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
 import com.arsen.services.BookService;
-import com.arsen.services.RecordService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/book")
 public class BookController {
-    BookMapper bookMapper;
-    BookService bookService;
-    RecordService recordService;
+    private final BookMapper bookMapper;
+    private final BookService bookService;
+
+    @Autowired
+    public BookController(BookMapper bookMapper, BookService bookService) {
+        this.bookMapper = bookMapper;
+        this.bookService = bookService;
+    }
 
     @PostMapping("/create")
     public BookDTO createBook(@RequestBody BookDTO bookDTO){
-        Book book = bookMapper.bookDTOtoBook(bookDTO);
+        Book book = bookMapper.convertToEntity(bookDTO);
         bookService.saveBook(book);
-        return bookMapper.bookToBookDTO(book);
+        return bookMapper.convertToDTO(book);
     }
 
     @GetMapping("/{id}")
     public BookDTO getBook(@PathVariable Long id){
         Book book = bookService.getBookById(id);
-        return bookMapper.bookToBookDTO(book);
+        return bookMapper.convertToDTO(book);
     }
 
     @GetMapping("/all")
     public List<BookDTO> getAllBooks(){
-        List<Book> books = bookService.getAllBooks();
-        return bookMapper.bookListToBookDTOList(books);
+        return bookService.getAllBooks().stream().map(
+                bookMapper::convertToDTO).collect(Collectors.toList());
     }
 
     @PutMapping("/update/{id}")
     public BookDTO updateBook(@PathVariable Long id, @RequestBody BookDTO bookDTO){
         Book book = bookMapper.bookDTOtoBook(bookDTO);
         Book updatedBook = bookService.updateBook(id, book);
-        return bookMapper.bookToBookDTO(updatedBook);
+        return bookMapper.convertToDTO(updatedBook);
     }
 
     @DeleteMapping("/delete/{id}")
