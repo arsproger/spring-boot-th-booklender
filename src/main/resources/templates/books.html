@@ -6,8 +6,40 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../static/header.css">
+
 </head>
 <body>
+<header class="header">
+  <div class="header_container container">
+    <a href="header.html">
+      <img src="../image/3.png" width="150px" height="150px" alt="logo" class="book_logo">
+    </a><nav>
+    <ul class="header_list-links">
+      <li><a href="#">MAIN</a></li>
+      <li><a href="#register">REGISTRATION</a></li>
+      <li><a href="#login">LOGIN</a></li>
+      <li><a href="#">ABOUT US</a></li>
+    </ul>
+  </nav>
+    <img src="../image/menu.png" alt="" class="header__hambur-menu" onclick="headerModal('flex')">
+
+  </div>
+  <div class="header-modal">
+    <div class="header-modal__blur" onclick="headerModal('none')"></div>
+    <div class="header-modal__content">
+      <div class="header-modal__box-top">
+        <img src="../image/close.png" alt="" class="header-modal__icons" id="header-modal__x" onclick="headerModal('none')">
+      </div>
+      <ul class="header_list-links header-modal__list">
+        <li><a href="header.html">MAIN</a></li>
+        <li><a href="register.html">REGISTRATION</a></li>
+        <li><a href="login.html">LOGIN</a></li>
+        <li><a href="#">ABOUT US</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-md-8">
