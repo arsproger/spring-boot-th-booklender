@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query(value = "select * from books where books.user_id = :users.id", nativeQuery = true)
-    abstract List<Book> getBookByUser(User user);
+    List<Book> getBookByUser(User user);
 }
 

@@ -1,6 +1,7 @@
 package com.arsen.services;
 
 import com.arsen.models.Book;
+import com.arsen.models.User;
 import com.arsen.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookService {
+public class BookService{
     private final BookRepository bookRepository;
 
     @Autowired
@@ -30,6 +31,10 @@ public class BookService {
 
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    public List<Book> getBookByUser(User user){
+        return bookRepository.getBookByUser(user);
     }
 
 }

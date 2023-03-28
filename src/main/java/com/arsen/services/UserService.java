@@ -1,5 +1,6 @@
 package com.arsen.services;
 
+import com.arsen.models.Book;
 import com.arsen.models.User;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getUserByBook(Book book){
+        return userRepository.getUserByBook(book);
     }
 
 }
