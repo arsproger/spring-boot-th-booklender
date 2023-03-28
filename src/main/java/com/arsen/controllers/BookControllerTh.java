@@ -1,26 +1,36 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.BookDTO;
+import com.arsen.enums.BookStatus;
 import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
+import com.arsen.repositories.BookRepository;
 import com.arsen.services.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/bookTh")
 public class BookControllerTh {
     private BookService bookService;
+    private BookRepository bookRepository;
     private BookMapper bookMapper;
 
 
     @GetMapping
     public String main(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        return "/dev/book/all";
+        return "/dev/test";
     }
 
     @GetMapping("/{id}")
@@ -41,4 +51,5 @@ public class BookControllerTh {
         bookService.updateBook(id, bookMapper.convertToEntity(bookDTO));
         return "redirect:/bookTh";
     }
+    
 }
