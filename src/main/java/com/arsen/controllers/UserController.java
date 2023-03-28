@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -20,28 +21,28 @@ public class UserController {
 
     @PostMapping("/create")
     public UserDTO createUser(@RequestBody UserDTO userDTO){
-        User user = userMapper.userDTOtoUser(userDTO);
+        User user = userMapper.convertToEntity(userDTO);
         userService.saveUser(user);
-        return userMapper.userToUserDTO(user);
+        return userMapper.convertToDTO(user);
     }
 
     @GetMapping("/{id}")
     public UserDTO getUser(@PathVariable Long id){
         User user = userService.getUserById(id);
-        return userMapper.userToUserDTO(user);
+        return userMapper.convertToDTO(user);
     }
 
     @GetMapping("/all")
     public List<UserDTO> getAllUsers(){
-        List<User> users = userService.getAllUsers();
-        return userMapper.userListToUserDTOList(users);
+        return userService.getAllUsers().stream().map(
+                userMapper::convertToDTO).collect(Collectors.toList());
     }
 
     @PutMapping("/update/{id}")
     public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
-        User user = userMapper.userDTOtoUser(userDTO);
+        User user = userMapper.convertToEntity(userDTO);
         User updatedBook = userService.updateUser(id, user);
-        return userMapper.userToUserDTO(updatedBook);
+        return userMapper.convertToDTO(updatedBook);
     }
 
     @DeleteMapping("/delete/{id}")
