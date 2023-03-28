@@ -38,4 +38,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<Record> records;
+
+    @Transient
+    private String ownerName;
 }

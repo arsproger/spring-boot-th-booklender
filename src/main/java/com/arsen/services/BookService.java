@@ -6,6 +6,7 @@ import com.arsen.models.Record;
 import com.arsen.models.User;
 import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.RecordRepository;
+import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,15 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
     UserService userService;
     RecordService recordService;
     RecordRepository recordRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository, UserService userService, RecordService recordService, RecordRepository recordRepository) {
+    public BookService(BookRepository bookRepository, UserRepository userRepository, UserService userService, RecordService recordService, RecordRepository recordRepository) {
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.recordService = recordService;
         this.recordRepository = recordRepository;
@@ -101,7 +104,18 @@ public class BookService {
         recordService.updateRecord(record_id,record); //
     }
 
-    public List<Book> showAllBooksAndOwners(){
-        return bookRepository.showAll();
+    public StringBuilder showAllBooksAndOwners(){
+//        return bookRepository.showAll();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Book book : bookRepository.findAll()) {
+            stringBuilder.append(book.getName() + " " + book.getStatus() + " " +
+                    userRepository.findById(book.getUser().getId()).get().getFullName() + "\n");
+        }
+        return stringBuilder;
     }
+
+    public Book showDescriptionAndImage(Long id){
+        return bookRepository.showDescAndImg(id);
+    }
+
 }
