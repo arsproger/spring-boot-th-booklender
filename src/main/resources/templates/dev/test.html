@@ -169,52 +169,37 @@
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        // Сортировка по имени
-        $('#sort-by-name').click(function() {
-            var items = $('.book');
-            items.sort(function(a, b) {
-                var nameA = $(a).find('.title').text().toUpperCase();
-                var nameB = $(b).find('.title').text().toUpperCase();
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            });
-            $('#list-th').html(items);
+    $(document).ready(function () {
+
+        // Сортировка по имени книги
+        $('#sortByName').click(function () {
+            $('.book').sort(function(a, b) {
+                var titleA = $(a).find('.title').text().toUpperCase();
+                var titleB = $(b).find('.title').text().toUpperCase();
+                return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
+            }).appendTo('#list-th');
         });
 
-        // Сортировка по автору
-        $('#sort-by-author').click(function() {
-            var items = $('.book');
-            items.sort(function(a, b) {
+        // Сортировка по автору книги
+        $('#sortByAuthor').click(function () {
+            $('.book').sort(function(a, b) {
                 var authorA = $(a).find('.author').text().toUpperCase();
                 var authorB = $(b).find('.author').text().toUpperCase();
-                if (authorA < authorB) {
-                    return -1;
-                }
-                if (authorA > authorB) {
-                    return 1;
-                }
-                return 0;
-            });
-            $('#list-th').html(items);
+                return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
+            }).appendTo('#list-th');
         });
 
         // Сортировка по id
-        $('#sort-by-id').click(function() {
-            var items = $('.book');
-            items.sort(function(a, b) {
-                var idA = $(a).attr('id');
-                var idB = $(b).attr('id');
-                return idA - idB;
-            });
-            $('#list-th').html(items);
+        $('#sortById').click(function () {
+            $('.book').sort(function(a, b) {
+                var idA = parseInt($(a).find('.id').text());
+                var idB = parseInt($(b).find('.id').text());
+                return (idA < idB) ? -1 : (idA > idB) ? 1 : 0;
+            }).appendTo('#list-th');
         });
+
     });
 </script>
 
