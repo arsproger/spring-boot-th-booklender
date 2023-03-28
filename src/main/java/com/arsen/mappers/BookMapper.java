@@ -3,9 +3,11 @@ package com.arsen.mappers;
 import com.arsen.dto.BookDTO;
 import com.arsen.models.Book;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 @Mapper(componentModel = "spring")
 public interface BookMapper {
     BookDTO bookToBookDTO(Book book);

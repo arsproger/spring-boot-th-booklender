@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Учет книг</title>
+  <!-- Подключаем библиотеку Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Подключаем наш пользовательский CSS -->
+  <link rel="stylesheet" href="/style/style.css">
+
+<!--  <style>-->
+<!--    body {-->
+<!--      background-image: url('/static/image/books.jpg'); /* заменить путь к изображению */-->
+<!--      background-size: cover;-->
+<!--      /*background-repeat: no-repeat;*/-->
+<!--      /*background-position: center center;*/-->
+<!--    }-->
+<!--  </style>-->
+</head>
+<body>
+<!-- Навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Учет книг</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Главная <span class="sr-only">(текущая страница)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Книги</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Пользователи</a>
+      </li>
+    </ul>
+    <!-- Кнопки входа и регистрации -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link btn btn-outline-primary mr-2" href="#">Войти</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-primary" href="#">Зарегистрироваться</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Контент страницы -->
+<div class="container my-5">
+  <h1 class="text-center">Добро пожаловать!</h1>
+  <p class="text-center">Здесь вы можете вести учет книг и пользователей вашей библиотеки.</p>
+
+</div>
+
+<!--&lt;!&ndash; Подвал страницы &ndash;&gt;-->
+<!--<footer class="bg-light py-3">-->
+<!--  <div class="container text-center">-->
+<!--    <span>&copy; 2023 Учет книг</span>-->
+<!--  </div>-->
+<!--</footer>-->
+
+<!-- Подключаем библиотеку jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Подключаем библиотеку Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

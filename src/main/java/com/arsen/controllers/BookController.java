@@ -5,18 +5,25 @@ import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
 import com.arsen.services.BookService;
 import com.arsen.services.RecordService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/book")
 public class BookController {
-    BookMapper bookMapper;
-    BookService bookService;
-    RecordService recordService;
+    private final BookMapper bookMapper;
+    private final BookService bookService;
+    private final RecordService recordService;
+
+    @Autowired
+    public BookController(BookMapper bookMapper, BookService bookService, RecordService recordService) {
+        this.bookMapper = bookMapper;
+        this.bookService = bookService;
+        this.recordService = recordService;
+    }
 
     @PostMapping("/create")
     public BookDTO createBook(@RequestBody BookDTO bookDTO){
