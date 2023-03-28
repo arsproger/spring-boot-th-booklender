@@ -10,8 +10,6 @@ public class BookDTO {
 
     private String author;
 
-    private String description;
-
     @Lob
     private byte[] image;
 
