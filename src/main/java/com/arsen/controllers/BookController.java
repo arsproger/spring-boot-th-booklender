@@ -43,7 +43,7 @@ public class BookController {
 
     @PutMapping("/update/{id}")
     public BookDTO updateBook(@PathVariable Long id, @RequestBody BookDTO bookDTO){
-        Book book = bookMapper.bookDTOtoBook(bookDTO);
+        Book book = bookMapper.convertToEntity(bookDTO);
         Book updatedBook = bookService.updateBook(id, book);
         return bookMapper.convertToDTO(updatedBook);
     }
