@@ -1,18 +1,19 @@
 package com.arsen.dto;
 
 import lombok.Data;
-
-import javax.persistence.Lob;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class BookDTO {
+    private Long id;
+
     private String name;
 
     private String author;
 
     private String description;
 
-    @Lob
-    private byte[] image;
+//    @Lob
+    private MultipartFile image;
 
 }
