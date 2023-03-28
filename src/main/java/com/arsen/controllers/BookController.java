@@ -60,9 +60,14 @@ public class BookController {
     }
 
     @GetMapping("/list")
-    public List<Book> getAllBooksAndOwners(){
-        List<Book> books = bookService.showAllBooksAndOwners();
-        return books;//bookMapper.bookListToBookListDTO(books);
+    public StringBuilder getAllBooksAndOwners(){
+        return bookService.showAllBooksAndOwners();
+        //bookMapper.bookListToBookListDTO(books);
+    }
+
+    @GetMapping("/show/{id}")
+    public Book getDescriptionAndImageById(@PathVariable Long id){
+        return bookService.showDescriptionAndImage(id);
     }
 
 }
