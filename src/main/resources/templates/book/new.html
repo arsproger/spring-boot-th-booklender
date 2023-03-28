@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Book</title>
+    <!-- подключение Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <!-- подключение своих стилей -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"><h1>Create Book</h1></div>
+                <div class="card-body">
+                    <form method="POST" th:object="${bookDTO}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" class="form-control" th:field="*{name}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="author">Author:</label>
+                            <input type="text" id="author" name="author" class="form-control"
+                                   th:field="*{author}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" class="form-control"
+                                      th:field="*{description}"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image">Image:</label>
+                            <input type="file" id="image" name="image" class="form-control-file"/>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
