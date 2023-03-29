@@ -1,7 +1,6 @@
 package com.arsen.services;
 
 import com.arsen.models.User;
-import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    private BookRepository bookRepository;
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -27,17 +25,24 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void saveUser(User User) {
-        userRepository.save(User);
+    public User saveUser(User User) {
+        return userRepository.save(User);
     }
 
-    public void deleteUser(Long id) {
+    public Long deleteUser(Long id) {
         userRepository.deleteById(id);
+        return id;
     }
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
-
+    public User updateUser(Long id, User user){
+        User updatedUser = getUserById(id);
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setPassword(user.getPassword());
+        updatedUser.setFullName(user.getFullName());
+        updatedUser.setDateOfBirth(user.getDateOfBirth());
+        return userRepository.save(updatedUser);
+    }
 }

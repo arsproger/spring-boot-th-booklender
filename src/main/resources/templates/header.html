@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/header.css">
+    <title>Document</title>
+</head>
+<body>
+<header class="header">
+    <div class="header_container container">
+      <a href="header.html">
+         <img src="../static/image/3.png" width="150px" height="150px" alt="logo" class="book_logo">
+      </a><nav>
+            <ul class="header_list-links">
+                <li><a href="#">MAIN</a></li>
+                <li><a href="#register">REGISTRATION</a></li>
+                <li><a href="#login">LOGIN</a></li>
+                <li><a href="#">ABOUT US</a></li>
+            </ul>
+        </nav>
+        <img src="../static/image/menu.png" alt="" class="header__hambur-menu" onclick="headerModal('flex')">
+
+    </div>
+    <div class="header-modal">
+        <div class="header-modal__blur" onclick="headerModal('none')"></div>
+        <div class="header-modal__content">
+            <div class="header-modal__box-top">
+                <img src="../static/image/close.png" alt="" class="header-modal__icons" id="header-modal__x" onclick="headerModal('none')">
+            </div>
+            <ul class="header_list-links header-modal__list">
+                <li><a href="header.html">MAIN</a></li>
+                <li><a href="register.html">REGISTRATION</a></li>
+                <li><a href="login.html">LOGIN</a></li>
+                <li><a href="#">ABOUT US</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<main>
+    <section>
+        <div class="section container">
+            <h1>Welcome to Booklend!</h1>
+            <img class="img" src="../static/image/image-main.jpg" alt="">
+        </div>
+    </section>
+</main>
+<script>
+    function headerModal(text){
+        const modal = document.querySelector(".header-modal")
+        modal.style.display = text
+
+        document.body.style.overflowY = text == "none" ? "scroll" : "hidden"
+    }
+
+
+</script>
+</body>
+</html>

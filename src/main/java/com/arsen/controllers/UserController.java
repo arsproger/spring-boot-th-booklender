@@ -1,58 +1,52 @@
 package com.arsen.controllers;
 
-import com.arsen.dto.BookDTO;
-import com.arsen.models.Book;
+import com.arsen.dto.UserDTO;
+import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
-import com.arsen.repositories.UserRepository;
+import com.arsen.services.RecordService;
 import com.arsen.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
+@AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
-    private final UserRepository userRepository;
+    UserMapper userMapper;
+    UserService userService;
+    RecordService recordService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-//    @GetMapping("/{id}")
-//    public User findById(@PathVariable Long id) {
-//         return userService.getUserById(id);
-//    }
-
-    @GetMapping("/email/{email}")
-    public Optional<User> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        return user;
-    }
-    @GetMapping("/all")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
-    }
-    @PostMapping("/save")
-    void saveUser(@RequestBody User user){
+    @PostMapping("/create")
+    public UserDTO createUser(@RequestBody UserDTO userDTO){
+        User user = userMapper.convertToEntity(userDTO);
         userService.saveUser(user);
-
+        return userMapper.convertToDTO(user);
     }
 
-    @GetMapping("/{userId}")
-    public List<BookDTO> getBooksByUserId(@PathVariable Long userId) {
-        User user = userService.getUserById(userId);
-        List<Book> books = user.getCurrentBooks();
-        List<BookDTO> bookDTOs = new ArrayList<>();
+    @GetMapping("/{id}")
+    public UserDTO getUser(@PathVariable Long id){
+        User user = userService.getUserById(id);
+        return userMapper.convertToDTO(user);
+    }
 
-        for (Book book : books) {
-            bookDTOs.add(new BookDTO(book.getName(),book.getAuthor()));
-        }
-        return bookDTOs;
+    @GetMapping("/all")
+    public List<UserDTO> getAllUsers(){
+        return userService.getAllUsers().stream().map(
+                userMapper::convertToDTO).collect(Collectors.toList());
+    }
+
+    @PutMapping("/update/{id}")
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
+        User user = userMapper.convertToEntity(userDTO);
+        User updatedBook = userService.updateUser(id, user);
+        return userMapper.convertToDTO(updatedBook);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteBook(@PathVariable Long id){
+        userService.deleteUser(id);
     }
 }

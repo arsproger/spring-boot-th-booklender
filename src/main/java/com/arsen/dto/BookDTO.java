@@ -1,13 +1,19 @@
 package com.arsen.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class BookDTO {
+    private Long id;
+
     private String name;
+
     private String author;
+
+    private String description;
+
+//    @Lob
+    private MultipartFile image;
+
 }
