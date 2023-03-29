@@ -6,7 +6,8 @@
 
     <style>
 
-        body {background-image: url("./static/image/img.jpeg");
+        body {
+            background-image: url("./static/image/img.jpeg");
         }
 
         .container {
@@ -150,12 +151,13 @@
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
-<!--                <button id="sortById">Sort by Date</button>-->
             </div>
             <div th:each="book : ${books}" class="book">
+                <a th:href="@{/bookTh/{id}(id=${book.id})}">
                 <div class="cover">
                     <img th:src="@{'/bookTh/' + ${book.id} + '/image'}"/>
                 </div>
+                </a>
                 <div class="description">
                     <p class="title" th:text="${book.name}"></p>
                     <p class="author" th:text="${'Автор: ' + book.author}"></p>
@@ -191,16 +193,6 @@
                 return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
             }).appendTo('#list-th');
         });
-
-        // Сортировка id книги
-        // $('#sortById').click(function () {
-        //     $('.book').sort(function(a, b) {
-        //         var idA = $(a).find('.id').text().toUpperCase();
-        //         var idB = $(b).find('.id').text().toUpperCase();
-        //         return (idA < idB) ? -1 : (idA > idB) ? 1 : 0;
-        //     }).appendTo('#list-th');
-        // });
-
     });
 </script>
 

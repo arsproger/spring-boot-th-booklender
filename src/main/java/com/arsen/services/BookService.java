@@ -38,7 +38,8 @@ public class BookService {
     public Book getBookById(Long id) {
         return bookRepository.findById(id).orElse(null);
     }
-    public Book updateBook(Long id, Book book){
+
+    public Book updateBook(Long id, Book book) {
         Book updatedBook = getBookById(id);
         updatedBook.setName(book.getName());
         updatedBook.setAuthor(book.getAuthor());
@@ -63,7 +64,7 @@ public class BookService {
     public void lendBook(Long userId, Long bookId) {
         Book book = getBookById(bookId); // находим книгу
         User user = userService.getUserById(userId); //находим юзера
-        if (book.getStatus() == BookStatus.BORROWED){
+        if (book.getStatus() == BookStatus.BORROWED) {
             System.out.println("Книга занята");
             return;
         }
@@ -79,10 +80,11 @@ public class BookService {
         record.setUser(user); // добавляем юзера в запись
         recordService.saveRecord(record); // сохраняем новую запись
     }
+
     public void returnBook(Long userId, Long bookId) {
         Book book = getBookById(bookId); // находим книгу
         User user = userService.getUserById(userId); //находим юзера
-        if (book.getStatus() == BookStatus.AVAILABLE){
+        if (book.getStatus() == BookStatus.AVAILABLE) {
             System.out.println("Книга уже возвращена");
             return;
         }
@@ -104,21 +106,25 @@ public class BookService {
         }
         assert lastRecord != null;
         Long record_id = lastRecord.getId();
-        recordService.updateRecord(record_id,record); //
+        recordService.updateRecord(record_id, record); //
     }
 
-    public StringBuilder showAllBooksAndOwners(){
+    public StringBuilder showAllBooksAndOwners() {
 //        return bookRepository.showAll();
         StringBuilder stringBuilder = new StringBuilder();
-        for(Book book : bookRepository.findAll()) {
+        for (Book book : bookRepository.findAll()) {
             stringBuilder.append(book.getName() + " " + book.getStatus() + " " +
                     userRepository.findById(book.getUser().getId()).get().getFullName() + "\n");
         }
         return stringBuilder;
     }
 
-    public Book showDescriptionAndImage(Long id){
+    public Book showDescriptionAndImage(Long id) {
         return bookRepository.showDescAndImg(id);
+    }
+
+    public List<Book> findByUser(User user) {
+        return bookRepository.findByUser(user);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.arsen.repositories;
 
+import com.arsen.models.Book;
 import com.arsen.models.Record;
 import com.arsen.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

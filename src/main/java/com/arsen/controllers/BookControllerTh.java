@@ -55,7 +55,7 @@ public class BookControllerTh {
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model){
         Book book = bookService.getBookById(id);
-        model.addAttribute("book" , bookMapper.convertToDTO(book));
+        model.addAttribute("book" , book);
         return "/book/show";
     }
 
