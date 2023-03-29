@@ -1,20 +1,23 @@
 package com.arsen.services;
 
+import com.arsen.enums.Role;
 import com.arsen.models.User;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsers() {
@@ -25,8 +28,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User saveUser(User User) {
-        return userRepository.save(User);
+    public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.ROLE_USER);
+        return userRepository.save(user);
     }
 
     public Long deleteUser(Long id) {
@@ -34,7 +39,7 @@ public class UserService {
         return id;
     }
 
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
     public User updateUser(Long id, User user){

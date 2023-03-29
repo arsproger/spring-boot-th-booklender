@@ -10,6 +10,7 @@ import javax.persistence.Lob;
 @Data
 public class BookDTO {
     private Long id;
+
     private String name;
 
     private String author;

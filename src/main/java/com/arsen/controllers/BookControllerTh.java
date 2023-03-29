@@ -51,5 +51,5 @@ public class BookControllerTh {
         bookService.updateBook(id, bookMapper.convertToEntity(bookDTO));
         return "redirect:/bookTh";
     }
-    
+
 }

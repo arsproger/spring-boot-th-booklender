@@ -73,9 +73,5 @@ public class BookController {
         //bookMapper.bookListToBookListDTO(books);
     }
 
-    @GetMapping("/show/{id}")
-    public Book getDescriptionAndImageById(@PathVariable Long id){
-        return bookService.showDescriptionAndImage(id);
-    }
 
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,11 +66,17 @@ public class BookService {
             System.out.println("Книга занята");
             return;
         }
+        List<Book> books = user.getCurrentBooks();
+
+        if (books.size() >= 2){
+            System.out.println(books.size());
+            System.out.println("Error");
+            return;
+        }
+
         book.setStatus(BookStatus.BORROWED); // статус книги "заимствован"
         book.setUser(user); // присваиваем книге владельца
-        List<Book> books = new ArrayList<>();
-        books.add(book);
-        user.setCurrentBooks(books); // присваиваем юзеру список текущих книг с заимствованной книгой
+        books.add(book); // присваиваем юзеру список текущих книг с заимствованной книгой
         userService.updateUser(userId, user); // апдейтим юзера, чтобы сохранить данные
         Record record = new Record();
         record.setLoanDate(LocalDateTime.now()); // создаем запись и задаем время займа книги
@@ -88,23 +93,15 @@ public class BookService {
         }
         book.setStatus(BookStatus.AVAILABLE); // статус книги "доступен"
         book.setUser(null);
-        List<Book> books = new ArrayList<>();
-        books.add(book);
-        user.setPastBooks(books); // присваиваем юзеру список прошлых книг с возвращенной книгой
-        Record record = new Record();
-        record.setReturnDate(LocalDateTime.now()); // создаем запись и задаем время возвращения книги
-        record.setBook(book); // добавляем книгу в запись
-        record.setUser(user); // добавляем юзера в запись
-        List<Record> oldRecords = recordRepository.findByUser(user);
-        Record lastRecord = null;
-        for (Record record1 : oldRecords) {
-            if (lastRecord == null || record.getLoanDate().isAfter(lastRecord.getLoanDate())) {
-                lastRecord = record1;
-            }
+        List<Book> books = user.getCurrentBooks();
+        books.remove(book);
+        user.getPastBooks().add(book); // присваиваем юзеру список прошлых книг с возвращенной книгой
+        Record record = recordRepository.findById(recordRepository.findByBookId(bookId)).orElse(null);
+
+        if (record != null) {
+            record.setReturnDate(LocalDateTime.now()); // создаем запись и задаем время возвращения книги
         }
-        assert lastRecord != null;
-        Long record_id = lastRecord.getId();
-        recordService.updateRecord(record_id,record); //
+        recordService.saveRecord(record);
     }
 
     public StringBuilder showAllBooksAndOwners(){
@@ -115,10 +112,6 @@ public class BookService {
                     userRepository.findById(book.getUser().getId()).get().getFullName() + "\n");
         }
         return stringBuilder;
-    }
-
-    public Book showDescriptionAndImage(Long id){
-        return bookRepository.showDescAndImg(id);
     }
 
 }
