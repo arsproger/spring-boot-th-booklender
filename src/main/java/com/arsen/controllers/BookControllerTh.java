@@ -24,7 +24,7 @@ public class BookControllerTh {
 
     @GetMapping("/create")
     public String create(@ModelAttribute("book") BookDTO bookDTO) {
-        return "/dev/newBook";
+        return "/book/newBook";
     }
 
     @GetMapping("/{id}/image")
@@ -49,14 +49,14 @@ public class BookControllerTh {
     @GetMapping
     public String main(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        return "/dev/test";
+        return "/book/books";
     }
 
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model){
         Book book = bookService.getBookById(id);
         model.addAttribute("book" , bookMapper.convertToDTO(book));
-        return "/dev/book/show";
+        return "/book/show";
     }
 
     @GetMapping("/delete/{id}")

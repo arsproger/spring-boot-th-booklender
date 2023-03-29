@@ -152,6 +152,7 @@
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
+<!--                <button id="sortById">Sort by Date</button>-->
             </div>
             <div th:each="book : ${books}" class="book">
                 <div class="cover">
@@ -189,6 +190,15 @@
                 return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
             }).appendTo('#list-th');
         });
+
+        // Сортировка id книги
+        // $('#sortById').click(function () {
+        //     $('.book').sort(function(a, b) {
+        //         var idA = $(a).find('.id').text().toUpperCase();
+        //         var idB = $(b).find('.id').text().toUpperCase();
+        //         return (idA < idB) ? -1 : (idA > idB) ? 1 : 0;
+        //     }).appendTo('#list-th');
+        // });
 
     });
 </script>
