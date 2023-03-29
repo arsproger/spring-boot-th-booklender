@@ -2,6 +2,7 @@ package com.arsen.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class UserDTO {
     private String email;
 
     private String password;
+    private MultipartFile image;
 
 
 }
