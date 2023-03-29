@@ -12,7 +12,7 @@
 
     body {
       box-sizing: border-box;
-      font-family: Sans-serif;
+      font-family: Sans-serif,serif;
       margin: 0;
     }
     .container {
@@ -27,7 +27,7 @@
       max-width: 400px;
       animation-name: page-left;
       animation-duration: 3s;
-      animation-delay: 2s;
+      animation-delay: 1.5s;
       animation-fill-mode: both;
     }
 
@@ -49,7 +49,7 @@
       padding-top: 100px;
       font-weight: bold;
       font-size: 20px;
-      font-family: Sans-serif;
+      font-family: Sans-serif,serif;
       padding-bottom: 10px;
       animation-name: slide;
       animation-duration: 3s;
@@ -79,7 +79,7 @@
       animation-fill-mode: both;
     }
 
-    .pswd {
+    .pass {
       height: 45px;
       border-radius: 3px;
       padding-left: 15px;
@@ -160,8 +160,12 @@
       <div class="header2">Log in to your account using email and password</div>
     </div>
     <div class="form-page">
-      <input class="email-add" type="email" placeholder="Email Address" />
-      <input class="pswd" type="password" placeholder="Password" />
+      <label>
+        <input class="email-add" type="email" placeholder="Email Address" />
+      </label>
+      <label>
+        <input class="pass" type="password" placeholder="Password" />
+      </label>
       <p>
         <a href='#'> Forgot Password </a>
       </p>
