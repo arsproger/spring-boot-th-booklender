@@ -1,23 +1,19 @@
 package com.arsen.dto;
 
-import com.arsen.enums.BookStatus;
-import com.arsen.models.Record;
-import com.arsen.models.User;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class BookDTO {
+    private Long id;
+
     private String name;
 
     private String author;
 
-    @Lob
-    private byte[] image;
+    private String description;
 
-    @Enumerated(EnumType.STRING)
-    private BookStatus status;
+//    @Lob
+    private MultipartFile image;
 
 }

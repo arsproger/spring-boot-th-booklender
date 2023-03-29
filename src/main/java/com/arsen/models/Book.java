@@ -19,8 +19,12 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String author;
+
+    private String description;
 
     @Lob
     private byte[] image;
@@ -34,4 +38,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<Record> records;
+
+    @Transient
+    private String ownerName;
 }

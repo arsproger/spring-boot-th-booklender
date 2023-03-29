@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        /*body {*/
+        /*    background-image: url("/static/image/img.png");*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-size: cover;*/
+        /*}*/
+
+        .container {
+            margin: 0 auto;
+            max-width: 910px;
+        }
+
+        .choose {
+            width: 100%;
+            height: 40px;
+        }
+
+        .fa {
+            margin-right: 20px;
+            font-size: 30px;
+            color: gray;
+            float: right;
+        }
+
+        .book {
+            display: inline-block;
+            width: 230px;
+            height: 390px;
+            box-shadow: 0 0 20px #aaa;
+            margin: 25px;
+            padding: 10px 10px 0 10px;
+            vertical-align: top;
+            transition: height 1s;
+        }
+
+        .sort-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Задаем цвет фона кнопки */
+            border: none; /* Убираем границу кнопки */
+            color: white; /* Задаем цвет текста кнопки */
+            padding: 10px 16px; /* Задаем отступы внутри кнопки */
+            text-align: center; /* Выравниваем текст по центру кнопки */
+            text-decoration: none; /* Убираем подчеркивание текста */
+            display: inline-block; /* Отображаем кнопки как блочные элементы */
+            font-size: 16px; /* Задаем размер шрифта */
+            margin: 10px; /* Задаем отступ между кнопками */
+            cursor: pointer; /* Делаем курсор руки при наведении на кнопку */
+        }
+
+        button:hover {
+            background-color: #3e8e41; /* Задаем цвет фона кнопки при наведении на нее курсора мыши */
+        }
+
+        .cover {
+            border: 2px solid gray;
+            height: 80%;
+            overflow: hidden;
+        }
+
+        .cover img {
+            width: 100%;
+        }
+
+        .book p {
+            margin-top: 12px;
+            font-size: 20px;
+        }
+
+        .book .author {
+            font-size: 15px;
+        }
+
+        @media (max-width: 941px) {
+            .container {
+                max-width: 700px;
+            }
+
+            .book {
+                margin: 49px;
+            }
+        }
+
+        @media (max-width: 730px) {
+            .book {
+                display: block;
+                margin: 0 auto;
+                margin-top: 50px;
+            }
+
+            .cover {
+            }
+        }
+
+        h1 {
+            color: gray;
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: -3px;
+        }
+
+        #list-th:target .book {
+            height: 100px;
+            width: 250px;
+            padding: 10px;
+            margin: 25px auto 25px auto;
+        }
+
+        #list-th:target .cover {
+            width: 246px;
+        }
+
+        #list-th:target img {
+            opacity: 0.1;
+        }
+
+        #list-th:target p {
+            margin-top: -62px;
+            margin-left: 20px;
+        }
+
+        #large-th:target .book {
+            height: 390px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="large-th">
+    <div class="container">
+        <h1> A list of books</h1>
+        <br>
+        <div class="choose">
+            <a href="#list-th"><i class="fa fa-th-list" aria-hidden="true"></i></a>
+            <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+        </div>
+
+        <div id="list-th">
+            <div class="sort-buttons">
+                <button id="sortByName">Sort by Name</button>
+                <button id="sortByAuthor">Sort by Author</button>
+<!--                <button id="sortById">Sort by Date</button>-->
+            </div>
+            <div th:each="book : ${books}" class="book">
+                <div class="cover">
+                    <img th:src="@{'/bookTh/' + ${book.id} + '/image'}"/>
+                </div>
+                <div class="description">
+                    <p class="title" th:text="${book.name}"></p>
+                    <p class="author" th:text="${'Автор: ' + book.author}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        // Сортировка по имени книги
+        $('#sortByName').click(function () {
+            $('.book').sort(function(a, b) {
+                var titleA = $(a).find('.title').text().toUpperCase();
+                var titleB = $(b).find('.title').text().toUpperCase();
+                return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
+            }).appendTo('#list-th');
+        });
+
+        // Сортировка по автору книги
+        $('#sortByAuthor').click(function () {
+            $('.book').sort(function(a, b) {
+                var authorA = $(a).find('.author').text().toUpperCase();
+                var authorB = $(b).find('.author').text().toUpperCase();
+                return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
+            }).appendTo('#list-th');
+        });
+
+        // Сортировка id книги
+        // $('#sortById').click(function () {
+        //     $('.book').sort(function(a, b) {
+        //         var idA = $(a).find('.id').text().toUpperCase();
+        //         var idB = $(b).find('.id').text().toUpperCase();
+        //         return (idA < idB) ? -1 : (idA > idB) ? 1 : 0;
+        //     }).appendTo('#list-th');
+        // });
+
+    });
+</script>
+
+
+</html>
