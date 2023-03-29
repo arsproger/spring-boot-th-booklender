@@ -6,15 +6,13 @@
 
     <style>
 
-        /*body {*/
-        /*    background-image: url("/static/image/img.png");*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
+        body {background-image: url("./static/image/img.jpeg");
+        }
 
         .container {
             margin: 0 auto;
             max-width: 910px;
+
         }
 
         .choose {
@@ -148,7 +146,7 @@
             <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
         </div>
 
-        <div id="list-th">
+        <div th:if="not ${books.isEmpty()}" id="list-th">
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
@@ -165,6 +163,9 @@
             </div>
         </div>
     </div>
+</div>
+<div th:if="${books.isEmpty()}">
+    <h3 style="color: red" th:text="Books not found!"></h3>
 </div>
 </body>
 
