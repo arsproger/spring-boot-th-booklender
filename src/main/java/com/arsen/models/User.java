@@ -32,6 +32,9 @@ public class User {
 
     private String password;
 
+    @Lob
+    private byte[] image;
+
     @OneToMany(mappedBy = "user")
     private List<Book> currentBooks; // текущие книги
 

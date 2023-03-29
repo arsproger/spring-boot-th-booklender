@@ -62,12 +62,12 @@
   <form th:action="@{/bookTh/new}" method="POST" enctype="multipart/form-data" th:object="${book}">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" th:field="*{name}" class="form-control">
+      <input type="text" id="name" name="name" th:field="*{name}" class="form-control" required>
     </div>
 
     <div class="form-group">
       <label for="author">Author:</label>
-      <input type="text" id="author" name="author" th:field="*{author}" class="form-control">
+      <input type="text" id="author" name="author" th:field="*{author}" class="form-control" required>
     </div>
 
     <div class="form-group">
