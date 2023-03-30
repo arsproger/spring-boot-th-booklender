@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+        body {
+            background: #e6eaf8;
+            padding: 30px;
+            font-family: "Merriweather";
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            max-width: 960px;
+            box-shadow: 0px 3px 20px #d1d1d1;
+        }
+        .title {
+            margin: 40px 20px 0px 32px;
+        }
+        .icon {
+            font-size: 28px;
+            position: absolute;
+            margin: 35px 0px 12px 38px;
+        }
+        .search-inp {
+            border-radius: 3px;
+            border: 1px solid #e6eaf0;
+            padding: 14px 12px 14px 44px;
+            margin: 26px 80px 10px 32px;
+            width: 180px;
+            font-family: "Lato";
+            transition: 0.4s ease;
+        }
+        .search-inp:focus {
+            transform: scale(1.2);
+            border: 2px solid #121212;
+            margin-left: 110px;
+            padding: 10px;
+        }
+        .navbar {
+            padding: 12px;
+            float: right;
+            margin-top: 24px;
+            margin-right: 22px;
+        }
+        .nav-btn {
+            transition: 0.3s ease;
+            text-decoration: none;
+            color: #5c6170;
+            font-family: "Lato";
+            margin-right: 8px;
+            font-size: 13px;
+            padding: 12px 10px 12px 10px;
+            border-radius: 6px;
+        }
+        .active {
+            background: #849fff;
+            color: #fff;
+        }
+        .nav-btn:hover {
+            background: #849fff;
+            color: #fff;
+        }
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: flex-start;
+            flex-direction: row;
+        }
+        .profile-card {
+            border-radius: 18px;
+            background: #fbfcff;
+            padding: 18px 12px 42px 14px;
+            margin: 28px;
+            width: fit-content;
+            transition: 0.3s ease;
+        }
+        .profile-card:hover {
+            background: #fff;
+            cursor: pointer;
+            box-shadow: -2px 3px 12px #d1d1d1;
+            transform: scale(1.1);
+        }
+        .avatar {
+            transition: 0.3s ease;
+            border-radius: 999px;
+            width: 72px;
+        }
+        .avatar:hover {
+            transform: scale(1.2) rotate(22deg);
+        }
+        .name {
+            font-weight: 900;
+            position: relative;
+            margin-top: -64px;
+            font-size: 14px;
+            margin-left: 84px;
+            margin-right: 36px;
+        }
+        .location {
+            font-family: "Lato";
+            font-size: 13px;
+            color: #121212;
+            margin-left: 84px;
+            margin-top: -8px;
+        }
+        .tags-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            margin-left: 84px;
+            max-width: 128px;
+        }
+        .tag {
+            float: left;
+            margin-right: 8px;
+            border: 1px solid #e6eaf8;
+            border-radius: 99px;
+            width: fit-content;
+            padding: 3px 8px 3px 8px;
+            font-size: 10px;
+            color: #849fff;
+            font-family: "Lato";
+            font-weight: 600;
+            transition: 0.3s ease;
+            margin-bottom: 4px;
+        }
+        .tag:hover {
+            cursor: pointer;
+            background: #849fff;
+            color: #fff;
+            transform: scale(0.9);
+        }
+        .footer-txt {
+            font-size: 13px;
+            margin-left: 22px;
+            font-family: "Lato";
+        }
+
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <h1 class="title">Users</h1>
+    <i class="las la-search icon"></i>
+    <input class="search-inp" placeholder="Search users">
+
+    <div class="cards-container">
+
+        <div class="profile-card">
+            <img class="avatar" src="https://pbs.twimg.com/profile_images/1610149927455178752/JuWuMNUw_400x400.jpg">
+            <h2 class="name">Frank Eno</h2>
+            <p class="location">Italy, IT</p>
+            <ul class="tags-list">
+                <li class="tag">games</li>
+                <li class="tag">web</li>
+                <li class="tag">puzzle</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+        <div class="profile-card">
+            <img class="avatar" src="https://pbs.twimg.com/profile_images/1440624750808625171/7kSNddJC_400x400.jpg">
+            <h2 class="name">Florin Pop</h2>
+            <p class="location">Romania</p>
+            <ul class="tags-list">
+                <li class="tag">youtube</li>
+                <li class="tag">coding</li>
+                <li class="tag">purple</li>
+                <li class="tag">money</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+        <div class="profile-card">
+            <img class="avatar" src="https://xsgames.co/randomusers/assets/avatars/female/11.jpg">
+            <h2 class="name">Annie Rice</h2>
+            <p class="location">Austin, TX</p>
+            <ul class="tags-list">
+                <li class="tag">road</li>
+                <li class="tag">mountain</li>
+                <li class="tag">trip</li>
+                <li class="tag">earth</li>
+                <li class="tag">nature</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+        <div class="profile-card">
+            <img class="avatar" src="https://xsgames.co/randomusers/assets/avatars/male/11.jpg">
+            <h2 class="name">Robert Brower</h2>
+            <p class="location">Cincinnati, OH</p>
+            <ul class="tags-list">
+                <li class="tag">maintenance</li>
+                <li class="tag">gears</li>
+                <li class="tag">frames</li>
+                <li class="tag">repair</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+        <div class="profile-card">
+            <img class="avatar" src="https://xsgames.co/randomusers/assets/avatars/female/3.jpg">
+            <h2 class="name">Any Campbell</h2>
+            <p class="location">Warrior, AL</p>
+            <ul class="tags-list">
+                <li class="tag">vintage</li>
+                <li class="tag">electric</li>
+                <li class="tag">cars</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+        <div class="profile-card">
+            <img class="avatar" src="https://xsgames.co/randomusers/assets/avatars/male/3.jpg">
+            <h2 class="name">Anthony St. Morin</h2>
+            <p class="location">Warrior, AL</p>
+            <ul class="tags-list">
+                <li class="tag">music</li>
+                <li class="tag">disk</li>
+            </ul>
+        </div><!-- ./ profile-card -->
+
+    </div><!-- ./ cards-container -->
+    <p class="footer-txt">Images taken from <a href="https://xsgames.co/randomusers" target="_blank">Random Users</a></p>
+
+</div><!-- ./ container -->
+</body>
+<script>
+
+    /*
+JQuery (Yep, I still use and love it 😁)
+*/
+    function setBtn(btnIndex) {
+        for (var i = 0; i < 5; i++) {
+            $("#" + i).removeClass("active");
+        }
+        $("#" + btnIndex).addClass("active");
+    }
+
+
+</script>
+</html>
