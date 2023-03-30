@@ -19,10 +19,15 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String author;
 
+    private String description;
+
     @Lob
+//    @Type(type = "org.hibernate.type.Ima")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)
@@ -34,4 +39,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<Record> records;
+
+    @Transient
+    private String ownerName;
 }
