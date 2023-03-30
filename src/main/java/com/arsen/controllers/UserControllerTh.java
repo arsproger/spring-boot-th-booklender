@@ -1,8 +1,8 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.UserDTO;
+import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
-import com.arsen.services.BookService;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,13 +17,14 @@ import java.io.IOException;
 @RequestMapping("/userTh")
 public class UserControllerTh {
     private final UserService userService;
-    private final BookService bookService;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserControllerTh(UserService userService, BookService bookService) {
+    public UserControllerTh(UserService userService, UserMapper userMapper) {
         this.userService = userService;
-        this.bookService = bookService;
+        this.userMapper = userMapper;
     }
+
 
     //    @GetMapping
     public String getAll(Model model) {
@@ -31,7 +32,7 @@ public class UserControllerTh {
         return "/user/all";
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/profile/{id}")
     public String myBooks(@PathVariable Long id, Model model) {
         model.addAttribute("curBooks",
                 userService.currentBooks(userService.getUserById(id)));
@@ -43,7 +44,7 @@ public class UserControllerTh {
 
 //        model.addAttribute("curBooks", userService.cur(userService.getUserById(id)));
 //        model.addAttribute("pastBooks", userService.cur(userService.getUserById(id)));
-        return "/user/myBooks";
+        return "/user/profile";
     }
 
     @GetMapping("/create")
@@ -54,16 +55,12 @@ public class UserControllerTh {
     @GetMapping
     public String main(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "/user/users";
+        return "/user/test";
     }
 
     @PostMapping("/new")
     public String addUser(@ModelAttribute("user") UserDTO userDTO) throws IOException {
-        User user = new User();
-        user.setFullName(userDTO.getFullName());
-        user.setEmail(userDTO.getEmail());
-//        user.setImage(userDTO.get().getBytes());
-        userService.saveUser(user);
+        userService.saveUser(userMapper.convertToEntity(userDTO));
 
         return "redirect:/userTh";
     }

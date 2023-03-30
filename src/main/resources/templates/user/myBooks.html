@@ -20,7 +20,7 @@
 <div class="container">
   <h1 class="text-center">Мои книги</h1>
   <h2>Текущие книги</h2>
-  <table class="table table-striped">
+  <table th:if="${not curBooks.isEmpty()}" class="table table-striped">
     <thead>
     <tr>
       <th scope="col">Фото</th>
@@ -30,7 +30,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${not curBooks.isEmpty()}" th:each="record : ${curBooks}">
+    <tr th:each="record : ${curBooks}">
 <!--      <td><img class="img-thumbnail" th:src="${book.image}" alt="Фото книги"></td>-->
       <td>
       <a th:href="@{/bookTh/{id}(id=${record.book.id})}">
@@ -42,10 +42,10 @@
       <td th:text="${record.loanDate}"></td>
     </tr>
     </tbody>
-    <h3 th:if="${curBooks.isEmpty()}">У пользователя нет взятых книг!</h3>
   </table>
+  <h3 style="color: red" th:if="${curBooks.isEmpty()}"><br>У пользователя нет взятых книг!</h3>
   <h2>История взятых книг</h2>
-  <table class="table table-striped">
+  <table th:if="${not pastBooks.isEmpty()}" class="table table-striped">
     <thead>
     <tr>
       <th scope="col">Фото</th>
@@ -56,7 +56,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${not pastBooks.isEmpty()}" th:each="record : ${pastBooks}">
+    <tr th:each="record : ${pastBooks}">
       <td>
       <a th:href="@{/bookTh/{id}(id=${record.book.id})}">
       <img class="img-thumbnail thumbnail" th:src="@{'/bookTh/' + ${record.book.id} + '/image'}" alt="Photo">
@@ -68,9 +68,8 @@
       <td th:text="${record.returnDate}"></td>
     </tr>
     </tbody>
-    <h3 th:if="${pastBooks.isEmpty()}">Список истории пуст!</h3>
-
   </table>
+  <h3 style="color: red" th:if="${pastBooks.isEmpty()}"><br>Список истории пуст!</h3>
 </div>
 <!-- Подключаем JS Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

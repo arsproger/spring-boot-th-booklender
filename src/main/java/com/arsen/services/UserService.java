@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +42,22 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
+        try {
+            user.setImage(defaultImage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return userRepository.save(user);
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public byte[] defaultImage() throws IOException {
+        return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
+                "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
     }
 
     public Long deleteUser(Long id) {
@@ -54,7 +69,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User updateUser(Long id, User user){
+    public User updateUser(Long id, User user) {
         User updatedUser = getUserById(id);
         updatedUser.setEmail(user.getEmail());
         updatedUser.setPassword(user.getPassword());

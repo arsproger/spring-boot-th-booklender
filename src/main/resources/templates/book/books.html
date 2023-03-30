@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-<div id="large-th">
+<div th:if="not ${books.isEmpty()}" id="large-th">
     <div class="container">
         <h1> A list of books</h1>
         <br>
@@ -147,7 +147,7 @@
             <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
         </div>
 
-        <div th:if="not ${books.isEmpty()}" id="list-th">
+        <div id="list-th">
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
