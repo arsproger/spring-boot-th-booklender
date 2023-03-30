@@ -46,13 +46,15 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
-        try {
-            user.setImage(defaultImage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (user.getImage() == null) {
+            try {
+                user.setImage(defaultImage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         return userRepository.save(user);
-    }
+}
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public byte[] defaultImage() throws IOException {

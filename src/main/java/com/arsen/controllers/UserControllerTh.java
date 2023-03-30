@@ -25,25 +25,20 @@ public class UserControllerTh {
         this.userMapper = userMapper;
     }
 
-
-    //    @GetMapping
-    public String getAll(Model model) {
+    @GetMapping
+    public String main(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "/user/all";
+        return "/user/users";
     }
 
     @GetMapping("/profile/{id}")
     public String myBooks(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("curBooks",
                 userService.currentBooks(userService.getUserById(id)));
         model.addAttribute("pastBooks",
                 userService.pastBooks(userService.getUserById(id)));
 
-//        userService.getUserById(id).getCurrentBooks();
-//        userService.getUserById(id).getPastBooks();
-
-//        model.addAttribute("curBooks", userService.cur(userService.getUserById(id)));
-//        model.addAttribute("pastBooks", userService.cur(userService.getUserById(id)));
         return "/user/profile";
     }
 
@@ -52,15 +47,14 @@ public class UserControllerTh {
         return "/user/newUser";
     }
 
-    @GetMapping
-    public String main(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "/user/test";
-    }
-
     @PostMapping("/new")
     public String addUser(@ModelAttribute("user") UserDTO userDTO) throws IOException {
-        userService.saveUser(userMapper.convertToEntity(userDTO));
+        User user = new User();
+        user.setFullName(userDTO.getFullName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setImage(userDTO.getImage().getBytes());
+        userService.saveUser(user);
 
         return "redirect:/userTh";
     }

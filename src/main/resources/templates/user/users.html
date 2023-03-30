@@ -181,7 +181,7 @@
     <div class="cards-container">
         <div th:each="user : ${users}">
             <div class="profile-card">
-                <a th:href="@{/userTh/{id}(id=${user.id})}">
+                <a th:href="@{/userTh/profile/{id}(id=${user.id})}">
                     <img class="avatar" th:src="@{'/userTh/' + ${user.id} + '/image'}"/>
                 </a>
                 <h2 class="name" th:text="${user.fullName}"></h2>

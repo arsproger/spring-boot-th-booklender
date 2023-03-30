@@ -10,6 +10,9 @@ import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,6 +54,14 @@ public class BookService {
 
     public Book saveBook(Book book) {
         book.setStatus(BookStatus.AVAILABLE);
+        if(book.getImage() == null) {
+            try {
+                book.setImage(Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
+                        "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default-book.jpg")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return bookRepository.save(book);
     }
 
