@@ -1,7 +1,6 @@
 package com.arsen.models;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,7 +8,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "records")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Record {
     @Id
