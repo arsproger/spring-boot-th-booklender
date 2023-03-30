@@ -3,10 +3,13 @@ package com.arsen.controllers;
 import com.arsen.dto.UserDTO;
 import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
+import com.arsen.security.DetailsUser;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,12 @@ import java.io.IOException;
 public class UserControllerTh {
     private final UserService userService;
     private final UserMapper userMapper;
+
+    private User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        DetailsUser detailsUser = (DetailsUser) authentication.getPrincipal();
+        return detailsUser.getUser();
+    }
 
     @Autowired
     public UserControllerTh(UserService userService, UserMapper userMapper) {
@@ -31,13 +40,13 @@ public class UserControllerTh {
         return "/user/users";
     }
 
-    @GetMapping("/profile/{id}")
-    public String myBooks(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+    @GetMapping("/profile")
+    public String myBooks(Model model) {
+        model.addAttribute("user", userService.getUserById(getUser().getId()));
         model.addAttribute("curBooks",
-                userService.currentBooks(userService.getUserById(id)));
+                userService.currentBooks(userService.getUserById(getUser().getId())));
         model.addAttribute("pastBooks",
-                userService.pastBooks(userService.getUserById(id)));
+                userService.pastBooks(userService.getUserById(getUser().getId())));
 
         return "/user/profile";
     }

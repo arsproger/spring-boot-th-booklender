@@ -1,15 +1,12 @@
 package com.arsen.security;
 
-import com.arsen.enums.Role;
 import com.arsen.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class DetailsUser implements UserDetails {
     private final User user;
@@ -50,5 +47,9 @@ public class DetailsUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }

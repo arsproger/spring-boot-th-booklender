@@ -51,6 +51,19 @@
                     <p class="card-text" th:text="${'Автор: ' + book.author}"></p>
                     <p class="card-text" th:text="${'Статус: ' + book.status}"></p>
                     <p class="card-text" th:text="${'Описание: ' + book.description}"></p>
+                    <div th:if="${book.user != null and book.user.id.equals(user.id)}">
+                        <a class="btn btn-primary" th:href="@{/bookTh/return/{bookId}(bookId=${book.id})}">
+                            Вернуть книгу
+                        </a>
+                    </div>
+                    <div th:if="${book.user != null and !book.user.id.equals(user.id)}">
+                        <p class="card-text" th:text="'Книга сейчас у ' + ${book.user.fullName}" />
+                    </div>
+                    <div th:if="${book.user == null}">
+                        <a class="btn btn-primary" th:href="@{/bookTh/lend/{bookId}(bookId=${book.id})}">
+                            Взять книгу
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
