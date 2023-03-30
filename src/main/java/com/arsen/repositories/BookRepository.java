@@ -1,6 +1,7 @@
 package com.arsen.repositories;
 
 import com.arsen.models.Book;
+import com.arsen.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select Books.description as book_description, Books.image as book_image\n" +
             "from books where id = ?" , nativeQuery = true)
     Book showDescAndImg(Long id);
+
+    List<Book> findByUser(User user);
+
 }

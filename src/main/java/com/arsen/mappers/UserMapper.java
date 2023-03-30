@@ -2,13 +2,24 @@ package com.arsen.mappers;
 
 import com.arsen.dto.UserDTO;
 import com.arsen.models.User;
-import org.mapstruct.Mapper;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+@Component
+public class UserMapper {
+    private final ModelMapper modelMapper;
 
-@Mapper(componentModel = "spring")
-public interface UserMapper {
-    UserDTO userToUserDTO(User user);
-    User userDTOtoUser(UserDTO userDTO);
-    List<UserDTO> userListToUserDTOList(List<User> userList);
+    @Autowired
+    public UserMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    public UserDTO convertToDTO(User user) {
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+    public User convertToEntity(UserDTO userDTO) {
+        return modelMapper.map(userDTO, User.class);
+    }
 }

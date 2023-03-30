@@ -1,5 +1,6 @@
 package com.arsen.models;
 
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -7,6 +8,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "records")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

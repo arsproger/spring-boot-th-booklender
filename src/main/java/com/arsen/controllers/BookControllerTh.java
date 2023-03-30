@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class BookControllerTh {
 
     @GetMapping("/create")
     public String create(@ModelAttribute("book") BookDTO bookDTO) {
-        return "/dev/newBook";
+        return "/book/newBook";
     }
 
     @GetMapping("/{id}/image")
@@ -49,14 +50,18 @@ public class BookControllerTh {
     @GetMapping
     public String main(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        return "/dev/test";
+        return "/book/books";
     }
 
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model){
         Book book = bookService.getBookById(id);
-        model.addAttribute("book" , bookMapper.convertToDTO(book));
-        return "/dev/book/show";
+
+        model.addAttribute("book", book);
+        model.addAttribute("records" ,
+                book.getRecords().stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList()));
+
+        return "/book/show";
     }
 
     @GetMapping("/delete/{id}")

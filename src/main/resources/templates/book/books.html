@@ -6,15 +6,14 @@
 
     <style>
 
-        /*body {*/
-        /*    background-image: url("/static/image/img.png");*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
+        body {
+            background-image: url("/static/image/img.jpeg");
+        }
 
         .container {
             margin: 0 auto;
             max-width: 910px;
+
         }
 
         .choose {
@@ -97,8 +96,7 @@
         @media (max-width: 730px) {
             .book {
                 display: block;
-                margin: 0 auto;
-                margin-top: 50px;
+                margin: 50px auto 0;
             }
 
             .cover {
@@ -148,16 +146,17 @@
             <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
         </div>
 
-        <div id="list-th">
+        <div th:if="not ${books.isEmpty()}" id="list-th">
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
-<!--                <button id="sortById">Sort by Date</button>-->
             </div>
             <div th:each="book : ${books}" class="book">
+                <a th:href="@{/bookTh/{id}(id=${book.id})}">
                 <div class="cover">
-                    <img th:src="@{'/bookTh/' + ${book.id} + '/image'}"/>
+                    <img th:src="@{'/bookTh/' + ${book.id} + '/image'}" alt="book photo"/>
                 </div>
+                </a>
                 <div class="description">
                     <p class="title" th:text="${book.name}"></p>
                     <p class="author" th:text="${'Автор: ' + book.author}"></p>
@@ -165,6 +164,9 @@
             </div>
         </div>
     </div>
+</div>
+<div th:if="${books.isEmpty()}">
+    <h3 style="color: red" th:text="Books not found!"></h3>
 </div>
 </body>
 
@@ -176,8 +178,8 @@
         // Сортировка по имени книги
         $('#sortByName').click(function () {
             $('.book').sort(function(a, b) {
-                var titleA = $(a).find('.title').text().toUpperCase();
-                var titleB = $(b).find('.title').text().toUpperCase();
+                let titleA = $(a).find('.title').text().toUpperCase();
+                let titleB = $(b).find('.title').text().toUpperCase();
                 return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
             }).appendTo('#list-th');
         });
@@ -185,21 +187,11 @@
         // Сортировка по автору книги
         $('#sortByAuthor').click(function () {
             $('.book').sort(function(a, b) {
-                var authorA = $(a).find('.author').text().toUpperCase();
-                var authorB = $(b).find('.author').text().toUpperCase();
+                let authorA = $(a).find('.author').text().toUpperCase();
+                let authorB = $(b).find('.author').text().toUpperCase();
                 return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
             }).appendTo('#list-th');
         });
-
-        // Сортировка id книги
-        // $('#sortById').click(function () {
-        //     $('.book').sort(function(a, b) {
-        //         var idA = $(a).find('.id').text().toUpperCase();
-        //         var idB = $(b).find('.id').text().toUpperCase();
-        //         return (idA < idB) ? -1 : (idA > idB) ? 1 : 0;
-        //     }).appendTo('#list-th');
-        // });
-
     });
 </script>
 
