@@ -42,4 +42,8 @@ public class Book {
 
     @Transient
     private String ownerName;
+
+    public int getRecordCount() {
+        return this.records.size();
+    }
 }

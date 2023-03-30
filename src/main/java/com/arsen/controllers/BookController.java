@@ -5,12 +5,8 @@ import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
 import com.arsen.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,6 +67,11 @@ public class BookController {
     public StringBuilder getAllBooksAndOwners(){
         return bookService.showAllBooksAndOwners();
         //bookMapper.bookListToBookListDTO(books);
+    }
+    @GetMapping("/top5")
+    public List<BookDTO> getTop5BooksByRecordCount() {
+        return bookService.getTop5BooksByRecordCount().stream().map(
+                bookMapper::convertToDTO).collect(Collectors.toList());
     }
 
 

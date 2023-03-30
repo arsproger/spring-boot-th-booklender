@@ -113,5 +113,8 @@ public class BookService {
         }
         return stringBuilder;
     }
+    public List<Book> getTop5BooksByRecordCount() {
+        return bookRepository.findTop5ByOrderByRecordCountDesc();
+    }
 
 }

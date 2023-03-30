@@ -20,4 +20,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByUser(User user);
 
+    @Query(value = "SELECT * FROM books WHERE id IN( " +
+            "SELECT records.book_id FROM BOOKS " +
+            "JOIN records ON(books.id = records.book_id) " +
+            "GROUP BY records.book_id ORDER BY count(*) desc limit 5)", nativeQuery = true)
+    List<Book> findTop5ByOrderByRecordCountDesc();
+
 }
