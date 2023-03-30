@@ -1,4 +1,4 @@
-package com.arsen.services;
+package com.arsen.security;
 
 import com.arsen.enums.Role;
 import com.arsen.models.User;

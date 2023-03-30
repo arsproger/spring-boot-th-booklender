@@ -27,6 +27,7 @@ public class Book {
     private String description;
 
     @Lob
+//    @Type(type = "org.hibernate.type.Ima")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)

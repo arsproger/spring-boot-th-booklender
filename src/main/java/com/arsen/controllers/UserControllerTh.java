@@ -22,18 +22,24 @@ public class UserControllerTh {
         this.bookService = bookService;
     }
 
+    //    @GetMapping
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "/user/all";
     }
 
-    @GetMapping("/mybooks/{id}")
+    @GetMapping("/books/{id}")
     public String myBooks(@PathVariable Long id, Model model) {
+        model.addAttribute("curBooks",
+                userService.currentBooks(userService.getUserById(id)));
+        model.addAttribute("pastBooks",
+                userService.pastBooks(userService.getUserById(id)));
 
-        User user = userService.getUserById(id);
-        model.addAttribute("books", bookService.getAllBooks());
-        model.addAttribute("curBooks", bookService.findByUser(user));
+//        userService.getUserById(id).getCurrentBooks();
+//        userService.getUserById(id).getPastBooks();
 
+//        model.addAttribute("curBooks", userService.cur(userService.getUserById(id)));
+//        model.addAttribute("pastBooks", userService.cur(userService.getUserById(id)));
         return "/user/myBooks";
     }
 }

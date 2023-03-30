@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -55,7 +56,11 @@ public class BookControllerTh {
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model){
         Book book = bookService.getBookById(id);
-        model.addAttribute("book" , book);
+
+        model.addAttribute("book", book);
+        model.addAttribute("records" ,
+                book.getRecords().stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList()));
+
         return "/book/show";
     }
 

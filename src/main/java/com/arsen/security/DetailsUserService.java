@@ -1,4 +1,4 @@
-package com.arsen.services;
+package com.arsen.security;
 
 
 
@@ -11,11 +11,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class DetailsUserService implements UserDetailsService {
    private final UserRepository userRepository;
 
    @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public DetailsUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
