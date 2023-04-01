@@ -47,5 +47,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Record> records; // записи книг которые он брал
+
+    @OneToMany(mappedBy = "user")
+    private List<BookComment> comments;
 }
 

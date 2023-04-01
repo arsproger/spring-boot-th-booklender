@@ -17,7 +17,7 @@ public class BookComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
     @ManyToOne
