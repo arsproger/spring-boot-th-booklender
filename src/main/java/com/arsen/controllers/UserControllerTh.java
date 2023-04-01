@@ -1,6 +1,7 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.UserDTO;
+import com.arsen.enums.Role;
 import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
 import com.arsen.security.DetailsUser;
@@ -36,6 +37,7 @@ public class UserControllerTh {
 
     @GetMapping
     public String main(Model model) {
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("users", userService.getAllUsers());
         return "/user/users";
     }
@@ -43,6 +45,7 @@ public class UserControllerTh {
     @GetMapping("/profile")
     public String myBooks(Model model) {
         model.addAttribute("user", userService.getUserById(getUser().getId()));
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("curBooks",
                 userService.currentBooks(userService.getUserById(getUser().getId())));
         model.addAttribute("pastBooks",

@@ -46,7 +46,7 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
-        if (user.getImage() == null) {
+        if (user.getImage() == null || user.getImage().length == 0) {
             try {
                 user.setImage(defaultImage());
             } catch (IOException e) {

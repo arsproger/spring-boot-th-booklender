@@ -1,6 +1,7 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.BookDTO;
+import com.arsen.enums.Role;
 import com.arsen.mappers.BookMapper;
 import com.arsen.models.Book;
 import com.arsen.models.User;
@@ -11,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -45,11 +47,13 @@ public class BookControllerTh {
     @GetMapping
     public String main(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/book/books";
     }
 
     @GetMapping("/create")
-    public String create(@ModelAttribute("book") BookDTO bookDTO) {
+    public String create(@ModelAttribute("book") BookDTO bookDTO, Model model) {
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/book/newBook";
     }
 
@@ -72,6 +76,7 @@ public class BookControllerTh {
         return "redirect:/bookTh";
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
