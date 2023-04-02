@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,10 @@ public class UserService {
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private LocalDateTime resetTokenExpiryDate; // поле для времени действия токена сброса пароля
+
+    private String resetToken; // поле для хранения токена сброса пароля
 
     @Autowired
     public UserService(UserRepository userRepository, BookRepository bookRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
@@ -46,21 +51,21 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
-        if (user.getImage() == null) {
-            try {
-                user.setImage(defaultImage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        if (user.getImage() == null) {
+//            try {
+//                user.setImage(defaultImage());
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         return userRepository.save(user);
 }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public byte[] defaultImage() throws IOException {
-        return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
-                "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
-    }
+//    @Transactional(isolation = Isolation.SERIALIZABLE)
+//    public byte[] defaultImage() throws IOException {
+//        return Files.readAllBytes(Paths.get("C:\\Users\\ASUS\\Downloads\\spring-boot-th-booklender"+
+//                "\\src\\main\\resources\\static\\image"));
+//    }
 
     public Long deleteUser(Long id) {
         userRepository.deleteById(id);
@@ -95,6 +100,28 @@ public class UserService {
     public List<Record> pastBooks(User user) {
         return recordRepository.findByUser(user)
                 .stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList());
+    }
+
+    public boolean isValidResetToken(String token) {
+        // Проверяем, что токен не пустой и не равен null
+        if (token == null || token.isEmpty()) {
+            return false;
+        }
+
+        // Проверяем, что время действия токена не истекло
+        if (this.resetTokenExpiryDate == null || this.resetTokenExpiryDate.isBefore(LocalDateTime.now())) {
+            return false;
+        }
+
+        // Проверяем, что токен совпадает с сохраненным токеном
+        return token.equals(this.resetToken);
+    }
+
+    public void setResetToken(String token) {
+        this.resetToken = token;
+
+        // Устанавливаем время действия токена на 24 часа от текущего момента
+        this.resetTokenExpiryDate = LocalDateTime.now().plusHours(24);
     }
 
 //    @Transactional(isolation = Isolation.SERIALIZABLE)
