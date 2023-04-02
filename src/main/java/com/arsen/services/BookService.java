@@ -9,7 +9,12 @@ import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,6 +56,14 @@ public class BookService {
 
     public Book saveBook(Book book) {
         book.setStatus(BookStatus.AVAILABLE);
+        if(book.getImage() == null || book.getImage().length == 0) {
+            try {
+                book.setImage(Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
+                        "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default-book.jpg")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return bookRepository.save(book);
     }
 
@@ -59,6 +72,8 @@ public class BookService {
         return id;
     }
 
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void lendBook(Long userId, Long bookId) {
         Book book = getBookById(bookId); // находим книгу
         User user = userService.getUserById(userId); //находим юзера
@@ -69,7 +84,6 @@ public class BookService {
         List<Book> books = user.getCurrentBooks();
 
         if (books.size() >= 2){
-            System.out.println(books.size());
             System.out.println("Error");
             return;
         }
@@ -84,6 +98,8 @@ public class BookService {
         record.setUser(user); // добавляем юзера в запись
         recordService.saveRecord(record); // сохраняем новую запись
     }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void returnBook(Long userId, Long bookId) {
         Book book = getBookById(bookId); // находим книгу
         User user = userService.getUserById(userId); //находим юзера

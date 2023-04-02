@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Book</title>
-    <!-- Подключение стилей Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Подключение пользовательских стилей CSS -->
+    <meta charset="UTF-8">
+    <title>Title</title>
+
     <style>
 
         @import url("https://fonts.googleapis.com/css?family=Roboto");
@@ -185,108 +183,198 @@
             }
         }
 
-        label {
-            font-weight: bold;
-            display: block;
-            text-align: center;
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            max-width: 960px;
+            box-shadow: 0px 3px 20px #d1d1d1;
         }
 
-        input[type="text"],
-        input[type="file"] {
-            width: 50%;
-            display: block;
+        .title {
+            margin: 40px 20px 0px 32px;
+        }
+
+        .icon {
+            font-size: 28px;
+            position: absolute;
+            margin: 35px 0px 12px 38px;
+        }
+
+        .search-inp {
+            border-radius: 3px;
+            border: 1px solid #e6eaf0;
+            padding: 14px 12px 14px 44px;
+            margin: 26px 80px 10px 32px;
+            width: 180px;
+            font-family: "Lato", serif;
+            transition: 0.4s ease;
+        }
+
+        .search-inp:focus {
+            transform: scale(1.2);
+            border: 2px solid #121212;
+            margin-left: 110px;
             padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin: 0 auto 10px;
         }
 
-        button[type="submit"] {
-            background-color: #007bff;
-            border: none;
+        .active {
+            background: #849fff;
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
         }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: flex-start;
+            flex-direction: row;
+        }
+
+        .profile-card {
+            border-radius: 18px;
+            background: #fbfcff;
+            padding: 18px 12px 42px 14px;
+            margin: 28px;
+            width: fit-content;
+            transition: 0.3s ease;
+        }
+
+        .profile-card:hover {
+            background: #fff;
+            cursor: pointer;
+            box-shadow: -2px 3px 12px #d1d1d1;
+            transform: scale(1.1);
+        }
+
+        .avatar {
+            transition: 0.3s ease;
+            border-radius: 999px;
+            width: 72px;
+        }
+
+        .avatar:hover {
+            transform: scale(1.2) rotate(22deg);
+        }
+
+        .name {
+            font-weight: 900;
+            position: relative;
+            margin-top: -64px;
+            font-size: 14px;
+            margin-left: 84px;
+            margin-right: 36px;
+        }
+
+        .email {
+            font-family: "Lato", serif;
+            font-size: 13px;
+            color: #121212;
+            margin-left: 84px;
+            margin-top: -8px;
+        }
+
+        .tags-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            margin-left: 84px;
+            max-width: 128px;
+        }
+
+        .tag {
+            float: left;
+            margin-right: 8px;
+            border: 1px solid #e6eaf8;
+            border-radius: 99px;
+            width: fit-content;
+            padding: 3px 8px 3px 8px;
+            font-size: 10px;
+            color: #849fff;
+            font-family: "Lato", serif;
+            font-weight: 600;
+            transition: 0.3s ease;
+            margin-bottom: 4px;
+        }
+
+        .tag:hover {
+            cursor: pointer;
+            background: #849fff;
+            color: #fff;
+            transform: scale(0.9);
+        }
+
+        .footer-txt {
+            font-size: 13px;
+            margin-left: 22px;
+            font-family: "Lato", serif;
+        }
+
     </style>
 </head>
 <body>
 <section class="navigation">
     <div class="nav-container">
-<nav class="navbar navbar-expand-custom navbar-mainbg">
-    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars text-white"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-            <div class="hori-selector">
-                <div class="left"></div>
-                <div class="right"></div>
+        <nav class="navbar navbar-expand-custom navbar-mainbg">
+            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <div class="hori-selector">
+                        <div class="left"></div>
+                        <div class="right"></div>
+                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/userTh/profile}"><i class="fas fa-tachometer-alt"></i>Профиль</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
+                    </li>
+                    <li th:if="${isAdmin}" class="nav-item">
+                        <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление книги</a>
+                    </li>
+                    <li th:if="${isAdmin}" class="nav-item">
+                        <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}"><i class="far fa-chart-bar"></i>Выход</a>
+                    </li>
+                </ul>
             </div>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/userTh/profile}"><i class="fas fa-tachometer-alt"></i>Профиль</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
-            </li>
-            <li th:if="${isAdmin}" class="nav-item">
-                <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление книги</a>
-            </li>
-            <li th:if="${isAdmin}" class="nav-item">
-                <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/logout}"><i class="far fa-chart-bar"></i>Выход</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+        </nav>
     </div>
 </section>
+<br><br>
 <div class="container">
-    <h1 style="text-align: center;">Add Book</h1>
-    <form th:action="@{/bookTh/new}" method="POST" enctype="multipart/form-data" th:object="${book}">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" th:field="*{name}" required class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" th:field="*{author}" required class="form-control">
-        </div>
+    <h1 class="title">Users</h1>
+    <i class="las la-search icon"></i>
+    <input class="search-inp" placeholder="Search users">
 
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" th:field="*{description}" class="form-control">
+    <div class="cards-container">
+        <div th:each="user : ${users}">
+            <div class="profile-card">
+                <a th:href="@{/userTh/profile/{id}(id=${user.id})}">
+                    <img class="avatar" th:src="@{'/userTh/' + ${user.id} + '/image'}"/>
+                </a>
+                <h2 class="name" th:text="${user.fullName}"></h2>
+                <h2 class="email" th:text="${user.email}"></h2>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" th:field="*{image}" class="form-control-file">
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="display: block; margin: 0 auto;">Submit</button>
-    </form>
+    </div>
 </div>
-<!-- Подключение скриптов Bootstrap и пользовательского JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
 </body>
-<script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
     function test() {
         var tabsNewAnim = $("#navbarSupportedContent");
         var selectorNewAnim = $("#navbarSupportedContent").find("li").length;

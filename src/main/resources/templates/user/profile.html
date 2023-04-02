@@ -1,152 +1,365 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+  <meta charset="UTF-8">
+  <title>Профиль пользователя</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Roboto");
 
-<style>
-
-  @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400';
-  .firstinfo, .badgescard, body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  html {
-    height: 100%;
-  }
-
-  body {
-    font-family: "Open Sans", sans-serif;
-    width: 100%;
-    min-height: 100%;
-    background: #009688;
-    font-size: 16px;
-    overflow: hidden;
-  }
-
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
-
-  .content {
-    position: relative;
-    animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
-  }
-
-  .card {
-    width: 500px;
-    min-height: 100px;
-    padding: 20px;
-    border-radius: 3px;
-    background-color: white;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-  }
-  .card:after {
-    content: "";
-    display: block;
-    width: 190px;
-    height: 300px;
-    background: cadetblue;
-    position: absolute;
-    animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
-  }
-
-  .badgescard {
-    padding: 10px 20px;
-    border-radius: 3px;
-    background-color: #ECECEC;
-    width: 480px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    z-index: -1;
-    left: 10px;
-    bottom: 10px;
-    animation: animainfos 0.5s cubic-bezier(0.425, 1.04, 0.47, 1.105) 0.75s forwards;
-  }
-  .badgescard span {
-    font-size: 1.6em;
-    margin: 0px 6px;
-    opacity: 0.6;
-  }
-
-  .firstinfo {
-    flex-direction: row;
-    z-index: 2;
-    position: relative;
-  }
-  .firstinfo img {
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-  }
-  .firstinfo .profileinfo {
-    padding: 0px 20px;
-  }
-  .firstinfo .profileinfo h1 {
-    font-size: 1.8em;
-  }
-  .firstinfo .profileinfo h3 {
-    font-size: 1.2em;
-    color: #009688;
-    font-style: italic;
-  }
-  .firstinfo .profileinfo p.bio {
-    padding: 10px 0px;
-    color: #5A5A5A;
-    line-height: 1.2;
-    font-style: initial;
-  }
-
-  @keyframes animatop {
-    0% {
-      opacity: 0;
-      bottom: -500px;
+    body {
+      font-family: "Roboto", sans-serif;
     }
-    100% {
-      opacity: 1;
-      bottom: 0px;
+    * {
+      margin: 0;
+      padding: 0;
     }
-  }
-  @keyframes animainfos {
-    0% {
+    i {
+      margin-right: 10px;
+    }
+
+    .navigation {
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /*----------bootstrap-navbar-css------------*/
+    .navbar-logo {
+      padding: 15px;
+      color: #fff;
+    }
+    .navbar-mainbg {
+      background-color: #5161ce;
+      padding: 0px;
+    }
+    #navbarSupportedContent {
+      overflow: hidden;
+      position: relative;
+    }
+    #navbarSupportedContent ul {
+      padding: 0px;
+      margin: 0px;
+    }
+    #navbarSupportedContent ul li a i {
+      margin-right: 10px;
+    }
+    #navbarSupportedContent li {
+      list-style-type: none;
+      float: left;
+    }
+    #navbarSupportedContent ul li a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 15px;
+      display: block;
+      padding: 20px 20px;
+      transition-duration: 0.6s;
+      transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+    }
+    #navbarSupportedContent > ul > li.active > a {
+      color: #5161ce;
+      background-color: transparent;
+      transition: all 0.7s;
+    }
+    #navbarSupportedContent a:not(:only-child):after {
+      content: "\f105";
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 14px;
+      font-family: "Font Awesome 5 Free";
+      display: inline-block;
+      padding-right: 3px;
+      vertical-align: middle;
+      font-weight: 900;
+      transition: 0.5s;
+    }
+    #navbarSupportedContent .active > a:not(:only-child):after {
+      transform: rotate(90deg);
+    }
+    .hori-selector {
+      display: inline-block;
+      position: absolute;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      transition-duration: 0.6s;
+      transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      background-color: #fff;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      margin-top: 10px;
+    }
+    .hori-selector .right,
+    .hori-selector .left {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: #fff;
       bottom: 10px;
     }
-    100% {
-      bottom: -42px;
+    .hori-selector .right {
+      right: -25px;
     }
-  }
-  @keyframes rotatemagic {
-    0% {
-      opacity: 0;
-      transform: rotate(0deg);
-      top: -24px;
-      left: -253px;
+    .hori-selector .left {
+      left: -25px;
     }
-    100% {
-      transform: rotate(-30deg);
-      top: -24px;
-      left: -78px;
+    .hori-selector .right:before,
+    .hori-selector .left:before {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #5161ce;
     }
-  }
+    .hori-selector .right:before {
+      bottom: 0;
+      right: -25px;
+    }
+    .hori-selector .left:before {
+      bottom: 0;
+      left: -25px;
+    }
 
-</style>
+    @media (min-width: 992px) {
+      .navbar-expand-custom {
+        -ms-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+      .navbar-expand-custom .navbar-nav {
+        -ms-flex-direction: row;
+        flex-direction: row;
+      }
+      .navbar-expand-custom .navbar-toggler {
+        display: none;
+      }
+      .navbar-expand-custom .navbar-collapse {
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+        flex-basis: auto;
+      }
+    }
+
+    @media (max-width: 991px) {
+      #navbarSupportedContent ul li a {
+        padding: 12px 30px;
+      }
+      .hori-selector {
+        margin-top: 0px;
+        margin-left: 10px;
+        border-radius: 0;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+      }
+      .hori-selector .left,
+      .hori-selector .right {
+        right: 10px;
+      }
+      .hori-selector .left {
+        top: -25px;
+        left: auto;
+      }
+      .hori-selector .right {
+        bottom: -25px;
+      }
+      .hori-selector .left:before {
+        left: -25px;
+        top: -25px;
+      }
+      .hori-selector .right:before {
+        bottom: -25px;
+        left: -25px;
+      }
+    }
+
+    .thumbnail {
+      max-width: 70px;
+    }
+
+  </style>
+</head>
 <body>
-
-<div class="content">
-  <div class="card">
-    <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg"/>
-      <div class="profileinfo">
-        <h1>Francesco Moustache</h1>
-        <h3>Python Ninja</h3>
-        <p class="bio">Lived all my life on the top of mount Fuji, learning the way to be a Ninja Dev.</p>
+<section class="navigation">
+  <div class="nav-container">
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+      <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <div class="hori-selector">
+            <div class="left"></div>
+            <div class="right"></div>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/userTh/profile}"><i class="fas fa-tachometer-alt"></i>Профиль</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
+          </li>
+          <li th:if="${isAdmin}" class="nav-item">
+            <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление книги</a>
+          </li>
+          <li th:if="${isAdmin}" class="nav-item">
+            <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/logout}"><i class="far fa-chart-bar"></i>Выход</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <img class="card-img-top" th:src="@{'/userTh/' + ${user.id} + '/image'}" alt="Card image cap">
+        <div class="card-body">
+          <p class="card-title" th:text="${user.fullName}"/>
+          <p class="card-text" th:text="${user.email}"/>
+          <p class="card-text" th:text="${user.dateOfBirth}"/>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2>Текущие книги</h2>
+          <table th:if="${not curBooks.isEmpty()}" class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Фото</th>
+              <th scope="col">Название</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Дата взятия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${curBooks}">
+              <td>
+                <a th:href="@{/bookTh/{id}(id=${record.book.id})}">
+                  <img class="img-thumbnail thumbnail" th:src="@{'/bookTh/' + ${record.book.id} + '/image'}" alt="Photo">
+                </a>
+              </td>
+              <td th:text="${record.book.name}"></td>
+              <td th:text="${record.book.author}"></td>
+              <td th:text="${record.loanDate}"></td>
+            </tr>
+            </tbody>
+          </table>
+          <h3 style="color: red" th:if="${curBooks.isEmpty()}"><br>У пользователя нет взятых книг!</h3>
+          <h2>История взятых книг</h2>
+          <table th:if="${not pastBooks.isEmpty()}" class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Фото</th>
+              <th scope="col">Название</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Дата взятия</th>
+              <th scope="col">Дата возврата</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${pastBooks}">
+              <td>
+                <a th:href="@{/bookTh/{id}(id=${record.book.id})}">
+                  <img class="img-thumbnail thumbnail" th:src="@{'/bookTh/' + ${record.book.id} + '/image'}" alt="Photo">
+                </a>
+              </td>
+              <td th:text="${record.book.name}"></td>
+              <td th:text="${record.book.author}"></td>
+              <td th:text="${record.loanDate}"></td>
+              <td th:text="${record.returnDate}"></td>
+            </tr>
+            </tbody>
+          </table>
+          <h3 style="color: red" th:if="${pastBooks.isEmpty()}"><br>Список истории пуст!</h3>
+        </div>
       </div>
     </div>
   </div>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function test() {
+    var tabsNewAnim = $("#navbarSupportedContent");
+    var selectorNewAnim = $("#navbarSupportedContent").find("li").length;
+    var activeItemNewAnim = tabsNewAnim.find(".active");
+    var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+    var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+    var itemPosNewAnimTop = activeItemNewAnim.position();
+    var itemPosNewAnimLeft = activeItemNewAnim.position();
+    $(".hori-selector").css({
+      top: itemPosNewAnimTop.top + "px",
+      left: itemPosNewAnimLeft.left + "px",
+      height: activeWidthNewAnimHeight + "px",
+      width: activeWidthNewAnimWidth + "px"
+    });
+    $("#navbarSupportedContent").on("click", "li", function (e) {
+      $("#navbarSupportedContent ul li").removeClass("active");
+      $(this).addClass("active");
+      var activeWidthNewAnimHeight = $(this).innerHeight();
+      var activeWidthNewAnimWidth = $(this).innerWidth();
+      var itemPosNewAnimTop = $(this).position();
+      var itemPosNewAnimLeft = $(this).position();
+      $(".hori-selector").css({
+        top: itemPosNewAnimTop.top + "px",
+        left: itemPosNewAnimLeft.left + "px",
+        height: activeWidthNewAnimHeight + "px",
+        width: activeWidthNewAnimWidth + "px"
+      });
+    });
+  }
+  $(document).ready(function () {
+    setTimeout(function () {
+      test();
+    });
+  });
+  $(window).on("resize", function () {
+    setTimeout(function () {
+      test();
+    }, 500);
+  });
+  $(".navbar-toggler").click(function () {
+    $(".navbar-collapse").slideToggle(300);
+    setTimeout(function () {
+      test();
+    });
+  });
+
+  // --------------add active class-on another-page move----------
+  jQuery(document).ready(function ($) {
+    // Get current path and find target link
+    var path = window.location.pathname.split("/").pop();
+
+    // Account for home page with empty path
+    if (path == "") {
+      path = "index.html";
+    }
+
+    var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
+    // Add active class to target link
+    target.parent().addClass("active");
+  });
+
+</script>
 </html>

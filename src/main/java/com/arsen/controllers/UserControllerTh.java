@@ -1,45 +1,79 @@
 package com.arsen.controllers;
 
+import com.arsen.dto.UserDTO;
+import com.arsen.enums.Role;
+import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
-import com.arsen.services.BookService;
+import com.arsen.security.DetailsUser;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/userTh")
 public class UserControllerTh {
     private final UserService userService;
-    private final BookService bookService;
+    private final UserMapper userMapper;
+
+    private User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        DetailsUser detailsUser = (DetailsUser) authentication.getPrincipal();
+        return detailsUser.getUser();
+    }
 
     @Autowired
-    public UserControllerTh(UserService userService, BookService bookService) {
+    public UserControllerTh(UserService userService, UserMapper userMapper) {
         this.userService = userService;
-        this.bookService = bookService;
+        this.userMapper = userMapper;
     }
 
-    //    @GetMapping
-    public String getAll(Model model) {
+    @GetMapping
+    public String main(Model model) {
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("users", userService.getAllUsers());
-        return "/user/all";
+        return "/user/users";
     }
 
-    @GetMapping("/books/{id}")
-    public String myBooks(@PathVariable Long id, Model model) {
+    @GetMapping("/profile")
+    public String myBooks(Model model) {
+        model.addAttribute("user", userService.getUserById(getUser().getId()));
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("curBooks",
-                userService.currentBooks(userService.getUserById(id)));
+                userService.currentBooks(userService.getUserById(getUser().getId())));
         model.addAttribute("pastBooks",
-                userService.pastBooks(userService.getUserById(id)));
+                userService.pastBooks(userService.getUserById(getUser().getId())));
 
-//        userService.getUserById(id).getCurrentBooks();
-//        userService.getUserById(id).getPastBooks();
+        return "/user/profile";
+    }
 
-//        model.addAttribute("curBooks", userService.cur(userService.getUserById(id)));
-//        model.addAttribute("pastBooks", userService.cur(userService.getUserById(id)));
-        return "/user/myBooks";
+    @GetMapping("/create")
+    public String createUSer(@ModelAttribute("user") UserDTO userDTO) {
+        return "/user/newUser";
+    }
+
+    @PostMapping("/new")
+    public String addUser(@ModelAttribute("user") UserDTO userDTO) throws IOException {
+        User user = new User();
+        user.setFullName(userDTO.getFullName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setImage(userDTO.getImage().getBytes());
+        userService.saveUser(user);
+
+        return "redirect:/userTh";
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(user.getImage());
     }
 }
