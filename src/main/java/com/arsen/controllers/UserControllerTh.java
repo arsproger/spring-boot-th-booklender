@@ -70,6 +70,11 @@ public class UserControllerTh {
 
         return "redirect:/userTh";
     }
+    @GetMapping("/active")
+    public String addUser(@RequestParam("email") String email) {
+        userService.activeUser(email);
+        return "redirect:/userTh";
+    }
 
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {

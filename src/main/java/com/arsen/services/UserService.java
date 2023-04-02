@@ -1,7 +1,7 @@
 package com.arsen.services;
 
 import com.arsen.enums.Role;
-import com.arsen.models.Book;
+import com.arsen.enums.UserStatus;
 import com.arsen.models.Record;
 import com.arsen.models.User;
 import com.arsen.repositories.BookRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,13 +26,15 @@ public class UserService {
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, BookRepository bookRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BookRepository bookRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public List<User> getAllUsers() {
@@ -46,20 +49,32 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
-        if (user.getImage() == null || user.getImage().length == 0) {
+        user.setStatus(UserStatus.INACTIVE);
+        if (user.getImage() == null) {
             try {
                 user.setImage(defaultImage());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        return userRepository.save(user);
-}
+        String linkForActive = generateLinkForUserActive(user.getEmail());
+        User saveUser= userRepository.save(user);
+        try {
+            emailService.sendActivationEmail(user.getEmail(), linkForActive);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return saveUser;
+    }
+
+
+    private String generateLinkForUserActive(String email) {
+        return "http://localhost:8080/userTh/active?email=" + email;
+    }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public byte[] defaultImage() throws IOException {
-        return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
-                "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
+        return Files.readAllBytes(Paths.get("src/main/resources/static/image/default.jpg").toAbsolutePath());
     }
 
     public Long deleteUser(Long id) {
@@ -71,6 +86,13 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    @Transactional
+    public Long activeUser(String email){
+        User user = userRepository.findByEmail(email);
+
+        user.setStatus(UserStatus.ACTIVE);
+        return userRepository.save(user).getId();
+    }
     public User updateUser(Long id, User user) {
         User updatedUser = getUserById(id);
         updatedUser.setEmail(user.getEmail());

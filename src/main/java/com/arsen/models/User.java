@@ -1,6 +1,7 @@
 package com.arsen.models;
 
 import com.arsen.enums.Role;
+import com.arsen.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "user")
     private List<Book> currentBooks; // текущие книги
