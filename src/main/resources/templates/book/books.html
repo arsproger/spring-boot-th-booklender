@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-
-<!--    <link rel="stylesheet" type="text/css" media="all" th:href="@{../static/style/style.css}" />-->
-
-<!--    <link rel="stylesheet" type="text/css" media="all"-->
-<!--          href="../../static/style/style.css" th:href="@{../static/style/style.css}" />-->
-
-<!--    <link href="${pageContext.request.contextPath}/" rel="stylesheet">-->
-
         <style>
             @import url("https://fonts.googleapis.com/css?family=Roboto");
 
@@ -244,7 +236,44 @@
             background-color: #3e8e41; /* Задаем цвет фона кнопки при наведении на нее курсора мыши */
         }
 
-        .cover {
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .button {
+                display: inline-block;
+                margin: 0 10px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background-color: #2c3e50;
+                color: #ffffff;
+                font-size: 16px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            /*.button:hover {*/
+            /*    background-color: #34495e;*/
+            /*}*/
+
+            .offset-number {
+                margin: 0 20px;
+                font-size: 18px;
+                font-weight: bold;
+                color: #2c3e50;
+            }
+
+
+            /*.button:hover {*/
+            /*    background-color: #34495e;*/
+            /*}*/
+
+
+            .cover {
             border: 2px solid gray;
             height: 80%;
             overflow: hidden;
@@ -385,6 +414,16 @@
 <div th:if="${books.isEmpty()}">
     <h3 style="color: red">Books not found!</h3>
 </div>
+<div class="button-container">
+    <a th:if="${offset > 0}" class="button" th:href="@{/bookTh(offset=${offset - 1})}">Пред</a>
+    <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
+    <a th:if="${isNext}" class="button" th:href="@{/bookTh(offset=${offset + 1})}">След</a>
+</div>
+<br><br>
+
+
+
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

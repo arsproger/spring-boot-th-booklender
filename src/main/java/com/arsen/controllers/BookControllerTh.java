@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.validation.constraints.Min;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -45,8 +46,12 @@ public class BookControllerTh {
     }
 
     @GetMapping
-    public String main(Model model) {
-        model.addAttribute("books", bookService.getAllBooks());
+    public String getAll(Model model,
+                         @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
+        model.addAttribute("isNext",
+                (bookService.getAllBooks().size() / (3D * (offset.doubleValue() + 1D))) > 1D);
+        model.addAttribute("offset", offset);
+        model.addAttribute("books", bookService.findAll(offset));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/book/books";
     }
@@ -85,7 +90,7 @@ public class BookControllerTh {
         model.addAttribute("book", book);
         model.addAttribute("records",
                 book.getRecords().stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList()));
-
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/book/show";
     }
 
@@ -114,4 +119,5 @@ public class BookControllerTh {
 
         return "redirect:/userTh/profile";
     }
+
 }

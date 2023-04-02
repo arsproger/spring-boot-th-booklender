@@ -8,6 +8,9 @@ import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,10 @@ public class BookService {
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    public Page<Book> findAll(Integer offset) {
+        return bookRepository.findAll(PageRequest.of(offset, 3, Sort.by("id").ascending()));
     }
 
     public Book getBookById(Long id) {
