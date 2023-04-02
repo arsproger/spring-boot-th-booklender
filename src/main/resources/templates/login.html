@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
     <!-- Подключаем свой CSS файл -->
 
+<!--    <link rel="stylesheet" href="../static/style/navbar.css">-->
+
+
     <style>
 
         .navigation {
@@ -168,8 +171,12 @@
         }
 
         body {
+            background-image: url('../static/image/img.png');
+            background-repeat: no-repeat;
+            background-size: cover;
             background-color: #f8f9fa;
         }
+
         .card {
             margin-top: 50px;
         }
@@ -177,9 +184,17 @@
             margin-bottom: 20px;
         }
 
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
     </style>
 </head>
-<body>
 <section class="navigation">
     <div class="nav-container">
         <div class="brand">
