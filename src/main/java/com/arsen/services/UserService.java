@@ -1,7 +1,6 @@
 package com.arsen.services;
 
 import com.arsen.enums.Role;
-import com.arsen.models.Book;
 import com.arsen.models.Record;
 import com.arsen.models.User;
 import com.arsen.repositories.BookRepository;
@@ -13,9 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

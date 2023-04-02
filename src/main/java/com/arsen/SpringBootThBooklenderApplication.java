@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.List;
-
 @SpringBootApplication
 @EnableWebMvc
 public class SpringBootThBooklenderApplication {

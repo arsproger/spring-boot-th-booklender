@@ -34,21 +34,23 @@ public class PasswordController {
     }
 
     @PostMapping("/forgotPassword")
-    public String processForgotPasswordForm(@RequestParam("email") String email, HttpServletRequest request) {
+    public String processForgotPasswordForm(@RequestParam("email") String email) {
         User user = userService.getUserByEmail(email);
         if (user == null) {
-            return "password/forgotPassword";
+            return ("password/forgotPassword");
         }
-
-        // generate new password
-        String newPassword = passwordEncoder.encode("qwerty1122only");
-
-        // send email with password reset link
-        String resetUrl = getResetUrl(request, user.getId(), newPassword);
+        String resetCode = generateResetCode();
+        user.setPassword(resetCode);
+        userService.saveUser(user);
+        String resetUrl = "http://localhost:8080/reset?code=" + resetCode;
         emailService.sendSimpleMessage(email,
                 "Password reset",
                 "Please click the link below to reset your password: " + resetUrl);
         return "password/forgotPasswordSuccess";
+    }
+    private String generateResetCode() {
+        String resetCode = "resetCode";
+        return resetCode;
     }
 
     @GetMapping("/resetPassword")
@@ -74,17 +76,77 @@ public class PasswordController {
         userService.setResetToken(null);
         userService.saveUser(user);
         return "password/resetPasswordSuccess";
-    }
 
+    }
     private String getResetUrl(HttpServletRequest request, Long id, String newPassword) {
         String contextPath = request.getContextPath();
-        String resetUrl = request.getScheme()
+        return request.getScheme()
                 + "://" + request.getServerName()
                 + ":" + request.getServerPort()
                 + contextPath + "/resetPassword?id="
                 + id + "&token="
                 + newPassword;
-        return resetUrl;
     }
+
+
+
+
+
+
+
+
+
+//    @PostMapping("/forgot")
+//    public String processForgotPasswordForm(@RequestParam("email") String email, HttpServletRequest request) {
+//        User user = userService.getUserByEmail(email);
+//        if (user == null) {
+//            return "password/forgotPassword";
+//        }
+//
+//        // generate new password
+//        String newPassword = passwordEncoder.encode("qwerty1122only");
+//
+//        // send email with password reset link
+//        String resetUrl = getResetUrl(request, user.getId(), newPassword);
+//        emailService.sendSimpleMessage(email,
+//                "Password reset",
+//                "Please click the link below to reset your password: " + resetUrl);
+//        return "password/forgotPasswordSuccess";
+//    }
+//
+//    @GetMapping("/reset")
+//    public String showResetPasswordForm(@RequestParam("id") Long id, @RequestParam("token") String token, Model model) {
+//        User user = userService.getUserById(id);
+//        if (user == null || !userService.isValidResetToken(token)) {
+//            return "redirect:/forgotPassword";
+//        }
+//        model.addAttribute("userId", id);
+//        model.addAttribute("token", token);
+//        return "password/resetPassword";
+//    }
+//
+//    @PostMapping("/reset")
+//    public String processResetPasswordForm(@RequestParam("userId") Long id,
+//                                           @RequestParam("token") String token,
+//                                           @RequestParam("password") String password) {
+//        User user = userService.getUserById(id);
+//        if (user == null || !userService.isValidResetToken(token)) {
+//            return "redirect:/forgotPassword";
+//        }
+//        user.setPassword(passwordEncoder.encode(password));
+//        userService.setResetToken(null);
+//        userService.saveUser(user);
+//        return "password/resetPasswordSuccess";
+//    }
+//
+//    private String getResetUrl(HttpServletRequest request, Long id, String newPassword) {
+//        String contextPath = request.getContextPath();
+//        return request.getScheme()
+//                + "://" + request.getServerName()
+//                + ":" + request.getServerPort()
+//                + contextPath + "/resetPassword?id="
+//                + id + "&token="
+//                + newPassword;
+//    }
 }
 
