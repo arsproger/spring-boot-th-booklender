@@ -202,8 +202,8 @@
 
         .book {
             display: inline-block;
-            width: 230px;
-            height: 390px;
+            width: 230px; /*230*/
+            height: 390px; // /*390*/
             box-shadow: 0 0 20px #aaa;
             margin: 25px;
             padding: 10px 10px 0 10px;
@@ -414,12 +414,13 @@
 <div th:if="${books.isEmpty()}">
     <h3 style="color: red">Books not found!</h3>
 </div>
+<br><br><br><br><br>
 <div class="button-container">
     <a th:if="${offset > 0}" class="button" th:href="@{/bookTh(offset=${offset - 1})}">Пред</a>
     <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
     <a th:if="${isNext}" class="button" th:href="@{/bookTh(offset=${offset + 1})}">След</a>
 </div>
-<br><br>
+<br><br><br>
 
 
 </body>

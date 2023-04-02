@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,10 +25,10 @@ public class Book {
 
     private String author;
 
+    @Column(length = 1000)
     private String description;
 
     @Lob
-//    @Type(type = "org.hibernate.type.Ima")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)

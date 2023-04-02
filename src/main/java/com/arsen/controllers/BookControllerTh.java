@@ -49,7 +49,7 @@ public class BookControllerTh {
     public String getAll(Model model,
                          @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
         model.addAttribute("isNext",
-                (bookService.getAllBooks().size() / (3D * (offset.doubleValue() + 1D))) > 1D);
+                (bookService.getAllBooks().size() / (9D * (offset.doubleValue() + 1D))) > 1D);
         model.addAttribute("offset", offset);
         model.addAttribute("books", bookService.findAll(offset));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));

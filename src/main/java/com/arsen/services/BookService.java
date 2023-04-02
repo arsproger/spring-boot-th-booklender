@@ -43,7 +43,7 @@ public class BookService {
     }
 
     public Page<Book> findAll(Integer offset) {
-        return bookRepository.findAll(PageRequest.of(offset, 3, Sort.by("id").ascending()));
+        return bookRepository.findAll(PageRequest.of(offset, 9, Sort.by("id").ascending()));
     }
 
     public Book getBookById(Long id) {

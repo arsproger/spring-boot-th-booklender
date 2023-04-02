@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.io.IOException;
 
 @Controller
@@ -36,9 +37,13 @@ public class UserControllerTh {
     }
 
     @GetMapping
-    public String main(Model model) {
+    public String main(Model model,
+                       @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
+        model.addAttribute("isNext",
+                (userService.getAllUsers().size() / (3D * (offset.doubleValue() + 1D))) > 1D);
+        model.addAttribute("offset", offset);
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("users", userService.findAll(offset));
         return "/user/users";
     }
 

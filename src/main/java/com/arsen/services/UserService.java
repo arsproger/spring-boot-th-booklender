@@ -8,6 +8,9 @@ import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -36,6 +39,10 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public Page<User> findAll(Integer offset) {
+        return userRepository.findAll(PageRequest.of(offset, 3, Sort.by("id").ascending()));
     }
 
     public User getUserById(Long id) {
