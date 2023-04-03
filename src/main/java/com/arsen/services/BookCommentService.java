@@ -9,6 +9,7 @@ import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,54 +17,67 @@ public class BookCommentService {
     private final BookCommentRepository bookCommentRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-
+    private final UserService userService;
+    private final BookService bookService;
 
 
     @Autowired
-    public BookCommentService(BookCommentRepository bookCommentRepository, BookRepository bookRepository, UserRepository userRepository){
+    public BookCommentService(BookCommentRepository bookCommentRepository, BookRepository bookRepository, UserRepository userRepository, UserService userService, BookService bookService) {
         this.bookCommentRepository = bookCommentRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
+        this.bookService = bookService;
     }
 
-    public List<BookComment> getAllComments(){
+    public List<BookComment> getAllComments() {
         return bookCommentRepository.findAll();
     }
 
-    public BookComment getCommentById(Long id){
+    public BookComment getCommentById(Long id) {
         return bookCommentRepository.findById(id).orElse(null);
     }
 
-    public BookComment createComment(BookComment bookComment){
+    public BookComment createComment(BookComment bookComment) {
         return bookCommentRepository.save(bookComment);
     }
 
-    public BookComment updateComment(BookComment bookComment, Long id){
+    public BookComment updateComment(BookComment bookComment, Long id) {
         BookComment updateComment = getCommentById(id);
         updateComment.setGrade(bookComment.getGrade());
         updateComment.setTitle(bookComment.getTitle());
         updateComment.setDescription(bookComment.getDescription());
         return bookCommentRepository.save(updateComment);
     }
-    public Long deleteComment(Long id){
+
+    public Long deleteComment(Long id) {
         bookCommentRepository.deleteById(id);
         return id;
     }
 
-    public BookComment saveComment(BookComment bookComment){
-        return  bookCommentRepository.save(bookComment);
+    public BookComment saveComment(BookComment bookComment) {
+        return bookCommentRepository.save(bookComment);
     }
 
-
-//    public void saveComment(BookComment bookComment, User user, Book book){
-//        BookComment bookComment1 = new BookComment();
-//
-//        bookComment1.setGrade(bookComment.getGrade());
-//        bookComment1.setTitle(bookComment.getTitle());
-//        bookComment1.setDescription(bookComment1.getDescription());
-//        bookComment1.setBook(book);
-//        bookComment1.setUser(user);
-//        bookCommentRepository.save(bookComment1);
+//    public BookComment addComment(BookComment bookComment, Long userId, Long bookId){
+//        User user = userService.getUserById(userId);
+//        List<BookComment> comments = new ArrayList<>();
+//        comments.add(bookComment);
+//        user.setComments(comments);
+//        Book book = bookService.getBookById(bookId);
+//        List<BookComment> comments1 = new ArrayList<>();
+//        comments1.add(bookComment);
+//        book.setComments(comments1);
+//        return bookComment;
 //    }
+
+    public BookComment addComment(BookComment bookComment, Long userId, Long bookId) {
+        User user = userService.getUserById(userId);
+        Book book = bookService.getBookById(bookId);
+        bookComment.setUser(user);
+        bookComment.setBook(book);
+        bookCommentRepository.save(bookComment);
+        return bookComment;
+    }
 
 }
