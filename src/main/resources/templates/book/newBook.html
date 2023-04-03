@@ -52,18 +52,18 @@
                         <div class="right"></div>
                     </div>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh/profile}"><i
+                        <a class="nav-link" th:href="@{/user/profile}"><i
                                 class="fas fa-tachometer-alt"></i>Профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
+                        <a class="nav-link" th:href="@{/book}"><i class="far fa-address-book"></i>Каталог</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление
+                        <a class="nav-link" th:href="@{/admin/book/create}"><i class="far fa-address-book"></i>Добавление
                             книги</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
+                        <a class="nav-link" th:href="@{/admin/user}"><i class="far fa-clone"></i>Пользователи</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
@@ -78,7 +78,7 @@
 </section>
 <div class="container">
     <h1 style="text-align: center;">Add Book</h1>
-    <form th:action="@{/bookTh/new}" method="POST" enctype="multipart/form-data" th:object="${book}">
+    <form th:action="@{/admin/book/new}" method="POST" enctype="multipart/form-data" th:object="${book}">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" th:field="*{name}" required class="form-control">

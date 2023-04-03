@@ -128,7 +128,8 @@
 <section class="navigation">
     <div class="nav-container">
         <nav class="navbar navbar-expand-custom navbar-mainbg">
-            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <i class="fas fa-bars text-white"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -138,16 +139,18 @@
                         <div class="right"></div>
                     </div>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh/profile}"><i class="fas fa-tachometer-alt"></i>Профиль</a>
+                        <a class="nav-link" th:href="@{/user/profile}"><i
+                                class="fas fa-tachometer-alt"></i>Профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
+                        <a class="nav-link" th:href="@{/book}"><i class="far fa-address-book"></i>Каталог</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление книги</a>
+                        <a class="nav-link" th:href="@{/admin/book/create}"><i class="far fa-address-book"></i>Добавление
+                            книги</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
+                        <a class="nav-link" th:href="@{/admin/user}"><i class="far fa-clone"></i>Пользователи</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
@@ -167,8 +170,8 @@
     <div class="cards-container">
         <div th:each="user : ${users}">
             <div class="profile-card">
-                <a th:href="@{/userTh/profile/{id}(id=${user.id})}">
-                    <img class="avatar" th:src="@{'/userTh/' + ${user.id} + '/image'}"/>
+                <a th:href="@{/admin/user/profile/{id}(id=${user.id})}">
+                    <img class="avatar" th:src="@{'/user/' + ${user.id} + '/image'}"/>
                 </a>
                 <h2 class="name" th:text="${user.fullName}"></h2>
                 <h2 class="email" th:text="${user.email}"></h2>
@@ -177,9 +180,9 @@
     </div>
 </div>
 <div class="button-container">
-    <a th:if="${offset > 0}" class="button" th:href="@{/userTh(offset=${offset - 1})}">Пред</a>
+    <a th:if="${offset > 0}" class="button" th:href="@{/admin/user(offset=${offset - 1})}">Пред</a>
     <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
-    <a th:if="${isNext}" class="button" th:href="@{/userTh(offset=${offset + 1})}">След</a>
+    <a th:if="${isNext}" class="button" th:href="@{/admin/user(offset=${offset + 1})}">След</a>
     <br><br><br>
 </div>
 </body>

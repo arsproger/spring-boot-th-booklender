@@ -40,7 +40,8 @@
 <section class="navigation">
     <div class="nav-container">
         <nav class="navbar navbar-expand-custom navbar-mainbg">
-            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <i class="fas fa-bars text-white"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -50,16 +51,18 @@
                         <div class="right"></div>
                     </div>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh/profile}"><i class="fas fa-tachometer-alt"></i>Профиль</a>
+                        <a class="nav-link" th:href="@{/user/profile}"><i
+                                class="fas fa-tachometer-alt"></i>Профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
+                        <a class="nav-link" th:href="@{/book}"><i class="far fa-address-book"></i>Каталог</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление книги</a>
+                        <a class="nav-link" th:href="@{/admin/book/create}"><i class="far fa-address-book"></i>Добавление
+                            книги</a>
                     </li>
                     <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
+                        <a class="nav-link" th:href="@{/admin/user}"><i class="far fa-clone"></i>Пользователи</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
@@ -76,22 +79,22 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-                <img th:src="@{'/bookTh/' + ${book.id} + '/image'}"/>
+                <img th:src="@{'/book/' + ${book.id} + '/image'}"/>
                 <div class="card-body">
                     <h4 class="card-title" th:text="${book.name}"></h4>
                     <p class="card-text" th:text="${'Автор: ' + book.author}"></p>
                     <p class="card-text" th:text="${'Статус: ' + book.status}"></p>
                     <p class="card-text" th:text="${'Описание: ' + book.description}"></p>
                     <div th:if="${book.user != null and book.user.id.equals(user.id)}">
-                        <a class="btn btn-primary" th:href="@{/bookTh/return/{bookId}(bookId=${book.id})}">
+                        <a class="btn btn-primary" th:href="@{/book/return/{bookId}(bookId=${book.id})}">
                             Вернуть книгу
                         </a>
                     </div>
                     <div th:if="${book.user != null and !book.user.id.equals(user.id)}">
-                        <p class="card-text" th:text="'Книга сейчас у ' + ${book.user.fullName}" />
+                        <p class="card-text" th:text="'Книга сейчас у ' + ${book.user.fullName}"/>
                     </div>
                     <div th:if="${book.user == null}">
-                        <a class="btn btn-primary" th:href="@{/bookTh/lend/{bookId}(bookId=${book.id})}">
+                        <a class="btn btn-primary" th:href="@{/book/lend/{bookId}(bookId=${book.id})}">
                             Взять книгу
                         </a>
                     </div>

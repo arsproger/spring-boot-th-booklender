@@ -38,18 +38,4 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-//    @GetMapping("/login")
-//    public void login(@ModelAttribute AuthDTO authDTO) {
-//
-//        try {
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword())
-//            );
-//
-//            detailsService.loadUserByUsername(authDTO.getUsername());
-//        } catch (UsernameNotFoundException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return "redirect"
-//    }
 }

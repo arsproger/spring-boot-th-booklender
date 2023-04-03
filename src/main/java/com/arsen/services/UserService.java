@@ -93,23 +93,10 @@ public class UserService {
                 .stream().filter(a -> a.getReturnDate() == null).collect(Collectors.toList());
     }
 
-//    @Transactional(isolation = Isolation.SERIALIZABLE)
-//    public List<Book> currentBooks(User user) {
-//        return bookRepository.findByUser(user);
-//    }
-
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<Record> pastBooks(User user) {
         return recordRepository.findByUser(user)
                 .stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList());
     }
 
-//    @Transactional(isolation = Isolation.SERIALIZABLE)
-//    public List<Book> cur(User user) {
-//        return bookRepository.findByUser(user);
-//    }
-
-//    public List<Book> pas(User user) {
-//
-//    }
 }
