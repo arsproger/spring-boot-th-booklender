@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public Page<User> findAll(Integer offset) {
-        return userRepository.findAll(PageRequest.of(offset, 3, Sort.by("id").ascending()));
+        return userRepository.findAll(PageRequest.of(offset, 9, Sort.by("id").ascending()));
     }
 
     public User getUserById(Long id) {
@@ -78,13 +78,14 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User updateUser(Long id, User user) {
-        User updatedUser = getUserById(id);
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setPassword(user.getPassword());
-        updatedUser.setFullName(user.getFullName());
-        updatedUser.setDateOfBirth(user.getDateOfBirth());
-        return userRepository.save(updatedUser);
+    public User updateUser(Long id, User updatedUser) {
+        User user = getUserById(id);
+        user.setFullName(updatedUser.getFullName());
+        user.setDateOfBirth(updatedUser.getDateOfBirth());
+        if(updatedUser.getImage().length != 0)
+            user.setImage(updatedUser.getImage());
+
+        return userRepository.save(user);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)

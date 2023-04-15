@@ -3,7 +3,6 @@ package com.arsen.controllers;
 import com.arsen.dto.BookDTO;
 import com.arsen.enums.Role;
 import com.arsen.mappers.BookMapper;
-import com.arsen.mappers.UserMapper;
 import com.arsen.models.Book;
 import com.arsen.models.User;
 import com.arsen.security.DetailsUser;
@@ -44,7 +43,7 @@ public class AdminController {
     public String main(Model model,
                        @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
         model.addAttribute("isNext",
-                (userService.getAllUsers().size() / (3D * (offset.doubleValue() + 1D))) > 1D);
+                (userService.getAllUsers().size() / (9D * (offset.doubleValue() + 1D))) > 1D);
         model.addAttribute("offset", offset);
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("users", userService.findAll(offset));

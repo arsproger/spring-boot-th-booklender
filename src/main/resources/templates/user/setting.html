@@ -1,98 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile Settings</title>
+    <title>Настройки профиля</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/static/style/navbar.css">
     <script src="/static/js/navbar.js"></script>
 </head>
 <body>
-<section class="navigation">
-    <div class="nav-container">
-        <nav class="navbar navbar-expand-custom navbar-mainbg">
-            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <i class="fas fa-bars text-white"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="hori-selector">
-                        <div class="left"></div>
-                        <div class="right"></div>
-                    </div>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/user/profile}"><i
-                                class="fas fa-tachometer-alt"></i>Профиль</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/book}"><i class="far fa-address-book"></i>Каталог</a>
-                    </li>
-                    <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/book/create}"><i class="far fa-address-book"></i>Добавление
-                            книги</a>
-                    </li>
-                    <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/user}"><i class="far fa-clone"></i>Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/logout}"><i class="far fa-chart-bar"></i>Выход</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/menu.png" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
     </div>
-</section>
+</nav>
 <br>
 <div class="container">
-    <h1>User Profile Settings</h1>
-    <form th:action="@{/profile/save}" method="post" enctype="multipart/form-data">
+    <h1>Редактирование профиля</h1>
+    <form th:action="@{/user/updated}" method="post" enctype="multipart/form-data" th:object="${user}">
         <div class="row">
             <div class="col-md-4">
-                <h3>Profile Picture</h3>
-                <img id="profile-picture-preview" src="https://via.placeholder.com/150x150" alt="Profile Picture" class="img-thumbnail">
+                <img id="profile-picture-preview" th:src="@{'/user/' + ${id} + '/image'}" alt="Profile Picture" class="img-thumbnail">
                 <div class="form-group">
                     <label for="profile-picture"> </label>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="profile-picture" name="profilePicture" onchange="previewProfilePicture(event)">
+                        <input type="file" class="custom-file-input" id="profile-picture" name="profilePicture" th:field="*{image}" onchange="previewProfilePicture(event)">
                         <label class="custom-file-label" for="profile-picture">Choose file</label>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" id="remove-picture" class="btn btn-danger" onclick="removeProfilePicture()">Remove Picture</button>
             </div>
             <div class="col-md-8">
-                <h3>Profile Information</h3>
                 <div class="form-group">
                     <label for="full-name">Full Name:</label>
-                    <input type="text" class="form-control" id="full-name" name="fullName" value="John Doe">
+                    <input type="text" class="form-control" id="full-name" name="fullName" th:field="*{fullName}">
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth:</label>
-                    <input type="date" class="form-control" id="dob" name="dob" value="1990-01-01">
+                    <input type="datetime-local" class="form-control" id="dob" name="dob" th:field="*{dateOfBirth}">
                 </div>
-
-                <div class="form-group">
-                    <label for="old-password">Old Password:</label>
-                    <input type="password" class="form-control" id="old-password" name="oldPassword">
-                </div>
-                <div class="form-group">
-                    <label for="new-password">New Password:</label>
-                    <input type="password" class="form-control" id="new-password" name="newPassword">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input type="password" class="form-control" id="confirm-password" name="confirmPassword">
-                </div>
-
             </div>
         </div>
     </form>
 </div>
+<br><br><br>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -105,13 +82,6 @@
             document.getElementById('remove-picture').style.display = 'block';
         }
         reader.readAsDataURL(event.target.files[0]);
-    }
-
-    function removeProfilePicture() {
-        var defaultPictureUrl = 'https://via.placeholder.com/150x150';
-        var output = document.getElementById('profile-picture-preview');
-        output.src = defaultPictureUrl;
-        document.getElementById('remove-picture').style.display = 'none';
     }
 </script>
 </body>
