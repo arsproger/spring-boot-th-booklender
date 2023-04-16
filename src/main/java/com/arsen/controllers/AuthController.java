@@ -27,6 +27,11 @@ public class AuthController {
         return "/main";
     }
 
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "/contact";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "/login";
