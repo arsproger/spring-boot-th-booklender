@@ -5,10 +5,8 @@ import com.arsen.mappers.UserMapper;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/auth")
@@ -28,7 +26,8 @@ public class AuthController {
     }
 
     @GetMapping("/contact")
-    public String contactPage() {
+    public String contactPage(Model model) {
+        model.addAttribute("isSend", false);
         return "/contact";
     }
 
@@ -46,6 +45,17 @@ public class AuthController {
     public String register(@ModelAttribute("user") UserDTO userDTO) {
         userService.saveUser(userMapper.convertToEntity(userDTO));
         return "redirect:/auth/login";
+    }
+
+    @PostMapping("/support")
+    public String processContactForm(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String message,
+            Model model) {
+        System.out.println(name + "\n" + email + "\n" + message);
+        model.addAttribute("isSend", true);
+        return "/contact";
     }
 
 }

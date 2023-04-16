@@ -52,10 +52,10 @@
             <div class="card">
                 <img class="card-img-top" th:src="@{'/user/' + ${user.id} + '/image'}" alt="Card image cap">
                 <div class="card-body">
-                    <a th:href="@{/user/update}" class="btn btn-primary mb-2">Редактировать профиль</a>
-                    <p class="card-title" th:text="${user.fullName}"/>
-                    <p class="card-text" th:text="${user.email}"/>
-                    <p class="card-text" th:text="${user.dateOfBirth}"/>
+                    <a th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-primary mb-2">Редактировать профиль</a>
+                    <p class="card-title" th:text="${'ФИО: ' + user.fullName}"/>
+                    <p class="card-text" th:text="${'Почта: ' + user.email}"/>
+                    <p class="card-text" th:text="${'Дата рождения: ' + user.dateOfBirth}"/>
                 </div>
             </div>
         </div>

@@ -42,7 +42,7 @@
 <br>
 <div class="container">
     <h1>Редактирование профиля</h1>
-    <form th:action="@{/user/updated}" method="post" enctype="multipart/form-data" th:object="${user}">
+    <form th:action="@{/user/updated/{id}(id=${id})}" method="post" enctype="multipart/form-data" th:object="${user}">
         <div class="row">
             <div class="col-md-4">
                 <img id="profile-picture-preview" th:src="@{'/user/' + ${id} + '/image'}" alt="Profile Picture" class="img-thumbnail">
@@ -50,18 +50,18 @@
                     <label for="profile-picture"> </label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="profile-picture" name="profilePicture" th:field="*{image}" onchange="previewProfilePicture(event)">
-                        <label class="custom-file-label" for="profile-picture">Choose file</label>
+                        <label class="custom-file-label" for="profile-picture">Выберите фото профиля</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
             </div>
             <div class="col-md-8">
                 <div class="form-group">
-                    <label for="full-name">Full Name:</label>
+                    <label for="full-name">ФИО:</label>
                     <input type="text" class="form-control" id="full-name" name="fullName" th:field="*{fullName}">
                 </div>
                 <div class="form-group">
-                    <label for="dob">Date of Birth:</label>
+                    <label for="dob">Дата рождения:</label>
                     <input type="date" class="form-control" id="dob" name="dob" th:field="*{dateOfBirth}">
                 </div>
             </div>

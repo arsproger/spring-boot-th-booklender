@@ -1,10 +1,8 @@
 package com.arsen.services;
 
 import com.arsen.enums.Role;
-import com.arsen.models.Book;
 import com.arsen.models.Record;
 import com.arsen.models.User;
-import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +23,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, BookRepository bookRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -61,7 +57,7 @@ public class UserService {
             }
         }
         return userRepository.save(user);
-}
+    }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public byte[] defaultImage() throws IOException {
@@ -69,20 +65,11 @@ public class UserService {
                 "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
     }
 
-    public Long deleteUser(Long id) {
-        userRepository.deleteById(id);
-        return id;
-    }
-
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public User updateUser(Long id, User updatedUser) {
         User user = getUserById(id);
         user.setFullName(updatedUser.getFullName());
         user.setDateOfBirth(updatedUser.getDateOfBirth());
-        if(updatedUser.getImage().length != 0)
+        if (updatedUser.getImage().length != 0)
             user.setImage(updatedUser.getImage());
 
         return userRepository.save(user);

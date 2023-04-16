@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Контакты и информация о сайте</title>
@@ -41,8 +41,7 @@
             background-color: #0069d9;
         }
 
-        #thank-you-message {
-            display: none;
+        .thank-you-message {
             background-color: #e6e6e6;
             border: 1px solid #ccc;
             padding: 20px;
@@ -120,16 +119,16 @@
                 <li><i class="fas fa-envelope"></i> Email: example@mail.com</li>
             </ul>
         </div>
-        <div class="col-md-6">
-            <form id="contact-form" method="post" action="#">
+        <div th:if="${not isSend}" class="col-md-6">
+            <form id="contact-form" th:method="POST" th:action="@{/auth/support}">
                 <h2>Свяжитесь с нами</h2>
                 <div class="form-group">
                     <label for="name">Ваше имя</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Введите ваше имя" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Введите ваше имя" required />
                 </div>
                 <div class="form-group">
                     <label for="email">Ваш email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Введите ваш email" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Введите ваш email" required />
                 </div>
                 <div class="form-group">
                     <label for="message">Ваше сообщение</label>
@@ -139,7 +138,7 @@
             </form>
         </div>
     </div>
-    <div id="thank-you-message" style="display:none;">
+    <div th:if="${isSend}" class="thank-you-message">
         Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.
     </div>
 </main>
@@ -149,15 +148,5 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#contact-form').submit(function (event) {
-            event.preventDefault();
-            // Добавляем код обработки формы здесь
-            $('#contact-form').hide();
-            $('#thank-you-message').show();
-        });
-    });
-</script>
 </body>
 </html>

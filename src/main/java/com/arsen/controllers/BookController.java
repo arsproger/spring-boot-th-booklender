@@ -73,14 +73,14 @@ public class BookController {
         return "/book/show";
     }
 
-    @GetMapping("/lend/{bookId}") // выдача книги
+    @GetMapping("/lend/{bookId}")
     public String lendBook(@PathVariable("bookId") Long bookId) {
         bookService.lendBook(getUser().getId(), bookId);
 
         return "redirect:/user/profile";
     }
 
-    @GetMapping("/return/{bookId}") // возврат книги
+    @GetMapping("/return/{bookId}")
     public String returnBook(@PathVariable("bookId") Long bookId) {
         bookService.returnBook(getUser().getId(), bookId);
 

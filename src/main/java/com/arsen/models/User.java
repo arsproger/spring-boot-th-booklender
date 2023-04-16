@@ -42,12 +42,12 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> currentBooks; // текущие книги
+    private List<Book> currentBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> pastBooks; // книги которые он брал ранее
+    private List<Book> pastBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Record> records; // записи книг которые он брал
+    private List<Record> records;
 }
 

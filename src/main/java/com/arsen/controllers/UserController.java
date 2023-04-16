@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String myBooks(Model model) {
-        model.addAttribute("user", userService.getUserById(getUser().getId()));
+    public String myBooks(Model model, @RequestParam(value = "id", required = false) Long id) {
+        model.addAttribute("user", userService.getUserById(id != null ? id : getUser().getId()));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("curBooks",
                 userService.currentBooks(userService.getUserById(getUser().getId())));
@@ -53,24 +53,24 @@ public class UserController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(user.getImage());
     }
 
-    @GetMapping("/update")
-    public String updateForm(Model model) {
-        model.addAttribute("id", getUser().getId());
+    @GetMapping("/update/{id}")
+    public String updateForm(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("id", id);
         model.addAttribute("user", userMapper.convertToDTO(
-                userService.getUserById(getUser().getId())));
+                userService.getUserById(id)));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/user/setting";
     }
 
-    @PostMapping("/updated")
-    public String update(@ModelAttribute("user") UserDTO userDTO) throws IOException {
+    @PostMapping("/updated/{id}")
+    public String update(@ModelAttribute("user") UserDTO userDTO, @PathVariable("id") Long id) throws IOException {
         User user = new User();
         user.setFullName(userDTO.getFullName());
         user.setDateOfBirth(userDTO.getDateOfBirth());
         user.setImage(userDTO.getImage().getBytes());
 
-        userService.updateUser(getUser().getId(), user);
-        return "redirect:/user/profile";
+        userService.updateUser(id, user);
+        return "redirect:/user/profile?id=" + id;
     }
 
 }

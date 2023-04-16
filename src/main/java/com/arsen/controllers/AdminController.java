@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Min;
 import java.io.IOException;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -59,7 +61,7 @@ public class AdminController {
         model.addAttribute("pastBooks",
                 userService.pastBooks(userService.getUserById(id)));
 
-        return "/user/profile";
+        return "redirect:/user/profile?id=" + id;
     }
 
     @GetMapping("/book/create")
