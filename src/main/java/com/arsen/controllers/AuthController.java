@@ -22,6 +22,11 @@ public class AuthController {
         this.userMapper = userMapper;
     }
 
+    @GetMapping("/main")
+    public String mainPage() {
+        return "/main";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "/login";

@@ -3,199 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
-
     <link rel="stylesheet" href="/static/style/navbar.css">
+    <link rel="stylesheet" href="/static/style/books-style.css">
     <script src="/static/js/navbar.js"></script>
+    <script src="/static/js/books.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-        /*body {*/
-        /*    background-image: url('/static/image/image-main.jpg');*/
-        /*    !*background-repeat: revert;*!*/
-        /*    background-color: #f8f9fa;*/
-        /*    background-size: contain;*/
-        /*}*/
-
-        .container {
-            margin: 0 auto;
-            max-width: 910px;
-
-        }
-
-        .choose {
-            width: 100%;
-            height: 40px;
-        }
-
-        .fa {
-            margin-right: 20px;
-            font-size: 30px;
-            color: gray;
-            float: right;
-        }
-
-        .book {
-            display: inline-block;
-            width: 230px; /*230*/
-            height: 390px;
-        / / /*390*/
-        box-shadow: 0 0 20 px #aaa;
-            margin: 25px;
-            padding: 10px 10px 0 10px;
-            vertical-align: top;
-            transition: height 1s;
-        }
-
-        .sort-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        button {
-            background-color: #4CAF50; /* Задаем цвет фона кнопки */
-            border: none; /* Убираем границу кнопки */
-            color: white; /* Задаем цвет текста кнопки */
-            padding: 10px 16px; /* Задаем отступы внутри кнопки */
-            text-align: center; /* Выравниваем текст по центру кнопки */
-            text-decoration: none; /* Убираем подчеркивание текста */
-            display: inline-block; /* Отображаем кнопки как блочные элементы */
-            font-size: 16px; /* Задаем размер шрифта */
-            margin: 10px; /* Задаем отступ между кнопками */
-            cursor: pointer; /* Делаем курсор руки при наведении на кнопку */
-        }
-
-        button:hover {
-            background-color: #3e8e41; /* Задаем цвет фона кнопки при наведении на нее курсора мыши */
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .button {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2c3e50;
-            color: #ffffff;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .offset-number {
-            margin: 0 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .cover {
-            border: 2px solid gray;
-            height: 80%;
-            overflow: hidden;
-        }
-
-        .cover img {
-            width: 100%;
-        }
-
-        .book p {
-            margin-top: 12px;
-            font-size: 20px;
-        }
-
-        .book .author {
-            font-size: 15px;
-        }
-
-        @media (max-width: 941px) {
-            .container {
-                max-width: 700px;
-            }
-
-            .book {
-                margin: 49px;
-            }
-        }
-
-        @media (max-width: 730px) {
-            .book {
-                display: block;
-                margin: 50px auto 0;
-            }
-
-            .cover {
-            }
-        }
-
-        h1 {
-            color: gray;
-            text-align: center;
-            font-size: 50px;
-            margin-bottom: -3px;
-        }
-
-        #list-th:target .book {
-            height: 100px;
-            width: 250px;
-            padding: 10px;
-            margin: 25px auto 25px auto;
-        }
-
-        #list-th:target .cover {
-            width: 246px;
-        }
-
-        #list-th:target img {
-            opacity: 0.1;
-        }
-
-        #list-th:target p {
-            margin-top: -62px;
-            margin-left: 20px;
-        }
-
-        #large-th:target .book {
-            height: 390px;
-        }
-
-        .warning-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .warning-box {
-            background-color: #ffffff;
-            border: 2px solid #ff0000;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-        }
-        .warn-text {
-            margin: 0;
-            color: #ff0000;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -227,7 +43,6 @@
         </ul>
     </div>
 </nav>
-
 <br><br>
 <div id="large-th">
     <div th:if="not ${books.isEmpty()}" class="container">
@@ -237,7 +52,6 @@
             <a href="#list-th"><i class="fa fa-th-list" aria-hidden="true"></i></a>
             <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
         </div>
-
         <div id="list-th">
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
@@ -257,7 +71,7 @@
         </div>
     </div>
 </div>
-<div class="warning-container">
+<div th:if="${books.isEmpty()}" class="warning-container">
     <div class="warning-box">
         <h3 class="warn-text">Books not found!</h3>
     </div>
@@ -269,30 +83,5 @@
     <a th:if="${isNext}" class="button" th:href="@{/book(offset=${offset + 1})}">След</a>
 </div>
 <br><br><br>
-
 </body>
-
-
-<script>
-    $(document).ready(function () {
-
-        // Сортировка по имени книги
-        $('#sortByName').click(function () {
-            $('.book').sort(function (a, b) {
-                let titleA = $(a).find('.title').text().toUpperCase();
-                let titleB = $(b).find('.title').text().toUpperCase();
-                return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
-            }).appendTo('#list-th');
-        });
-
-        // Сортировка по автору книги
-        $('#sortByAuthor').click(function () {
-            $('.book').sort(function (a, b) {
-                let authorA = $(a).find('.author').text().toUpperCase();
-                let authorB = $(b).find('.author').text().toUpperCase();
-                return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
-            }).appendTo('#list-th');
-        });
-    });
-</script>
 </html>
