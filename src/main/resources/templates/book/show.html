@@ -6,51 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style/navbar.css">
 
     <style>
-
+        body {
+            /*background-image: url('/static/image/books-1204029.jpg');*/
+            /*background-size: contain;*/
+        }
         .card {
             margin-top: 50px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             border-radius: 5px;
         }
-
-        .card-img-top {
-            border-radius: 5px 5px 0 0;
-        }
-
         .card-title {
             font-size: 24px;
             font-weight: bold;
             text-align: center;
             margin-top: 20px;
         }
-
         .card-text {
             font-size: 18px;
             margin-top: 10px;
         }
-
         @media (max-width: 576px) {
             .card-img-top {
                 height: 200px;
             }
         }
-
     </style>
 </head>
-
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/menu.png" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-                <img th:src="@{'/bookTh/' + ${book.id} + '/image'}"/>
+                <img th:src="@{'/book/' + ${book.id} + '/image'}"/>
                 <div class="card-body">
                     <h4 class="card-title" th:text="${book.name}"></h4>
                     <p class="card-text" th:text="${'Автор: ' + book.author}"></p>
                     <p class="card-text" th:text="${'Статус: ' + book.status}"></p>
                     <p class="card-text" th:text="${'Описание: ' + book.description}"></p>
+                    <div th:if="${book.user != null and book.user.id.equals(user.id)}">
+                        <a class="btn btn-primary" th:href="@{/book/return/{bookId}(bookId=${book.id})}">
+                            Вернуть книгу
+                        </a>
+                    </div>
+                    <div th:if="${book.user != null and !book.user.id.equals(user.id)}">
+                        <p style="color: red" class="card-text" th:text="'Книга сейчас у ' + ${book.user.fullName}"/>
+                    </div>
+                    <div th:if="${book.user == null}">
+                        <a class="btn btn-primary" th:href="@{/book/lend/{bookId}(bookId=${book.id})}">
+                            Взять книгу
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,37 +114,13 @@
                                 </tbody>
                                 <h3 th:if="${records.isEmpty()}">Список истории пуст!</h3>
                             </table>
-                            <!--                                <tr>-->
-                            <!--                                    <th scope="col">Пользователь</th>-->
-                            <!--                                    <th scope="col">Дата взятия</th>-->
-                            <!--                                    <th scope="col">Дата возврата</th>-->
-                            <!--                                </tr>-->
-                            <!--                                </thead>-->
-                            <!--                            <ul>-->
-                            <!--                                <th:block  th:each="record : ${records}">-->
-                            <!--                                    <li th:text="${record.user.fullName + ' ' + record.loanDate + ' - ' + record.returnDate}"></li>-->
-                            <!--                                </th:block>-->
-                            <!--                                <p th:if="${book.records.isEmpty()}">У этой книги еще нет записей</p>-->
-                            <!--                            </ul>-->
                         </div>
                     </div>
                 </div>
-                <!--                <div class="col-md-12">-->
-                <!--                    <div class="card">-->
-                <!--                        <div class="card-body">-->
-                <!--                            <h4 class="card-title">Reviews</h4>-->
-                <!--                            <ul>-->
-                <!--                                <th:block th:each="review : ${reviews}">-->
-                <!--                                    <li th:text="${review.comment}"></li>-->
-                <!--                                </th:block>-->
-                <!--                            </ul>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
         </div>
     </div>
 </div>
+<br><br><br>
 </body>
-
 </html>

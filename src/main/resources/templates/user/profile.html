@@ -1,152 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style/navbar.css">
+    <script src="/static/js/navbar.js"></script>
+    <style>
+        .thumbnail {
+            max-width: 70px;
+        }
+    </style>
 </head>
-
-<style>
-
-  @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400';
-  .firstinfo, .badgescard, body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  html {
-    height: 100%;
-  }
-
-  body {
-    font-family: "Open Sans", sans-serif;
-    width: 100%;
-    min-height: 100%;
-    background: #009688;
-    font-size: 16px;
-    overflow: hidden;
-  }
-
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
-
-  .content {
-    position: relative;
-    animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
-  }
-
-  .card {
-    width: 500px;
-    min-height: 100px;
-    padding: 20px;
-    border-radius: 3px;
-    background-color: white;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-  }
-  .card:after {
-    content: "";
-    display: block;
-    width: 190px;
-    height: 300px;
-    background: cadetblue;
-    position: absolute;
-    animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
-  }
-
-  .badgescard {
-    padding: 10px 20px;
-    border-radius: 3px;
-    background-color: #ECECEC;
-    width: 480px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    z-index: -1;
-    left: 10px;
-    bottom: 10px;
-    animation: animainfos 0.5s cubic-bezier(0.425, 1.04, 0.47, 1.105) 0.75s forwards;
-  }
-  .badgescard span {
-    font-size: 1.6em;
-    margin: 0px 6px;
-    opacity: 0.6;
-  }
-
-  .firstinfo {
-    flex-direction: row;
-    z-index: 2;
-    position: relative;
-  }
-  .firstinfo img {
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-  }
-  .firstinfo .profileinfo {
-    padding: 0px 20px;
-  }
-  .firstinfo .profileinfo h1 {
-    font-size: 1.8em;
-  }
-  .firstinfo .profileinfo h3 {
-    font-size: 1.2em;
-    color: #009688;
-    font-style: italic;
-  }
-  .firstinfo .profileinfo p.bio {
-    padding: 10px 0px;
-    color: #5A5A5A;
-    line-height: 1.2;
-    font-style: initial;
-  }
-
-  @keyframes animatop {
-    0% {
-      opacity: 0;
-      bottom: -500px;
-    }
-    100% {
-      opacity: 1;
-      bottom: 0px;
-    }
-  }
-  @keyframes animainfos {
-    0% {
-      bottom: 10px;
-    }
-    100% {
-      bottom: -42px;
-    }
-  }
-  @keyframes rotatemagic {
-    0% {
-      opacity: 0;
-      transform: rotate(0deg);
-      top: -24px;
-      left: -253px;
-    }
-    100% {
-      transform: rotate(-30deg);
-      top: -24px;
-      left: -78px;
-    }
-  }
-
-</style>
 <body>
-
-<div class="content">
-  <div class="card">
-    <div class="firstinfo"><img src="https://randomuser.me/api/portraits/lego/6.jpg"/>
-      <div class="profileinfo">
-        <h1>Francesco Moustache</h1>
-        <h3>Python Ninja</h3>
-        <p class="bio">Lived all my life on the top of mount Fuji, learning the way to be a Ninja Dev.</p>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/menu.png" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
     </div>
-  </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" th:src="@{'/user/' + ${user.id} + '/image'}" alt="Card image cap">
+                <div class="card-body">
+                    <a th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-primary mb-2">Редактировать профиль</a>
+                    <p class="card-title" th:text="${'ФИО: ' + user.fullName}"/>
+                    <p class="card-text" th:text="${'Почта: ' + user.email}"/>
+                    <p class="card-text" th:text="${'Дата рождения: ' + user.dateOfBirth}"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Текущие книги</h2>
+                    <table th:if="${not curBooks.isEmpty()}" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Фото</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Дата взятия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${curBooks}">
+                            <td>
+                                <a th:href="@{/book/{id}(id=${record.book.id})}">
+                                    <img class="img-thumbnail thumbnail"
+                                         th:src="@{'/book/' + ${record.book.id} + '/image'}" alt="Photo">
+                                </a>
+                            </td>
+                            <td th:text="${record.book.name}"></td>
+                            <td th:text="${record.book.author}"></td>
+                            <td th:text="${record.loanDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 style="color: red" th:if="${curBooks.isEmpty()}"><br>У пользователя нет взятых книг!</h3>
+                    <h2>История взятых книг</h2>
+                    <table th:if="${not pastBooks.isEmpty()}" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Фото</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Дата взятия</th>
+                            <th scope="col">Дата возврата</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${pastBooks}">
+                            <td>
+                                <a th:href="@{/book/{id}(id=${record.book.id})}">
+                                    <img class="img-thumbnail thumbnail"
+                                         th:src="@{'/book/' + ${record.book.id} + '/image'}" alt="Photo">
+                                </a>
+                            </td>
+                            <td th:text="${record.book.name}"></td>
+                            <td th:text="${record.book.author}"></td>
+                            <td th:text="${record.loanDate}"></td>
+                            <td th:text="${record.returnDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 style="color: red" th:if="${pastBooks.isEmpty()}"><br>Список истории пуст!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

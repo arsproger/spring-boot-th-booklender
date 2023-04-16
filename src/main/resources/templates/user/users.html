@@ -8,17 +8,16 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style/navbar.css">
-    <link rel="stylesheet" href="/static/style/books-style.css">
+    <link rel="stylesheet" href="/static/style/users-style.css">
     <script src="/static/js/navbar.js"></script>
-    <script src="/static/js/books.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
         <img src="/static/image/menu.png" width="50" height="50" class="d-inline-block align-text-top">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse " id="navbarNav">
@@ -44,44 +43,25 @@
     </div>
 </nav>
 <br><br>
-<div id="large-th">
-    <div th:if="not ${books.isEmpty()}" class="container">
-        <h1> A list of books</h1>
-        <br>
-        <div class="choose">
-            <a href="#list-th"><i class="fa fa-th-list" aria-hidden="true"></i></a>
-            <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
-        </div>
-        <div id="list-th">
-            <div class="sort-buttons">
-                <button id="sortByName">Sort by Name</button>
-                <button id="sortByAuthor">Sort by Author</button>
-            </div>
-            <div th:each="book : ${books}" class="book">
-                <a th:href="@{/book/{id}(id=${book.id})}">
-                    <div class="cover">
-                        <img th:src="@{'/book/' + ${book.id} + '/image'}" alt="book photo"/>
-                    </div>
+<div class="container">
+    <h1 class="title">Пользователи</h1>
+    <div class="cards-container">
+        <div th:each="user : ${users}">
+            <div class="profile-card">
+                <a th:href="@{/admin/user/profile/{id}(id=${user.id})}">
+                    <img class="avatar" th:src="@{'/user/' + ${user.id} + '/image'}"/>
                 </a>
-                <div class="description">
-                    <p class="title" th:text="${book.name}"></p>
-                    <p class="author" th:text="${'Автор: ' + book.author}"></p>
-                </div>
+                <h2 class="name" th:text="${user.fullName}"></h2>
+                <h2 class="email" th:text="${user.email}"></h2>
             </div>
         </div>
     </div>
 </div>
-<div th:if="${books.isEmpty()}" class="warning-container">
-    <div class="warning-box">
-        <h3 class="warn-text">Books not found!</h3>
-    </div>
-</div>
-<br><br><br><br><br>
 <div class="button-container">
-    <a th:if="${offset > 0}" class="button" th:href="@{/book(offset=${offset - 1})}">Пред</a>
+    <a th:if="${offset > 0}" class="button" th:href="@{/admin/user(offset=${offset - 1})}">Пред</a>
     <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
-    <a th:if="${isNext}" class="button" th:href="@{/book(offset=${offset + 1})}">След</a>
+    <a th:if="${isNext}" class="button" th:href="@{/admin/user(offset=${offset + 1})}">След</a>
+    <br><br><br>
 </div>
-<br><br><br>
 </body>
 </html>

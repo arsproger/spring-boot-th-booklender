@@ -3,25 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
-    <!-- Подключаем Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
-    <!-- Подключаем свой CSS файл -->
-<!--    <link rel="stylesheet" href="style.css">-->
+    <!--    <link rel="stylesheet" href="navbar.css">-->
     <style>
-
         body {
+            background-image: url('../static/image/img.png');
+            background-repeat: no-repeat;
+            background-size: cover;
             background-color: #f8f9fa;
         }
+
         .card {
             margin-top: 50px;
         }
+
         .form-group {
             margin-bottom: 20px;
         }
 
+        #navbar {
+            background-color: #3d3d3d;
+            border-bottom: 2px solid #ff4500;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-brand {
+            font-weight: bold;
+            font-size: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 500px;
+        }
+
+        #navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 22px;
+            margin: 0 20px;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links a:hover {
+            color: #ff4500;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 4rem;
+            background-color: rgba(52, 58, 64, 0.8);
+            color: #fff;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
+<!-- Навигационный бар -->
+<div id="navbar">
+    <div id="navbar-brand">Booklender</div>
+    <div id="navbar-links">
+        <a href="/auth/main">Главная</a>
+        <a href="/auth/login">Логин</a>
+        <a href="/auth/register">Регистрация</a>
+        <a href="/auth/contact">Контакты</a>
+    </div>
+</div>
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
@@ -33,15 +91,15 @@
                     <form th:method="POST" th:action="@{/auth/register}" th:object="${user}">
                         <div class="form-group">
                             <label for="name">Full name:</label>
-                            <input type="text" th:field="*{fullName}" id="name" class="form-control"/>
+                            <input type="text" th:field="*{fullName}" id="name" class="form-control" required/>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="text" th:field="*{email}" id="email" class="form-control"/>
+                            <input type="text" th:field="*{email}" id="email" class="form-control" required/>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" th:field="*{password}" id="password" class="form-control"/>
+                            <input type="password" th:field="*{password}" id="password" class="form-control" required/>
                         </div>
                         <input type="submit" value="Create!" class="btn btn-primary"/>
                     </form>
@@ -50,8 +108,31 @@
         </div>
     </div>
 </div>
-<!-- Подключаем jQuery и Bootstrap JS -->
+<div class="footer">
+    <p>&copy; 2023 BookLender. All rights reserved.</p>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+
+    (function ($) {
+        $(function () {
+            $("nav ul li a:not(:only-child)").click(function (e) {
+                $(this).siblings(".nav-dropdown").toggle();
+                $(".nav-dropdown").not($(this).siblings()).hide();
+                e.stopPropagation();
+            });
+            $("html").click(function () {
+                $(".nav-dropdown").hide();
+            });
+            $("#nav-toggle").click(function () {
+                $("nav ul").slideToggle();
+            });
+            $("#nav-toggle").on("click", function () {
+                this.classList.toggle("active");
+            });
+        });
+    })(jQuery);
+</script>
 </html>

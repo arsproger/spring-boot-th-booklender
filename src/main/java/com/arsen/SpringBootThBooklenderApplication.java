@@ -12,8 +12,8 @@ public class SpringBootThBooklenderApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootThBooklenderApplication.class, args);
-	}
 
+	}
 
 	@Bean
 	public ModelMapper modelMapper() {

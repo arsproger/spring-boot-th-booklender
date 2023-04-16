@@ -13,7 +13,6 @@ public class BookDTO {
 
     private String description;
 
-//    @Lob
     private MultipartFile image;
 
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,10 +25,12 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth")
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -40,12 +42,12 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> currentBooks; // текущие книги
+    private List<Book> currentBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> pastBooks; // книги которые он брал ранее
+    private List<Book> pastBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Record> records; // записи книг которые он брал
+    private List<Record> records;
 }
 
