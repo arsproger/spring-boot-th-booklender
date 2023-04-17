@@ -8,3 +8,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
 }
+// к чему этоо класс контроллер?

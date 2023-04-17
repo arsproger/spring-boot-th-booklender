@@ -24,5 +24,5 @@ public class RecordMapper {
     public Record convertToEntity(RecordDTO recordDTO) {
         return modelMapper.map(recordDTO, Record.class);
     }
-
+// если не приходились методы маппера, можно думаю и убрать
 }

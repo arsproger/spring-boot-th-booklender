@@ -7,7 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Data
-public class BookListDTO {
+public class BookListDTO { // нигде не используется
     private String name;
 
     @Enumerated(EnumType.STRING)

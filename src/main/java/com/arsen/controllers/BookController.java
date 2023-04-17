@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+/* рефактор кода, лишние импорты и классы нужно удалять */
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +72,7 @@ public class BookController {
     @GetMapping("/list")
     public StringBuilder getAllBooksAndOwners(){
         return bookService.showAllBooksAndOwners();
-        //bookMapper.bookListToBookListDTO(books);
+        //bookMapper.bookListToBookListDTO(books); ?? мертвый код
     }
 
 

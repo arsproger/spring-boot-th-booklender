@@ -81,7 +81,7 @@ public class BookControllerTh {
         return "redirect:/bookTh";
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.SERIALIZABLE) //для чего такой уровень изоляции
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);

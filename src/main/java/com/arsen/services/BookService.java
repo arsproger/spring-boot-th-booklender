@@ -43,7 +43,7 @@ public class BookService {
     }
 
     public Page<Book> findAll(Integer offset) {
-        return bookRepository.findAll(PageRequest.of(offset, 9, Sort.by("id").ascending()));
+        return bookRepository.findAll(PageRequest.of(offset, 9, Sort.by("id").ascending())); // почему 9 ?
     }
 
     public Book getBookById(Long id) {
@@ -67,6 +67,8 @@ public class BookService {
             try {
                 book.setImage(Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
                         "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default-book.jpg")));
+                // вот так указывать путь не пойдет!!! срочно переделать(
+                // Для примера можешь указать абсолютный путь до папки resources/image и тд.
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -133,6 +135,7 @@ public class BookService {
         for(Book book : bookRepository.findAll()) {
             stringBuilder.append(book.getName() + " " + book.getStatus() + " " +
                     userRepository.findById(book.getUser().getId()).get().getFullName() + "\n");
+            // Optional не проверен
         }
         return stringBuilder;
     }

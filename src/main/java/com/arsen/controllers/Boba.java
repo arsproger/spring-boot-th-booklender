@@ -14,4 +14,6 @@ public class Boba {
         return "<h1>MyNameIsBob :)</h1>";
     }
 
+    // Ну тут нечего сказать
+
 }

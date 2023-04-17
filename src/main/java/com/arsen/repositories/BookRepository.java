@@ -20,5 +20,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Book showDescAndImg(Long id);
 
     List<Book> findByUser(User user);
-
+// нужен ли этот репо ?
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/records")
 public class RecordsController {
 
-    private final RecordRepository recordRepository;
+    private final RecordRepository recordRepository; // не используется нигде
     private final RecordService recordService;
 
     public RecordsController(RecordRepository recordRepository, RecordService recordService) {

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
+    private final BookRepository bookRepository; // убираем !!
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public User saveUser(User user) {
+    public User saveUser(User user) { // Может сделать его void ?
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
         if (user.getImage() == null || user.getImage().length == 0) {
@@ -67,7 +67,8 @@ public class UserService {
     public byte[] defaultImage() throws IOException {
         return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
                 "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
-    }
+    }    // вот так указывать путь не пойдет!!! срочно переделать(
+    // Для примера можешь указать абсолютный путь до папки resources/image и тд.
 
     public Long deleteUser(Long id) {
         userRepository.deleteById(id);
@@ -112,4 +113,8 @@ public class UserService {
 //    public List<Book> pas(User user) {
 //
 //    }
+    /**
+     Убираем лишний не нужный код
+     */
 }
+

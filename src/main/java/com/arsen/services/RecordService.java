@@ -27,7 +27,7 @@ public class RecordService {
 
     public Record saveRecord(Record record) {
         return recordRepository.save(record);
-    }
+    }// можем отступы делать ? зачем так лепить код
     public Record updateRecord(Long id, Record newRecord){
         Record updatedRecord = getRecordById(id);
         updatedRecord.setUser(newRecord.getUser());
@@ -46,4 +46,5 @@ public class RecordService {
         return recordRepository.findByUser(user);
     }
 
+    // Столько не нужных методов - убираем мусор
 }

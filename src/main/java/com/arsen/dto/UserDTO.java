@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class UserDTO {
-    @Column(name = "full_name")
+    @Column(name = "full_name") // это же дтоЮ зачем здесь эта аннотация ?
     private String fullName;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")

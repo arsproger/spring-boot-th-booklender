@@ -43,11 +43,15 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Book> currentBooks; // текущие книги
-
+// хорошие описания к полям сущности, за это плюс
     @OneToMany(mappedBy = "user")
     private List<Book> pastBooks; // книги которые он брал ранее
+// хотелось и к другим сущностям описание увидеть в таком виде, как внизу
 
+    /**
+        Записи книг которые он брал
+    */
     @OneToMany(mappedBy = "user")
-    private List<Record> records; // записи книг которые он брал
+    private List<Record> records;
 }
 

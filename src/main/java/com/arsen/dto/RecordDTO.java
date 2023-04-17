@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class RecordDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "loan_date")
+    @Column(name = "loan_date") // это не сущность, зачем здесь это?
     private LocalDateTime loanDate;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
