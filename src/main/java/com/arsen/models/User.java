@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,14 +26,21 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth")
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
 
     @Column(unique = true)
     private String email;
 
     private String password;
+
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expire_time")
+    private LocalDateTime resetTokenExpireTime;
 
     @Lob
     private byte[] image;
@@ -42,8 +49,8 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> currentBooks; // текущие книги
-// хорошие описания к полям сущности, за это плюс
+    private List<Book> currentBooks;
+
     @OneToMany(mappedBy = "user")
     private List<Book> pastBooks; // книги которые он брал ранее
 // хотелось и к другим сущностям описание увидеть в таком виде, как внизу

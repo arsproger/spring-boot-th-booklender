@@ -1,52 +1,88 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.UserDTO;
+import com.arsen.enums.Role;
 import com.arsen.mappers.UserMapper;
 import com.arsen.models.User;
-import com.arsen.services.RecordService;
+import com.arsen.security.DetailsUser;
 import com.arsen.services.UserService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
 
-@RestController
-@AllArgsConstructor
+@Controller
 @RequestMapping("/user")
 public class UserController {
-    UserMapper userMapper;
-    UserService userService;
-    RecordService recordService;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
-    @PostMapping("/create")
-    public UserDTO createUser(@RequestBody UserDTO userDTO){
-        User user = userMapper.convertToEntity(userDTO);
-        userService.saveUser(user);
-        return userMapper.convertToDTO(user);
+    private User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        DetailsUser detailsUser = (DetailsUser) authentication.getPrincipal();
+        return detailsUser.getUser();
     }
 
-    @GetMapping("/{id}")
-    public UserDTO getUser(@PathVariable Long id){
+    @Autowired
+    public UserController(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
+
+    @GetMapping("/profile")
+    public String myBooks(Model model, @RequestParam(value = "id", required = false) Long id) {
+        model.addAttribute("user", userService.getUserById(id != null ? id : getUser().getId()));
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
+        model.addAttribute("curBooks",
+                userService.currentBooks(userService.getUserById(getUser().getId())));
+        model.addAttribute("pastBooks",
+                userService.pastBooks(userService.getUserById(getUser().getId())));
+
+        return "/user/profile";
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return userMapper.convertToDTO(user);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(user.getImage());
     }
 
-    @GetMapping("/all")
-    public List<UserDTO> getAllUsers(){
-        return userService.getAllUsers().stream().map(
-                userMapper::convertToDTO).collect(Collectors.toList());
+    @GetMapping("/update/{id}")
+    public String updateForm(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("user", userMapper.convertToDTO(
+                userService.getUserById(id)));
+        model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
+        return "/user/setting";
     }
 
-    @PutMapping("/update/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
-        User user = userMapper.convertToEntity(userDTO);
-        User updatedBook = userService.updateUser(id, user);
-        return userMapper.convertToDTO(updatedBook);
+    @PostMapping("/updated/{id}")
+    public String update(@ModelAttribute("user") UserDTO userDTO, @PathVariable("id") Long id) throws IOException {
+        User user = new User();
+        user.setFullName(userDTO.getFullName());
+        user.setDateOfBirth(userDTO.getDateOfBirth());
+        user.setImage(userDTO.getImage().getBytes());
+
+        userService.updateUser(id, user);
+        return "redirect:/user/profile?id=" + id;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteBook(@PathVariable Long id){
-        userService.deleteUser(id);
+    @GetMapping("/reset")
+    public String resetPassword(@RequestParam("email") String email) {
+        userService.resetPassword(email);
+        return "main";
     }
+
+    @PostMapping("/reset/{resetToken}")
+    public String saveNewPassword(@PathVariable("resetToken") String resetToken, @RequestParam String password) {
+        userService.saveNewPassword(resetToken, password);
+        return "redirect:/auth/main";
+    }
+
 }

@@ -21,7 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.detailsUserService = detailsUserService;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,13 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/auth/login", "/auth/register", "/error", "/static/**", "/templates/**").permitAll()
+                .antMatchers("/auth/**", "/user/reset/**").anonymous()
+                .antMatchers("/static/**", "/templates/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/auth/login")
+                .loginPage("/auth/main")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/bookTh", true)
+                .defaultSuccessUrl("/book", true)
                 .failureUrl("/auth/login?error")
                 .and()
                 .logout()

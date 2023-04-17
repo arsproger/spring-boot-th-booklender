@@ -3,269 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style/navbar.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/style/books-style.css">
     <script src="/static/js/navbar.js"></script>
-
-    <style>
-        .container {
-            margin: 0 auto;
-            max-width: 910px;
-
-        }
-
-        .choose {
-            width: 100%;
-            height: 40px;
-        }
-
-        .fa {
-            margin-right: 20px;
-            font-size: 30px;
-            color: gray;
-            float: right;
-        }
-
-        .book {
-            display: inline-block;
-            width: 230px; /*230*/
-            height: 390px;
-        / / /*390*/
-        box-shadow: 0 0 20 px #aaa;
-            margin: 25px;
-            padding: 10px 10px 0 10px;
-            vertical-align: top;
-            transition: height 1s;
-        }
-
-        .sort-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        button {
-            background-color: #4CAF50; /* Задаем цвет фона кнопки */
-            border: none; /* Убираем границу кнопки */
-            color: white; /* Задаем цвет текста кнопки */
-            padding: 10px 16px; /* Задаем отступы внутри кнопки */
-            text-align: center; /* Выравниваем текст по центру кнопки */
-            text-decoration: none; /* Убираем подчеркивание текста */
-            display: inline-block; /* Отображаем кнопки как блочные элементы */
-            font-size: 16px; /* Задаем размер шрифта */
-            margin: 10px; /* Задаем отступ между кнопками */
-            cursor: pointer; /* Делаем курсор руки при наведении на кнопку */
-        }
-
-        button:hover {
-            background-color: #3e8e41; /* Задаем цвет фона кнопки при наведении на нее курсора мыши */
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .button {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2c3e50;
-            color: #ffffff;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .offset-number {
-            margin: 0 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .cover {
-            border: 2px solid gray;
-            height: 80%;
-            overflow: hidden;
-        }
-
-        .cover img {
-            width: 100%;
-        }
-
-        .book p {
-            margin-top: 12px;
-            font-size: 20px;
-        }
-
-        .book .author {
-            font-size: 15px;
-        }
-
-        @media (max-width: 941px) {
-            .container {
-                max-width: 700px;
-            }
-
-            .book {
-                margin: 49px;
-            }
-        }
-
-        @media (max-width: 730px) {
-            .book {
-                display: block;
-                margin: 50px auto 0;
-            }
-
-            .cover {
-            }
-        }
-
-        h1 {
-            color: gray;
-            text-align: center;
-            font-size: 50px;
-            margin-bottom: -3px;
-        }
-
-        #list-th:target .book {
-            height: 100px;
-            width: 250px;
-            padding: 10px;
-            margin: 25px auto 25px auto;
-        }
-
-        #list-th:target .cover {
-            width: 246px;
-        }
-
-        #list-th:target img {
-            opacity: 0.1;
-        }
-
-        #list-th:target p {
-            margin-top: -62px;
-            margin-left: 20px;
-        }
-
-        #large-th:target .book {
-            height: 390px;
-        }
-
-    </style>
+    <script src="/static/js/books.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<section class="navigation">
-    <div class="nav-container">
-        <nav class="navbar navbar-expand-custom navbar-mainbg">
-            <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <i class="fas fa-bars text-white"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="hori-selector">
-                        <div class="left"></div>
-                        <div class="right"></div>
-                    </div>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh/profile}"><i
-                                class="fas fa-tachometer-alt"></i>Профиль</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh}"><i class="far fa-address-book"></i>Каталог</a>
-                    </li>
-                    <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/bookTh/create}"><i class="far fa-address-book"></i>Добавление
-                            книги</a>
-                    </li>
-                    <li th:if="${isAdmin}" class="nav-item">
-                        <a class="nav-link" th:href="@{/userTh}"><i class="far fa-clone"></i>Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Настройки</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/logout}"><i class="far fa-chart-bar"></i>Выход</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/unnamed.jpg" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
     </div>
-</section>
+</nav>
 <br><br>
-<div th:if="not ${books.isEmpty()}" id="large-th">
-    <div class="container">
-        <h1> A list of books</h1>
+<div id="large-th">
+    <div th:if="not ${books.isEmpty()}" class="container">
+        <h1 class="card"> A list of books</h1>
         <br>
         <div class="choose">
             <a href="#list-th"><i class="fa fa-th-list" aria-hidden="true"></i></a>
             <a href="#large-th"><i class="fa fa-th-large" aria-hidden="true"></i></a>
         </div>
-
         <div id="list-th">
             <div class="sort-buttons">
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
             </div>
-            <div th:each="book : ${books}" class="book">
-                <a th:href="@{/bookTh/{id}(id=${book.id})}">
-                    <div class="cover">
-                        <img th:src="@{'/bookTh/' + ${book.id} + '/image'}" alt="book photo"/>
+            <div class="row">
+                <div th:each="book : ${books}" class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <a th:href="@{/book/{id}(id=${book.id})}">
+                            <img th:src="@{'/book/' + ${book.id} + '/image'}" class="card-img-top" alt="book photo"/>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title" th:text="${book.name}"></p>
+                            <p class="card-text" th:text="${'Автор: ' + book.author}"></p>
+                        </div>
                     </div>
-                </a>
-                <div class="description">
-                    <p class="title" th:text="${book.name}"></p>
-                    <p class="author" th:text="${'Автор: ' + book.author}"></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div th:if="${books.isEmpty()}">
-    <h3 style="color: red">Books not found!</h3>
+
+<div th:if="${books.isEmpty()}" class="warning-container">
+    <div class="warning-box">
+        <h3 class="warn-text">Books not found!</h3>
+    </div>
 </div>
 <br><br><br><br><br>
-<div class="button-container">
-    <a th:if="${offset > 0}" class="button" th:href="@{/bookTh(offset=${offset - 1})}">Пред</a>
+<div class="button-container card">
+    <a th:if="${offset > 0}" class="button" th:href="@{/book(offset=${offset - 1})}">Пред</a>
     <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
-    <a th:if="${isNext}" class="button" th:href="@{/bookTh(offset=${offset + 1})}">След</a>
+    <a th:if="${isNext}" class="button" th:href="@{/book(offset=${offset + 1})}">След</a>
 </div>
 <br><br><br>
-
-
 </body>
-
-
-<script>
-    $(document).ready(function () {
-
-        // Сортировка по имени книги
-        $('#sortByName').click(function () {
-            $('.book').sort(function (a, b) {
-                let titleA = $(a).find('.title').text().toUpperCase();
-                let titleB = $(b).find('.title').text().toUpperCase();
-                return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
-            }).appendTo('#list-th');
-        });
-
-        // Сортировка по автору книги
-        $('#sortByAuthor').click(function () {
-            $('.book').sort(function (a, b) {
-                let authorA = $(a).find('.author').text().toUpperCase();
-                let authorB = $(b).find('.author').text().toUpperCase();
-                return (authorA < authorB) ? -1 : (authorA > authorB) ? 1 : 0;
-            }).appendTo('#list-th');
-        });
-    });
-</script>
 </html>

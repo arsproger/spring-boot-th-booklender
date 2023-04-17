@@ -5,10 +5,8 @@ import com.arsen.mappers.UserMapper;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/auth")
@@ -20,6 +18,17 @@ public class AuthController {
     public AuthController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
+    }
+
+    @GetMapping("/main")
+    public String mainPage() {
+        return "/main";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage(Model model) {
+        model.addAttribute("isSend", false);
+        return "/contact";
     }
 
     @GetMapping("/login")
@@ -35,22 +44,29 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@ModelAttribute("user") UserDTO userDTO) {
         userService.saveUser(userMapper.convertToEntity(userDTO));
-        return "redirect:/auth/login";
+        return "redirect:/auth/login"; // TODO validate!
     }
 
-//    @GetMapping("/login")
-//    public void login(@ModelAttribute AuthDTO authDTO) {
-//
-//        try {
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword())
-//            );
-//
-//            detailsService.loadUserByUsername(authDTO.getUsername());
-//        } catch (UsernameNotFoundException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return "redirect"
-//    }
-    // Опять же мертвый код ?
+    @PostMapping("/support")
+    public String processContactForm(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String message,
+            Model model) {
+        System.out.println(name + "\n" + email + "\n" + message); // TODO
+        model.addAttribute("isSend", true);
+        return "/contact";
+    }
+
+    @GetMapping("/reset")
+    public String resetPassword() {
+        return "forgot";
+    }
+
+    @GetMapping("/reset/form/{resetToken}")
+    public String resetPasswordForm(@PathVariable("resetToken") String resetToken, Model model) {
+        model.addAttribute("resetToken", resetToken);
+        return "forgot-form";
+    }
+
 }

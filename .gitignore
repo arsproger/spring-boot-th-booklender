@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+/src/main/java/com/arsen/config/MvcConfig.java
 
 ### NetBeans ###
 /nbproject/private/
