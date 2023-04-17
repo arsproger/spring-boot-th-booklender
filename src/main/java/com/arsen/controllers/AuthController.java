@@ -44,7 +44,7 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@ModelAttribute("user") UserDTO userDTO) {
         userService.saveUser(userMapper.convertToEntity(userDTO));
-        return "redirect:/auth/login";
+        return "redirect:/auth/login"; // TODO validate!
     }
 
     @PostMapping("/support")
@@ -53,9 +53,20 @@ public class AuthController {
             @RequestParam String email,
             @RequestParam String message,
             Model model) {
-        System.out.println(name + "\n" + email + "\n" + message);
+        System.out.println(name + "\n" + email + "\n" + message); // TODO
         model.addAttribute("isSend", true);
         return "/contact";
+    }
+
+    @GetMapping("/reset")
+    public String resetPassword() {
+        return "forgot";
+    }
+
+    @GetMapping("/reset/form/{resetToken}")
+    public String resetPasswordForm(@PathVariable("resetToken") String resetToken, Model model) {
+        model.addAttribute("resetToken", resetToken);
+        return "forgot-form";
     }
 
 }

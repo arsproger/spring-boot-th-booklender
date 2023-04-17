@@ -73,4 +73,16 @@ public class UserController {
         return "redirect:/user/profile?id=" + id;
     }
 
+    @GetMapping("/reset")
+    public String resetPassword(@RequestParam("email") String email) {
+        userService.resetPassword(email);
+        return "main";
+    }
+
+    @PostMapping("/reset/{resetToken}")
+    public String saveNewPassword(@PathVariable("resetToken") String resetToken, @RequestParam String password) {
+        userService.saveNewPassword(resetToken, password);
+        return "redirect:/auth/main";
+    }
+
 }

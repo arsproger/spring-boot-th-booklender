@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +28,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.recordRepository = recordRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public List<User> getAllUsers() {
@@ -85,6 +90,37 @@ public class UserService {
     public List<Record> pastBooks(User user) {
         return recordRepository.findByUser(user)
                 .stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList());
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void resetPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return;
+        }
+
+        String resetToken = UUID.randomUUID().toString();
+        user.setResetToken(resetToken);
+        user.setResetTokenExpireTime(LocalDateTime.now().plusMinutes(60));
+        userRepository.save(user);
+
+        String resetUrl = "http://localhost:8080/auth/reset/form/" + resetToken;
+        String emailText = "Здравствуйте, " + user.getFullName() +
+                "\nДля сброса пароля перейдите по ссылке: " + resetUrl;
+
+        emailService.sendSimpleMessage(email, "Сброс пароля", emailText);
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void saveNewPassword(String resetToken, String newPassword) {
+        User user = userRepository.findByResetToken(resetToken);
+        if (user == null || user.getResetTokenExpireTime().isBefore(LocalDateTime.now()))
+            return;
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null);
+        user.setResetTokenExpireTime(null);
+        userRepository.save(user);
     }
 
 }
