@@ -40,9 +40,9 @@ public class UserController {
         model.addAttribute("user", userService.getUserById(id != null ? id : getUser().getId()));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("curBooks",
-                userService.currentBooks(userService.getUserById(getUser().getId())));
+                userService.currentBooks(userService.getUserById(id != null ? id : getUser().getId())));
         model.addAttribute("pastBooks",
-                userService.pastBooks(userService.getUserById(getUser().getId())));
+                userService.pastBooks(userService.getUserById(id != null ? id : getUser().getId())));
 
         return "/user/profile";
     }

@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public Page<User> findAll(Integer offset) {
-        return userRepository.findAll(PageRequest.of(offset, 9, Sort.by("id").ascending()));
+        return userRepository.findAll(PageRequest.of(offset, 6, Sort.by("id").ascending()));
     }
 
     public User getUserById(Long id) {
