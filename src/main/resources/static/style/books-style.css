@@ -1,9 +1,9 @@
-/*body {*/
-/*    background-image: url('/static/image/image-main.jpg');*/
-/*    !*background-repeat: revert;*!*/
-/*    background-color: #f8f9fa;*/
-/*    background-size: contain;*/
-/*}*/
+body {
+    /*background-image: url('/static/image/back/english-3249829.jpg');*/
+    /*background-size: contain;*/
+    /*background-color: #f8f9fa;*/
+    /*background-size: contain;*/
+}
 
 .container {
     margin: 0 auto;
@@ -180,3 +180,10 @@ h1 {
     font-size: 24px;
     font-weight: bold;
 }
+
+.card-img-top {
+    width: 271px;
+    height: 360px;
+    object-fit: cover;
+}
+

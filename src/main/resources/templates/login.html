@@ -62,6 +62,24 @@
             color: #fff;
             padding: 1rem;
         }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #007bff;
+            border-bottom: 1px solid #007bff;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #0056b3;
+            border-bottom: 1px solid #0056b3;
+        }
+
     </style>
 </head>
 <body>
@@ -93,13 +111,17 @@
                         <label for="password">Введите password: </label>
                         <input type="password" name="password" id="password" class="form-control" required/>
                         <br/>
-                        <input type="submit" value="Login" class="btn btn-primary"/>
+                        <input type="submit" value="Вход" class="btn btn-primary"/>
                     </form>
+                    <div class="forgot-password">
+                        <a href="/auth/reset">Забыли пароль?</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="footer">
     <p>&copy; 2023 BookLender. All rights reserved.</p>
 </div>

@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +37,14 @@ public class User {
 
     private String password;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expire_time")
+    private LocalDateTime resetTokenExpireTime;
+
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)
@@ -45,8 +54,12 @@ public class User {
     private List<Book> currentBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> pastBooks;
+    private List<Book> pastBooks; // книги которые он брал ранее
+// хотелось и к другим сущностям описание увидеть в таком виде, как внизу
 
+    /**
+        Записи книг которые он брал
+    */
     @OneToMany(mappedBy = "user")
     private List<Record> records;
 }

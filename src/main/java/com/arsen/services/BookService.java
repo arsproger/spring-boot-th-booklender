@@ -7,6 +7,7 @@ import com.arsen.models.User;
 import com.arsen.repositories.BookRepository;
 import com.arsen.repositories.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -47,7 +48,7 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
-    public Book updateBook(Long id, Book book) {
+    public void updateBook(Long id, Book book) {
         Book updatedBook = getBookById(id);
         updatedBook.setName(book.getName());
         updatedBook.setAuthor(book.getAuthor());
@@ -56,25 +57,24 @@ public class BookService {
         updatedBook.setImage(book.getImage());
         updatedBook.setUser(book.getUser());
         updatedBook.setDescription(book.getDescription());
-        return bookRepository.save(updatedBook);
+        bookRepository.save(updatedBook);
     }
 
-    public Book saveBook(Book book) {
+    public void saveBook(Book book) {
         book.setStatus(BookStatus.AVAILABLE);
         if (book.getImage() == null || book.getImage().length == 0) {
             try {
-                book.setImage(Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
-                        "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default-book.jpg")));
+                String path = new PathMatchingResourcePatternResolver().getResource("classpath:").getFile().getParentFile().getParentFile().getAbsolutePath();
+                book.setImage(Files.readAllBytes(Paths.get(path + "\\src\\main\\resources\\static\\image\\default-book.jpg")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
 
-    public Long deleteBook(Long id) {
+    public void deleteBook(Long id) {
         bookRepository.deleteById(id);
-        return id;
     }
 
 

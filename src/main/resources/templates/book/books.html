@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
-        <img src="/static/image/menu.png" width="50" height="50" class="d-inline-block align-text-top">
+        <img src="/static/image/unnamed.jpg" width="50" height="50" class="d-inline-block align-text-top">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
 <br><br>
 <div id="large-th">
     <div th:if="not ${books.isEmpty()}" class="container">
-        <h1> A list of books</h1>
+        <h1 class="card"> A list of books</h1>
         <br>
         <div class="choose">
             <a href="#list-th"><i class="fa fa-th-list" aria-hidden="true"></i></a>
@@ -57,27 +57,30 @@
                 <button id="sortByName">Sort by Name</button>
                 <button id="sortByAuthor">Sort by Author</button>
             </div>
-            <div th:each="book : ${books}" class="book">
-                <a th:href="@{/book/{id}(id=${book.id})}">
-                    <div class="cover">
-                        <img th:src="@{'/book/' + ${book.id} + '/image'}" alt="book photo"/>
+            <div class="row">
+                <div th:each="book : ${books}" class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <a th:href="@{/book/{id}(id=${book.id})}">
+                            <img th:src="@{'/book/' + ${book.id} + '/image'}" class="card-img-top" alt="book photo"/>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title" th:text="${book.name}"></p>
+                            <p class="card-text" th:text="${'Автор: ' + book.author}"></p>
+                        </div>
                     </div>
-                </a>
-                <div class="description">
-                    <p class="title" th:text="${book.name}"></p>
-                    <p class="author" th:text="${'Автор: ' + book.author}"></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div th:if="${books.isEmpty()}" class="warning-container">
     <div class="warning-box">
         <h3 class="warn-text">Books not found!</h3>
     </div>
 </div>
 <br><br><br><br><br>
-<div class="button-container">
+<div class="button-container card">
     <a th:if="${offset > 0}" class="button" th:href="@{/book(offset=${offset - 1})}">Пред</a>
     <span class="offset-number">Текущая страница: [[${offset} + 1]]</span>
     <a th:if="${isNext}" class="button" th:href="@{/book(offset=${offset + 1})}">След</a>

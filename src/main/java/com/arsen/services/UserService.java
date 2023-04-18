@@ -6,6 +6,7 @@ import com.arsen.models.User;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +28,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RecordRepository recordRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RecordRepository recordRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.recordRepository = recordRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public List<User> getAllUsers() {
@@ -46,7 +51,7 @@ public class UserService {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public User saveUser(User user) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
         if (user.getImage() == null || user.getImage().length == 0) {
@@ -56,23 +61,23 @@ public class UserService {
                 throw new RuntimeException(e);
             }
         }
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public byte[] defaultImage() throws IOException {
-        return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
-                "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
+        String path = new PathMatchingResourcePatternResolver().getResource("classpath:").getFile().getParentFile().getParentFile().getAbsolutePath();
+        return Files.readAllBytes(Paths.get(path + "\\src\\main\\resources\\static\\image\\default.jpg"));
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    public void updateUser(Long id, User updatedUser) {
         User user = getUserById(id);
         user.setFullName(updatedUser.getFullName());
         user.setDateOfBirth(updatedUser.getDateOfBirth());
         if (updatedUser.getImage().length != 0)
             user.setImage(updatedUser.getImage());
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -87,4 +92,41 @@ public class UserService {
                 .stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList());
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public boolean resetPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return false;
+        }
+
+        String resetToken = UUID.randomUUID().toString();
+        user.setResetToken(resetToken);
+        user.setResetTokenExpireTime(LocalDateTime.now().plusMinutes(60));
+        userRepository.save(user);
+
+        String resetUrl = "http://localhost:8080/auth/reset/form/" + resetToken;
+        String emailText = "Здравствуйте, " + user.getFullName() +
+                "\nДля сброса пароля перейдите по ссылке: " + resetUrl;
+
+        emailService.sendSimpleMessage(email, "Сброс пароля", emailText);
+        return true;
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public boolean saveNewPassword(String resetToken, String newPassword) {
+        User user = userRepository.findByResetToken(resetToken);
+        if (user == null || user.getResetTokenExpireTime().isBefore(LocalDateTime.now()))
+            return false;
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null);
+        user.setResetTokenExpireTime(null);
+        userRepository.save(user);
+        return true;
+    }
+
+    public boolean isPresentEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null;
+    }
 }

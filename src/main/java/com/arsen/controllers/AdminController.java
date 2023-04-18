@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Min;
 import java.io.IOException;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -96,3 +94,4 @@ public class AdminController {
     }
 
 }
+// к чему этоо класс контроллер?
