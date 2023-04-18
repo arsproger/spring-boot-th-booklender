@@ -5,6 +5,15 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 @Component
 public class EmailService {
@@ -27,6 +36,35 @@ public class EmailService {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void sendFeedback(String name, String email, String message) {
+
+        String to = "booklender.it.academy@mail.com";
+        String subject = "Обратная связь";
+        String body = "Имя: " + name + "\n\n" + "Эл.адрес: " + email + "\n\n" + "Сообщение: " + message;
+
+        Properties properties = System.getProperties();
+        properties.setProperty("smtp.gmail.com", email);
+
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            MimeMessage mimeMessage = new MimeMessage(session);
+
+            mimeMessage.setFrom(new InternetAddress(email));
+
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            mimeMessage.setSubject(subject);
+
+            mimeMessage.setText(body);
+
+            Transport.send(mimeMessage);
+            System.out.println("Message sent successfully...");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
     }
 
 }

@@ -66,8 +66,8 @@ public class UserService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public byte[] defaultImage() throws IOException {
-        return Files.readAllBytes(Paths.get("C:\\Users\\user\\Downloads\\" +
-                "spring-boot-th-booklender\\spring-boot-th-booklender\\src\\main\\resources\\static\\image\\default.jpg"));
+        return Files.readAllBytes(Paths.get("C:\\java\\spring-boot-th-booklender" +
+                "\\src\\main\\resources\\static\\image"));
     }
 
     public User updateUser(Long id, User updatedUser) {

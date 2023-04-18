@@ -2,22 +2,33 @@ package com.arsen.controllers;
 
 import com.arsen.dto.UserDTO;
 import com.arsen.mappers.UserMapper;
+import com.arsen.services.EmailService;
 import com.arsen.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final EmailService emailService;
 
     @Autowired
-    public AuthController(UserService userService, UserMapper userMapper) {
+    public AuthController(UserService userService, UserMapper userMapper, EmailService emailService) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.emailService = emailService;
     }
 
     @GetMapping("/main")
@@ -57,6 +68,17 @@ public class AuthController {
         model.addAttribute("isSend", true);
         return "/contact";
     }
+
+    @PostMapping("/feedback")
+    public String sendFeedbackEmail(@RequestParam("name") String name,
+                                    @RequestParam("email") String email,
+                                    @RequestParam("message") String message) {
+
+        emailService.sendFeedback(name, email, message);
+
+        return "redirect:/auth/contact?isSend=true";
+    }
+
 
     @GetMapping("/reset")
     public String resetPassword() {
