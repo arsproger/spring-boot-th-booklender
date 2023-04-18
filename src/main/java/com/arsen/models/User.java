@@ -54,8 +54,12 @@ public class User {
     private List<Book> currentBooks;
 
     @OneToMany(mappedBy = "user")
-    private List<Book> pastBooks;
+    private List<Book> pastBooks; // книги которые он брал ранее
+// хотелось и к другим сущностям описание увидеть в таком виде, как внизу
 
+    /**
+        Записи книг которые он брал
+    */
     @OneToMany(mappedBy = "user")
     private List<Record> records;
 }

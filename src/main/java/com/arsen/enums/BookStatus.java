@@ -1,6 +1,6 @@
 package com.arsen.enums;
 
 public enum BookStatus {
-    AVAILABLE,
+    AVAILABLE, // давайте еще описание к этим енумкам
     BORROWED
 }
