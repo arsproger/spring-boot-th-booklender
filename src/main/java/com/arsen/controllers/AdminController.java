@@ -43,7 +43,7 @@ public class AdminController {
     public String main(Model model,
                        @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
         model.addAttribute("isNext",
-                (userService.getAllUsers().size() / (9D * (offset.doubleValue() + 1D))) > 1D);
+                (userService.getAllUsers().size() / (6D * (offset.doubleValue() + 1D))) > 1D);
         model.addAttribute("offset", offset);
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         model.addAttribute("users", userService.findAll(offset));
@@ -94,4 +94,3 @@ public class AdminController {
     }
 
 }
-// к чему этоо класс контроллер?
