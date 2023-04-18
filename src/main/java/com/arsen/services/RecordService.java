@@ -17,30 +17,13 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-    public List<Record> getAllRecords() {
-        return recordRepository.findAll();
-    }
-
     public Record getRecordById(Long id) {
         return recordRepository.findById(id).orElse(null);
     }
 
-    public Record saveRecord(Record record) {
-        return recordRepository.save(record);
+    public void saveRecord(Record record) {
+        recordRepository.save(record);
     }
-    public Record updateRecord(Long id, Record newRecord){
-        Record updatedRecord = getRecordById(id);
-        updatedRecord.setUser(newRecord.getUser());
-        updatedRecord.setBook(newRecord.getBook());
-        updatedRecord.setLoanDate(newRecord.getLoanDate());
-        updatedRecord.setReturnDate(newRecord.getReturnDate());
-        return recordRepository.save(updatedRecord);
-    }
-
-    public void deleteRecord(Long id) {
-        recordRepository.deleteById(id);
-    }
-
 
     public List<Record> findByUser(User user) {
         return recordRepository.findByUser(user);

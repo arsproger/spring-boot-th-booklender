@@ -74,14 +74,22 @@ public class UserController {
     }
 
     @GetMapping("/reset")
-    public String resetPassword(@RequestParam("email") String email) {
-        userService.resetPassword(email);
+    public String resetPassword(@RequestParam("email") String email, Model model) {
+        boolean res = userService.resetPassword(email);
+        model.addAttribute("isPresent", userService.resetPassword(email));
+        if (!res)
+            return "forgot";
+
         return "main";
     }
 
     @PostMapping("/reset/{resetToken}")
-    public String saveNewPassword(@PathVariable("resetToken") String resetToken, @RequestParam String password) {
-        userService.saveNewPassword(resetToken, password);
+    public String saveNewPassword(@PathVariable("resetToken") String resetToken, @RequestParam String password, Model model) {
+        boolean res = userService.saveNewPassword(resetToken, password);
+        model.addAttribute("result", res);
+        if (!res)
+            return "forgot-form";
+
         return "redirect:/auth/main";
     }
 

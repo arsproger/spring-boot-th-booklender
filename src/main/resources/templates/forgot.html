@@ -92,6 +92,7 @@
       <h2 class="card-title">Восстановление пароля</h2>
       <form th:method="GET" th:action="@{/user/reset}">
         <div class="form-group">
+          <div th:if="${not isPresent}" style="color: red">Email не найден!</div>
           <label for="email">Email адрес:</label>
           <input type="email" class="form-control" id="email" name="email" required />
         </div>

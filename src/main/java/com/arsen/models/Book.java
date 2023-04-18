@@ -29,6 +29,7 @@ public class Book {
     private String description;
 
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 
     @Enumerated(EnumType.STRING)
@@ -41,6 +42,4 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<Record> records;
 
-    @Transient
-    private String ownerName;
 }

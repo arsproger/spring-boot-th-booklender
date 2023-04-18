@@ -92,6 +92,7 @@
       <h2 class="card-title">Введите новый пароль</h2>
       <form th:method="POST" th:action="@{/user/reset/{resetToken}(resetToken=${resetToken})}">
         <div class="form-group">
+          <div th:if="${not result}" style="color: red">Ошибка! Попробуйте снова</div>
           <label for="password">Пароль</label>
           <input type="text" class="form-control" id="password" name="password" required />
         </div>
