@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style/navbar.css">
+    <script src="/static/js/navbar.js"></script>
+    <style>
+        body {
+                background-image: url('/static/image/back/pexels-codioful-(formerly-gradienta)-7130564.jpg');
+                background-size: cover;
+        }
+
+        .thumbnail {
+            max-width: 70px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/logo.png" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" th:src="@{'/user/' + ${user.id} + '/image'}" alt="Card image cap">
+                <div class="card-body">
+                    <a th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-primary mb-2">Редактировать профиль</a>
+                    <p class="card-title" th:text="${'ФИО: ' + user.fullName}"/>
+                    <p class="card-text" th:text="${'Почта: ' + user.email}"/>
+                    <p class="card-text" th:text="${'Дата рождения: ' + user.dateOfBirth}"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Текущие книги</h2>
+                    <table th:if="${not curBooks.isEmpty()}" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Фото</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Дата взятия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${curBooks}">
+                            <td>
+                                <a th:href="@{/book/{id}(id=${record.book.id})}">
+                                    <img class="img-thumbnail thumbnail"
+                                         th:src="@{'/book/' + ${record.book.id} + '/image'}" alt="Photo">
+                                </a>
+                            </td>
+                            <td th:text="${record.book.name}"></td>
+                            <td th:text="${record.book.author}"></td>
+                            <td th:text="${record.loanDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 style="color: red" th:if="${curBooks.isEmpty()}"><br>У пользователя нет взятых книг!</h3>
+                    <h2>История взятых книг</h2>
+                    <table th:if="${not pastBooks.isEmpty()}" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Фото</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Дата взятия</th>
+                            <th scope="col">Дата возврата</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${pastBooks}">
+                            <td>
+                                <a th:href="@{/book/{id}(id=${record.book.id})}">
+                                    <img class="img-thumbnail thumbnail"
+                                         th:src="@{'/book/' + ${record.book.id} + '/image'}" alt="Photo">
+                                </a>
+                            </td>
+                            <td th:text="${record.book.name}"></td>
+                            <td th:text="${record.book.author}"></td>
+                            <td th:text="${record.loanDate}"></td>
+                            <td th:text="${record.returnDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 style="color: red" th:if="${pastBooks.isEmpty()}"><br>Список истории пуст!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

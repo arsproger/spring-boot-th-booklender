@@ -1,0 +1,119 @@
+.container {
+    background: #fff;
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    max-width: 960px;
+    box-shadow: 0px 3px 20px #d1d1d1;
+}
+
+.title {
+    margin: 40px 20px 0px 32px;
+}
+
+.search-inp:focus {
+    transform: scale(1.2);
+    border: 2px solid #121212;
+    margin-left: 110px;
+    padding: 10px;
+}
+
+.active {
+    background: #849fff;
+    color: #fff;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.profile-card {
+    border-radius: 18px;
+    background: #fbfcff;
+    padding: 18px 12px 42px 14px;
+    margin: 28px;
+    width: fit-content;
+    transition: 0.3s ease;
+}
+
+.profile-card:hover {
+    background: #fff;
+    cursor: pointer;
+    box-shadow: -2px 3px 12px #d1d1d1;
+    transform: scale(1.1);
+}
+
+.avatar {
+    transition: 0.3s ease;
+    border-radius: 999px;
+    width: 72px;
+}
+
+.avatar:hover {
+    transform: scale(1.2) rotate(22deg);
+}
+
+.name {
+    font-weight: 900;
+    position: relative;
+    margin-top: -64px;
+    font-size: 14px;
+    margin-left: 84px;
+    margin-right: 36px;
+}
+
+.email {
+    font-family: "Lato", serif;
+    font-size: 13px;
+    color: #121212;
+    margin-left: 84px;
+    margin-top: -8px;
+}
+
+.tag:hover {
+    cursor: pointer;
+    background: #849fff;
+    color: #fff;
+    transform: scale(0.9);
+}
+
+.button-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+
+.button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.offset-number {
+    margin: 0 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+body {
+    background-image: url('/static/image/back/pexels-codioful-(formerly-gradienta)-7135057.jpg');
+    background-size: cover;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLender - Online Library</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-image: url('../static/image/back/pexels-codioful-(formerly-gradienta)-7130475.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px #000;
+            color: #fff;
+            margin-top: 20vh;
+        }
+
+        .btn {
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+            margin: 2rem;
+            border-radius: 5rem;
+            font-weight: bold;
+            text-shadow: 1px 1px #000;
+            box-shadow: 2px 2px #000;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0062cc;
+            border-color: #0062cc;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 4rem;
+            background-color: rgba(52, 58, 64, 0.8);
+            color: #fff;
+            padding: 1rem;
+        }
+
+        #navbar {
+            background-color: #3d3d3d;
+            border-bottom: 2px solid #ff4500;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-brand {
+            font-weight: bold;
+            font-size: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 500px;
+        }
+
+        #navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 22px;
+            margin: 0 20px;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links a:hover {
+            color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+<!-- Навигационный бар -->
+<div id="navbar">
+    <div id="navbar-brand">Booklender</div>
+    <div id="navbar-links">
+        <a href="/auth/main">Главная</a>
+        <a href="/auth/login">Логин</a>
+        <a href="/auth/register">Регистрация</a>
+        <a href="/auth/contact">Контакты</a>
+    </div>
+</div>
+<div class="container text-center">
+    <h1>Welcome to BookLender</h1>
+    <a href="/auth/register" class="btn btn-primary">Register</a>
+    <a href="/auth/login" class="btn btn-secondary">Login</a>
+</div>
+<div class="footer">
+    <p>&copy; 2023 BookLender. All rights reserved.</p>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-xxxxxx"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+        integrity="sha384-xxxxxx"
+        crossorigin="anonymous"></script>
+</body>
+</html>
