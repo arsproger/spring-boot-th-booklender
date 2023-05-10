@@ -58,11 +58,7 @@ public class BookController {
         return "/book/books";
     }
 
-    @GetMapping("/{id}/image")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-        Book book = bookService.getBookById(id);
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(book.getImage());
-    }
+
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @GetMapping("/{id}")

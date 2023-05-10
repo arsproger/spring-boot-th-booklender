@@ -8,18 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component
 public class DetailsUserService implements UserDetailsService {
-   private final UserRepository userRepository;
-
-   @Autowired
-    public DetailsUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
@@ -31,4 +27,5 @@ public class DetailsUserService implements UserDetailsService {
         }
         return new DetailsUser(user);
     }
+
 }

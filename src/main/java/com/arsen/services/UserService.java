@@ -1,10 +1,12 @@
 package com.arsen.services;
 
+import com.arsen.enums.Provider;
 import com.arsen.enums.Role;
 import com.arsen.models.Record;
 import com.arsen.models.User;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
+import com.arsen.security.CustomOAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.domain.Page;
@@ -54,6 +56,7 @@ public class UserService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
+        user.setProvider(Provider.LOCAL);
         if (user.getImage() == null || user.getImage().length == 0) {
             try {
                 user.setImage(defaultImage());
@@ -129,4 +132,30 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         return user != null;
     }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void processOAuthPostLogin(CustomOAuth2User oauthUser, String registrationId) {
+        User user = userRepository.findByEmail(oauthUser.getEmail());
+
+        if (user == null) {
+            user = new User();
+            user.setRole(Role.ROLE_USER);
+            user.setProvider(registrationId.equals("google")
+                    ? Provider.GOOGLE
+                    : Provider.GITHUB);
+            user.setFullName(oauthUser.getName());
+            user.setEmail(oauthUser.getEmail());
+
+            if (user.getImage() == null || user.getImage().length == 0) {
+                try {
+                    user.setImage(defaultImage());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            userRepository.save(user);
+        }
+
+    }
+
 }
