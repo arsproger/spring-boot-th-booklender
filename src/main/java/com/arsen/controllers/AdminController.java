@@ -40,7 +40,7 @@ public class AdminController {
 
 
     @GetMapping("/user")
-    public String main(Model model,
+    public String index(Model model,
                        @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset) {
         model.addAttribute("isNext",
                 (userService.getAllUsers().size() / (6D * (offset.doubleValue() + 1D))) > 1D);

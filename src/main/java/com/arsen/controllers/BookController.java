@@ -58,8 +58,6 @@ public class BookController {
         return "/book/books";
     }
 
-
-
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @GetMapping("/{id}")
     public String getBook(@PathVariable Long id, Model model) {
@@ -71,6 +69,12 @@ public class BookController {
                 book.getRecords().stream().filter(a -> a.getReturnDate() != null).collect(Collectors.toList()));
         model.addAttribute("isAdmin", getUser().getRole().equals(Role.ROLE_ADMIN));
         return "/book/show";
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(book.getImage());
     }
 
     @GetMapping("/lend/{bookId}")

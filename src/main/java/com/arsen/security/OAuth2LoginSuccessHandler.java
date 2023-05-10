@@ -24,12 +24,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+        CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
         String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-
-        userService.processOAuthPostLogin(oauthUser, registrationId);
-
-        UserDetails userDetails = detailsUserService.loadUserByUsername(oauthUser.getEmail());
+        String username = registrationId.equals("google")
+                ? oauth2User.getEmail()
+                : oauth2User.getLogin();
+        userService.processOAuthPostLogin(username, oauth2User.getName(), registrationId);
+        UserDetails userDetails = detailsUserService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 

@@ -12,20 +12,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component
 public class DetailsUserService implements UserDetailsService {
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public DetailsUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        Optional<User> user = userRepository.findByEmail(username);
 
-        if (user == null) {
+        if (user.isEmpty())
             throw new UsernameNotFoundException("Unknown user: " + username);
-        }
-        return new DetailsUser(user);
+
+        return new DetailsUser(user.get());
     }
 
 }

@@ -65,12 +65,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(oauthUserService)
                 .and()
                 .successHandler((request, response, authentication) -> {
-                    CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+                    CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
                     String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-
-                    getApplicationContext().getBean(UserService.class).processOAuthPostLogin(oauthUser, registrationId);
-
-                    UserDetails userDetails = detailsUserService.loadUserByUsername(oauthUser.getEmail());
+                    String username = registrationId.equals("google")
+                            ? oauth2User.getEmail()
+                            : oauth2User.getLogin();
+                    getApplicationContext().getBean(UserService.class).processOAuthPostLogin(username, oauth2User.getName(), registrationId);
+                    UserDetails userDetails = detailsUserService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 

@@ -33,9 +33,11 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public String getEmail() {
-        return oauth2User.getAttribute("email") != null
-                ? oauth2User.getAttribute("email")
-                : oauth2User.getAttribute("login");
+        return oauth2User.getAttribute("email");
+    }
+
+    public String getLogin() {
+        return oauth2User.getAttribute("login");
     }
 
 }

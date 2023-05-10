@@ -6,7 +6,6 @@ import com.arsen.models.Record;
 import com.arsen.models.User;
 import com.arsen.repositories.RecordRepository;
 import com.arsen.repositories.UserRepository;
-import com.arsen.security.CustomOAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.domain.Page;
@@ -97,10 +96,10 @@ public class UserService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean resetPassword(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        if (userRepository.findByEmail(email).isEmpty())
             return false;
-        }
+
+        User user = new User();
 
         String resetToken = UUID.randomUUID().toString();
         user.setResetToken(resetToken);
@@ -129,22 +128,19 @@ public class UserService {
     }
 
     public boolean isPresentEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        return user != null;
+        return userRepository.findByEmail(email).isPresent();
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void processOAuthPostLogin(CustomOAuth2User oauthUser, String registrationId) {
-        User user = userRepository.findByEmail(oauthUser.getEmail());
-
-        if (user == null) {
-            user = new User();
+    public void processOAuthPostLogin(String username, String name, String registrationId) {
+        if (userRepository.findByEmail(username).isEmpty()) {
+            User user = new User();
             user.setRole(Role.ROLE_USER);
             user.setProvider(registrationId.equals("google")
                     ? Provider.GOOGLE
                     : Provider.GITHUB);
-            user.setFullName(oauthUser.getName());
-            user.setEmail(oauthUser.getEmail());
+            user.setFullName(name);
+            user.setEmail(username);
 
             if (user.getImage() == null || user.getImage().length == 0) {
                 try {

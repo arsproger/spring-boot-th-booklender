@@ -49,7 +49,7 @@
         <div th:each="user : ${users}">
             <div class="profile-card">
                 <a th:href="@{/admin/user/profile/{id}(id=${user.id})}">
-                    <img class="avatar" th:src="@{'/user/' + ${user.id} + '/image'}"/>
+                    <img class="avatar" src="@{'/user/' + ${user.id} + '/image'}"/>
                 </a>
                 <h2 class="name" th:text="${user.fullName}"></h2>
                 <h2 class="email" th:text="${user.email}"></h2>
