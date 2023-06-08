@@ -1,5 +1,6 @@
 package com.arsen.services;
 
+import com.arsen.enums.Provider;
 import com.arsen.enums.Role;
 import com.arsen.models.Record;
 import com.arsen.models.User;
@@ -54,6 +55,7 @@ public class UserService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
+        user.setProvider(Provider.LOCAL);
         if (user.getImage() == null || user.getImage().length == 0) {
             try {
                 user.setImage(defaultImage());
@@ -94,10 +96,10 @@ public class UserService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean resetPassword(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        if (userRepository.findByEmail(email).isEmpty())
             return false;
-        }
+
+        User user = new User();
 
         String resetToken = UUID.randomUUID().toString();
         user.setResetToken(resetToken);
@@ -126,7 +128,30 @@ public class UserService {
     }
 
     public boolean isPresentEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        return user != null;
+        return userRepository.findByEmail(email).isPresent();
     }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void processOAuthPostLogin(String username, String name, String registrationId) {
+        if (userRepository.findByEmail(username).isEmpty()) {
+            User user = new User();
+            user.setRole(Role.ROLE_USER);
+            user.setProvider(registrationId.equals("google")
+                    ? Provider.GOOGLE
+                    : Provider.GITHUB);
+            user.setFullName(name);
+            user.setEmail(username);
+
+            if (user.getImage() == null || user.getImage().length == 0) {
+                try {
+                    user.setImage(defaultImage());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            userRepository.save(user);
+        }
+
+    }
+
 }

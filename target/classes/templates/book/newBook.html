@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style/navbar.css">
+    <script src="/static/js/navbar.js"></script>
+    <style>
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="file"] {
+            width: 50%;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin: 0 auto 10px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        body {
+            background-image: url('/static/image/back/pexels-codioful-(formerly-gradienta)-7135053.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/static/image/logo.png" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/profile}">Профиль<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/book}">Каталог</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/book/create}">Добавление книги</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item">
+                <a class="nav-link" th:href="@{/admin/user}">Пользователи</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Выход</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h1 style="text-align: center; font-size: 36px; font-weight: bold; margin-bottom: 30px;">Добавление книги</h1>
+    <form th:action="@{/admin/book/new}" method="POST" enctype="multipart/form-data" th:object="${book}" style="max-width: 500px; margin: 0 auto;">
+        <div class="form-group">
+            <label for="name" style="font-size: 18px; font-weight: bold;">Заголовок</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required class="form-control" style="font-size: 16px;">
+        </div>
+        <div class="form-group">
+            <label for="author" style="font-size: 18px; font-weight: bold;">Автор</label>
+            <input type="text" id="author" name="author" th:field="*{author}" required class="form-control" style="font-size: 16px;">
+        </div>
+        <div class="form-group">
+            <label for="description" style="font-size: 18px; font-weight: bold;">Описание</label>
+            <textarea id="description" name="description" th:field="*{description}" class="form-control" style="font-size: 16px; height: 150px;"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image" style="font-size: 18px; font-weight: bold;">Изображение</label>
+            <div class="custom-file">
+                <input type="file" id="image" name="image" th:field="*{image}" class="custom-file-input">
+                <label for="image" class="custom-file-label" style="font-size: 16px;">Choose image file...</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="display: block; margin: 30px auto 0; font-size: 20px;">Добавить книгу</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

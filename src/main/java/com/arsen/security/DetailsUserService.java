@@ -8,15 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class DetailsUserService implements UserDetailsService {
-   private final UserRepository userRepository;
+import java.util.Optional;
 
-   @Autowired
+@Component
+public class DetailsUserService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    @Autowired
     public DetailsUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -24,11 +26,12 @@ public class DetailsUserService implements UserDetailsService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        Optional<User> user = userRepository.findByEmail(username);
 
-        if (user == null) {
+        if (user.isEmpty())
             throw new UsernameNotFoundException("Unknown user: " + username);
-        }
-        return new DetailsUser(user);
+
+        return new DetailsUser(user.get());
     }
+
 }

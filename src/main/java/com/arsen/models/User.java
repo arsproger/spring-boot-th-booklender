@@ -1,5 +1,6 @@
 package com.arsen.models;
 
+import com.arsen.enums.Provider;
 import com.arsen.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,6 +50,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
     @OneToMany(mappedBy = "user")
     private List<Book> currentBooks;

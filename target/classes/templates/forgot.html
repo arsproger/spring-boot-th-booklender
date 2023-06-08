@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Восстановление пароля</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css"/>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border: none;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+            padding: 12px 16px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #0062cc;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 4rem;
+            background-color: rgba(52, 58, 64, 0.8);
+            color: #fff;
+            padding: 1rem;
+        }
+
+        #navbar {
+            background-color: #3d3d3d;
+            border-bottom: 2px solid #ff4500;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-brand {
+            font-weight: bold;
+            font-size: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 500px;
+        }
+
+        #navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 22px;
+            margin: 0 20px;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        #navbar-links a:hover {
+            color: #ff4500;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Навигационный бар -->
+<div id="navbar">
+    <div id="navbar-brand">Booklender</div>
+    <div id="navbar-links">
+        <a href="/auth/main">Главная</a>
+        <a href="/auth/login">Логин</a>
+        <a href="/auth/register">Регистрация</a>
+        <a href="/auth/contact">Контакты</a>
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Восстановление пароля</h2>
+            <form th:method="GET" th:action="@{/user/reset}">
+                <div class="form-group">
+                    <div th:if="${not isPresent}" style="color: red">Email не найден!</div>
+                    <label for="email">Email адрес:</label>
+                    <input type="email" class="form-control" id="email" name="email" required/>
+                </div>
+                <button type="submit" class="btn-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>&copy; 2023 BookLender. All rights reserved.</p>
+</div>
+</body>
+</html>
